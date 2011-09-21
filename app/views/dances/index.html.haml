@@ -14,7 +14,7 @@
       %td= dance.section_id
       %td= link_to 'Show', dance
       %td= link_to 'Edit', edit_dance_path(dance)
-      %td= link_to 'Destroy', dance, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', dance, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 

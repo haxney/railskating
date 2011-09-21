@@ -1,40 +1,32 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.1.0'
-
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
+gem 'rails', '4.0.0'
 gem 'sqlite3'
 
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
+gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jbuilder', '~> 1.2'
+gem 'haml-rails'
+gem 'seed-fu', github: 'mbleigh/seed-fu'
+gem 'coffee-rails'
+gem 'sass-rails'
+gem 'coffee-rails'
+gem 'uglifier'
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
 end
 
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'forgery'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'pickle'
   gem 'database_cleaner'
-  gem 'spork', '~> 0.9.0.rc'
+  gem 'spork', '~> 1.0.0rc3'
 end
-
-gem 'jquery-rails'
-gem 'haml-rails'
-gem 'seed-fu'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'

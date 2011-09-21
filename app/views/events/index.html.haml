@@ -16,7 +16,7 @@
       %td= event.number
       %td= link_to 'Show', event
       %td= link_to 'Edit', edit_event_path(event)
-      %td= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', event, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 

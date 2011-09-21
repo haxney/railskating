@@ -18,7 +18,7 @@
       %td= mark.placement
       %td= link_to 'Show', mark
       %td= link_to 'Edit', edit_mark_path(mark)
-      %td= link_to 'Destroy', mark, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', mark, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 

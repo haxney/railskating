@@ -14,7 +14,7 @@
       %td= level.weight
       %td= link_to 'Show', level
       %td= link_to 'Edit', edit_level_path(level)
-      %td= link_to 'Destroy', level, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', level, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 

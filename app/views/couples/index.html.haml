@@ -18,7 +18,7 @@
       %td= couple.number
       %td= link_to 'Show', couple
       %td= link_to 'Edit', edit_couple_path(couple)
-      %td= link_to 'Destroy', couple, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', couple, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 

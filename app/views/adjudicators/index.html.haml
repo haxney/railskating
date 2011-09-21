@@ -16,7 +16,7 @@
       %td= adjudicator.shorthand
       %td= link_to 'Show', adjudicator
       %td= link_to 'Edit', edit_adjudicator_path(adjudicator)
-      %td= link_to 'Destroy', adjudicator, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', adjudicator, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 

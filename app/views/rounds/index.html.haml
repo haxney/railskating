@@ -20,7 +20,7 @@
       %td= round.cutoff
       %td= link_to 'Show', round
       %td= link_to 'Edit', edit_round_path(round)
-      %td= link_to 'Destroy', round, :confirm => 'Are you sure?', :method => :delete
+      %td= link_to 'Destroy', round, data: {confirm: 'Are you sure?' }, method: :delete
 
 %br
 
