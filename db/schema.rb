@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110923015717) do
+ActiveRecord::Schema.define(:version => 20110923021041) do
 
   create_table "competitions", :force => true do |t|
     t.string   "name"
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(:version => 20110923015717) do
     t.integer  "competition_id"
     t.integer  "level_id"
     t.integer  "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "levels", :force => true do |t|
+    t.string   "name"
+    t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
