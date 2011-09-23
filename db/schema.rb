@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110923021240) do
+ActiveRecord::Schema.define(:version => 20110923021515) do
+
+  create_table "adjudicators", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "competition_id"
+    t.string   "shorthand"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "competitions", :force => true do |t|
     t.string   "name"
