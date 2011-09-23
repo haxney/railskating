@@ -1,4 +1,26 @@
 Railskating::Application.routes.draw do
+  resources :marks
+
+  resources :rounds
+
+  resources :adjudicators
+
+  resources :couples
+
+  resources :levels
+
+  resources :events
+
+  resources :dances
+
+  resources :sections
+
+  resources :teams
+
+  resources :competitions
+
+  resources :users
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,25 @@
+%h1 Listing couples
+
+%table
+  %tr
+    %th Lead
+    %th Follow
+    %th Event
+    %th Number
+    %th
+    %th
+    %th
+
+  - @couples.each do |couple|
+    %tr
+      %td= couple.lead_id
+      %td= couple.follow_id
+      %td= couple.event_id
+      %td= couple.number
+      %td= link_to 'Show', couple
+      %td= link_to 'Edit', edit_couple_path(couple)
+      %td= link_to 'Destroy', couple, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Couple', new_couple_path

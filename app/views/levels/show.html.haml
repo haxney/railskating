@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @level.name
+%p
+  %b Weight:
+  = @level.weight
+
+= link_to 'Edit', edit_level_path(@level)
+\|
+= link_to 'Back', levels_path
