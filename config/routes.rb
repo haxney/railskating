@@ -1,4 +1,6 @@
 Railskating::Application.routes.draw do
+  resources :events
+
   resources :dances
 
   resources :sections
