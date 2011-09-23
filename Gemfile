@@ -22,6 +22,7 @@ end
 
 gem 'jquery-rails'
 gem 'haml-rails'
+gem 'seed-fu', '~> 2.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
