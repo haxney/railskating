@@ -1,4 +1,6 @@
 Railskating::Application.routes.draw do
+  resources :rounds
+
   resources :adjudicators
 
   resources :couples

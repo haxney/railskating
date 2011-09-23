@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110923021515) do
+ActiveRecord::Schema.define(:version => 20110923021709) do
 
   create_table "adjudicators", :force => true do |t|
     t.integer  "user_id"
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(:version => 20110923021515) do
   create_table "levels", :force => true do |t|
     t.string   "name"
     t.integer  "weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rounds", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "number"
+    t.boolean  "final"
+    t.integer  "requested"
+    t.integer  "cutoff"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
