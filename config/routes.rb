@@ -1,4 +1,6 @@
 Railskating::Application.routes.draw do
+  resources :teams
+
   resources :competitions
 
   resources :users
