@@ -1,4 +1,6 @@
 Railskating::Application.routes.draw do
+  resources :couples
+
   resources :levels
 
   resources :events
