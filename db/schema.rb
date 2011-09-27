@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110927200058) do
+ActiveRecord::Schema.define(:version => 20110927203830) do
 
   create_table "adjudicators", :force => true do |t|
     t.integer  "user_id"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(:version => 20110927200058) do
 
   create_table "marks", :force => true do |t|
     t.integer  "adjudicator_id"
-    t.integer  "round_id"
+    t.integer  "sub_round_id"
     t.integer  "couple_id"
     t.integer  "placement"
     t.datetime "created_at"
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(:version => 20110927200058) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "sub_rounds", :force => true do |t|
+    t.integer  "round_id"
+    t.integer  "sub_event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sub_rounds", ["round_id"], :name => "index_sub_rounds_on_round_id"
+  add_index "sub_rounds", ["sub_event_id"], :name => "index_sub_rounds_on_sub_event_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name"
