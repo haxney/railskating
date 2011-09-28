@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   belongs_to :team
   has_many :lead_couples, class_name: 'Couple', foreign_key: :lead_id, inverse_of: :lead
   has_many :follow_couples, class_name: 'Couple', foreign_key: :follow_id, inverse_of: :follow
+  has_many :adjudicators
+
   has_many :couples, class_name: 'Couple', finder_sql:
     proc { <<-EOQ
       SELECT 'couples'.* FROM 'couples' WHERE

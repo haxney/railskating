@@ -3,4 +3,5 @@ class Competition < ActiveRecord::Base
   has_many :events
   has_many :couples, through: :events
   has_many :levels, through: :events
+  has_many :adjudicators
 end
