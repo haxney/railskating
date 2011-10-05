@@ -16,7 +16,10 @@ module Constants
     # If the constant is undefined, pull the model from the database and set the
     # constant.
     def self.const_missing(sym)
-      if @@ids.has_key? sym
+      case
+      when sym == :SECTIONS
+        const_set(sym, @@model_class.all)
+      when @@ids.has_key?(sym)
         const_set(sym, @@model_class.find(@@ids[sym]))
       else
         super(sym)
@@ -55,7 +58,10 @@ module Constants
     # If the constant is undefined, pull the model from the database and set the
     # constant.
     def self.const_missing(sym)
-      if @@ids.has_key? sym
+      case
+      when sym == :DANCES
+        const_set(sym, @@model_class.all)
+      when @@ids.has_key?(sym)
         const_set(sym, @@model_class.find(@@ids[sym]))
       else
         super(sym)
@@ -82,7 +88,10 @@ module Constants
     # If the constant is undefined, pull the model from the database and set the
     # constant.
     def self.const_missing(sym)
-      if @@ids.has_key? sym
+      case
+      when sym == :LEVELS
+        const_set(sym, @@model_class.all)
+      when @@ids.has_key?(sym)
         const_set(sym, @@model_class.find(@@ids[sym]))
       else
         super(sym)
