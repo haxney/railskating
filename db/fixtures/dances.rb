@@ -1,123 +1,117 @@
-# This is a bit fragile; requires it to be in sync with `sections.rb`
-standard       = 1
-latin          = 2
-smooth         = 3
-rhythm         = 4
-
 # Standard
 Dance.seed do |d|
-  d.id         = 1
+  d.id         = Constants::Dances::INTERNATIONAL_WALTZ_ID
   d.name       = "International Waltz"
-  d.section_id = standard
+  d.section_id = Constants::Sections::STANDARD_ID
 end
 
 Dance.seed do |d|
-  d.id         = 2
+  d.id         = Constants::Dances::INTERNATIONAL_TANGO_ID
   d.name       = "International Tango"
-  d.section_id = standard
+  d.section_id = Constants::Sections::STANDARD_ID
 end
 
 Dance.seed do |d|
-  d.id         = 3
+  d.id         = Constants::Dances::INTERNATIONAL_FOXTROT_ID
   d.name       = "International Foxtrot"
-  d.section_id = standard
+  d.section_id = Constants::Sections::STANDARD_ID
 end
 
 Dance.seed do |d|
-  d.id         = 4
+  d.id         = Constants::Dances::INTERNATIONAL_VIENNESE_WALTZ_ID
   d.name       = "International Viennese Waltz"
-  d.section_id = standard
+  d.section_id = Constants::Sections::STANDARD_ID
 end
 
 Dance.seed do |d|
-  d.id         = 5
+  d.id         = Constants::Dances::INTERNATIONAL_QUICKSTEP_ID
   d.name       = "International Quickstep"
-  d.section_id = standard
+  d.section_id = Constants::Sections::STANDARD_ID
 end
 
 # Latin
 Dance.seed do |d|
-  d.id         = 6
+  d.id         = Constants::Dances::INTERNATIONAL_CHA_CHA_ID
   d.name       = "International Cha Cha"
-  d.section_id = latin
+  d.section_id = Constants::Sections::LATIN_ID
 end
 
 Dance.seed do |d|
-  d.id         = 7
+  d.id         = Constants::Dances::INTERNATIONAL_RUMBA_ID
   d.name       = "International Rumba"
-  d.section_id = latin
+  d.section_id = Constants::Sections::LATIN_ID
 end
 
 Dance.seed do |d|
-  d.id         = 8
+  d.id         = Constants::Dances::INTERNATIONAL_SAMBA_ID
   d.name       = "International Samba"
-  d.section_id = latin
+  d.section_id = Constants::Sections::LATIN_ID
 end
 
 Dance.seed do |d|
-  d.id         = 9
+  d.id         = Constants::Dances::INTERNATIONAL_JIVE_ID
   d.name       = "International Jive"
-  d.section_id = latin
+  d.section_id = Constants::Sections::LATIN_ID
 end
 
 Dance.seed do |d|
-  d.id         = 10
+  d.id         = Constants::Dances::INTERNATIONAL_PASO_DOBLE_ID
   d.name       = "International Paso Doble"
-  d.section_id = latin
+  d.section_id = Constants::Sections::LATIN_ID
 end
 
 # Smooth
 Dance.seed do |d|
-  d.id         = 11
+  d.id         = Constants::Dances::AMERICAN_WALTZ_ID
   d.name       = "American Waltz"
-  d.section_id = smooth
+  d.section_id = Constants::Sections::SMOOTH_ID
 end
 
 Dance.seed do |d|
-  d.id         = 12
+  d.id         = Constants::Dances::AMERICAN_TANGO_ID
   d.name       = "American Tango"
-  d.section_id = smooth
+  d.section_id = Constants::Sections::SMOOTH_ID
 end
 
 Dance.seed do |d|
-  d.id         = 13
+  d.id         = Constants::Dances::AMERICAN_FOXTROT_ID
   d.name       = "American Foxtrot"
-  d.section_id = smooth
+  d.section_id = Constants::Sections::SMOOTH_ID
 end
 
 Dance.seed do |d|
-  d.id         = 14
+  d.id         = Constants::Dances::AMERICAN_VIENNESE_WALTZ_ID
   d.name       = "American Viennese Waltz"
-  d.section_id = smooth
+  d.section_id = Constants::Sections::SMOOTH_ID
 end
 
 # Rhythm
 Dance.seed do |d|
-  d.id         = 15
+  d.id         = Constants::Dances::AMERICAN_CHA_CHA_ID
   d.name       = "American Cha Cha"
-  d.section_id = rhythm
+  d.section_id = Constants::Sections::RHYTHM_ID
 end
 
 Dance.seed do |d|
-  d.id         = 16
+  d.id         = Constants::Dances::AMERICAN_RUMBA_ID
   d.name       = "American Rumba"
-  d.section_id = rhythm
+  d.section_id = Constants::Sections::RHYTHM_ID
 end
 
 Dance.seed do |d|
-  d.id         = 17
+  d.id         = Constants::Dances::AMERICAN_SWING_ID
   d.name       = "American Swing"
-  d.section_id = rhythm
+  d.section_id = Constants::Sections::RHYTHM_ID
 end
 
 Dance.seed do |d|
-  d.id         = 18
+  d.id         = Constants::Dances::AMERICAN_BOLERO_ID
   d.name       = "American Bolero"
-  d.section_id = rhythm
+  d.section_id = Constants::Sections::RHYTHM_ID
 end
 
 Dance.seed do |d|
-  d.id         = 19
+  d.id         = Constants::Dances::AMERICAN_MAMBO_ID
   d.name       = "American Mambo"
-  d.section_id = rhythm
+  d.section_id = Constants::Sections::RHYTHM_ID
 end
