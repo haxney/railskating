@@ -7,6 +7,9 @@ require 'rspec/rails'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# Seed the database with the standard values.
+SeedFu.seed
+
 RSpec.configure do |config|
   # == Mock Framework
   #
