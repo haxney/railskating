@@ -27,4 +27,7 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  # Allows the use of shorthand `create(:user)` instead of `FactoryGirl.create(:user)`
+  config.include FactoryGirl::Syntax::Methods
 end
