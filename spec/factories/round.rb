@@ -4,6 +4,8 @@ FactoryGirl.define do
     event
     number 3
     final false
+    requested 6
+    cutoff 4
   end
 
   # Non-final round
