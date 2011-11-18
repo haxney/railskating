@@ -22,6 +22,8 @@ group :test, :development do
   gem 'forgery'
   gem 'cucumber-rails'
   gem 'pickle'
+  gem 'database_cleaner'
+  gem 'spork'
 end
 
 gem 'jquery-rails'

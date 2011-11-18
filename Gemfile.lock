@@ -59,6 +59,7 @@ GEM
       capybara (>= 1.1.1)
       cucumber (>= 1.1.1)
       nokogiri (>= 1.5.0)
+    database_cleaner (0.7.0)
     diff-lcs (1.1.2)
     erubis (2.7.0)
     execjs (1.2.8)
@@ -151,6 +152,7 @@ GEM
       ffi (~> 1.0.9)
       json_pure
       rubyzip
+    spork (0.8.5)
     sprockets (2.0.0)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -175,6 +177,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.1.0)
   cucumber-rails
+  database_cleaner
   factory_girl_rails
   forgery
   haml-rails
@@ -184,5 +187,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 3.1.0)
   seed-fu (~> 2.0)
+  spork
   sqlite3
   uglifier
