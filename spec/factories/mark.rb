@@ -3,6 +3,7 @@ FactoryGirl.define do
     adjudicator
     sub_round
     couple
+    placement 0
   end
 
   factory :random_mark, parent: :mark do
