@@ -20,6 +20,8 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'forgery'
+  gem 'cucumber-rails'
+  gem 'pickle'
 end
 
 gem 'jquery-rails'
