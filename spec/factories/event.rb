@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :event do
-    level
+    level { Constants::Levels::SILVER }
     competition
+    sequence(:number)
   end
 
   factory :random_event, parent: :event do

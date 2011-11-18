@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :sub_event do
     event
     dance { Constants::Dances::AMERICAN_MAMBO }
-    order 2
+    order 1
   end
 
   factory :random_sub_event, parent: :sub_event do

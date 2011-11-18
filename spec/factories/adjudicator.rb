@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :adjudicator do
     user
     competition
-    shorthand 'J'
+    sequence(:shorthand) { |n| ('A'..'Z').to_a[n] }
   end
 
   factory :random_adjudicator, parent: :adjudicator do

@@ -3,7 +3,7 @@ FactoryGirl.define do
     association :lead, factory: :user
     association :follow, factory: :user
     event
-    number 20
+    sequence(:number)
   end
 
   factory :random_couple, parent: :couple do
