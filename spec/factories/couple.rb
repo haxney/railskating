@@ -5,11 +5,4 @@ FactoryGirl.define do
     event
     sequence(:number)
   end
-
-  factory :random_couple, parent: :couple do
-    association :lead, factory: :random_user
-    association :follow, factory: :random_user
-    association :event, factory: :random_event
-    sequence(:number)
-  end
 end

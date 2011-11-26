@@ -10,8 +10,8 @@ describe Round do
     let(:sub_event) { build(:sub_event, event: event) }
     let(:round) { build(:round, event: event, requested: 6) }
     let(:sub_round) { build(:sub_round, round: round, sub_event: sub_event) }
-    let(:couples) { build_list(:random_couple, 10, event: event) }
-    let(:adjudicators) { build_list(:random_adjudicator, 7, competition: competition) }
+    let(:couples) { build_list(:couple, 10, event: event) }
+    let(:adjudicators) { build_list(:adjudicator, 7, competition: competition) }
 
     # Modified slightly from "Rule 1" section to avoid a tie. Judge "F" marks
     # couple 16 rather than 10, preventing a tie.
