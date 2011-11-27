@@ -26,5 +26,14 @@ Feature: Couples recalled for a round determined by adjudicator's marks
       |     19 | X |   |   |   | X |   |   |
     Then a mark should exist with couple: couple "11", adjudicator: adjudicator "D"
     Then 3 marks should exist with couple: couple "10"
+    Then 5 marks should exist with couple: couple "11"
+    Then 4 marks should exist with couple: couple "12"
+    Then 3 marks should exist with couple: couple "13"
+    Then 4 marks should exist with couple: couple "14"
+    Then 6 marks should exist with couple: couple "15"
+    Then 1 marks should exist with couple: couple "16"
+    Then 6 marks should exist with couple: couple "17"
+    Then 7 marks should exist with couple: couple "18"
+    Then 2 marks should exist with couple: couple "19"
 
     #Then the 6 couples with the most marks should be recalled
