@@ -1,7 +1,27 @@
 # Step definitions for scores
 
+# Turn a table of marks into a set of {Couple}s, {Adjudicator}s, and {Mark}s.
+#
+# The table is of the form:
+#
+#     | couple | A | B | C | D | E | F | G |
+#     |     10 |   | X | X | X |   |   |   |
+#     |     11 | X |   | X | X | X | X |   |
+#     |     12 | X | X |   | X |   |   | X |
+#     |     13 |   |   | X |   |   | X | X |
+#     |     14 | X | X |   |   | X | X |   |
+#     |     15 |   | X | X | X | X | X | X |
+#     |     16 |   |   |   |   |   | X |   |
+#     |     17 | X | X | X | X | X |   | X |
+#     |     18 | X | X | X | X | X | X | X |
+#     |     19 | X |   |   |   | X |   |   |
+#
+# Each {Couple} and {Adjudicator} will be created, unless a couple with the
+# given number or an adjudicator with the given shorthand exists, respectively.
+# This allows for the use of multiple scoring tables for different
 Given(/^the adjudicators marked the following couples (?:for|in) #{capture_model}$/) do |sub_round_str, table|
   sub_round = model!(sub_round_str)
+  expect_model_class(sub_round, SubRound)
   sub_event = sub_round.sub_event
   event = sub_event.event
   competition = event.competition
@@ -40,13 +60,4 @@ Given(/^the adjudicators marked the following couples (?:for|in) #{capture_model
                    placement: place.to_i) if /\w+/ =~ place
     end
   end
-end
-
-# Find or create a model with the given fields.
-#
-# Since there could be multiple sub rounds within a single round, don't recreate
-# the couples or adjudicators in each table.
-def find_or_create_model(factory, label, fields)
-  name = "#{factory} \"#{label}\""
-  find_model(name, fields) or create_model(name, fields)
 end
