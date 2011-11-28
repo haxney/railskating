@@ -5,8 +5,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
   To advance to the next round of the competition
 
   Background:
-    Given a competition exists
-      And an event exists with competition: the competition
+    Given an event exists
       And a sub event exists with event: the event
       And a round exists with event: the event, requested: 6
       And a sub round exists with round: the round, sub_event: the sub event
