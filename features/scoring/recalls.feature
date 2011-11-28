@@ -8,8 +8,6 @@ Feature: Couples recalled for a round determined by adjudicator's marks
     Given a competition exists
     And an event exists with competition: the competition
     And a sub event exists with event: the event
-    And 10 couples exist with event: the event
-    And 6 adjudicators exist with competition: the competition
     And a round exists with event: the event, requested: 6
     And a sub round exists with round: the round, sub_event: the sub event
     And the adjudicators marked the following couples in the sub round
