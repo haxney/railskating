@@ -61,3 +61,26 @@ Given(/^the adjudicators marked the following couples (?:for|in) #{capture_model
     end
   end
 end
+
+Then(/^(\d+) couples should be recalled from #{capture_model}$/ ) do |count, round|
+  round = model!(round)
+  expect_model_class(round, Round)
+
+  round.recalled.length.should == count.to_i
+end
+
+# Expect {Couple}s, identified by their number, to be recalled from a {Round}.
+#
+# The table is of the form:
+#
+#     | number |
+#     |     10 |
+#     |     11 |
+#     |     12 |
+#     |     13 |
+#
+Then(/^the following couples should be recalled from #{capture_model}:$/) do |round, table|
+  table.hashes.each do |c|
+    step "Then couple \"#{c['number']}\" should be one of #{round}'s recalled"
+  end
+end
