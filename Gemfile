@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0'
+gem 'rails', '~> 3.1.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -23,12 +23,12 @@ group :test, :development do
   gem 'cucumber-rails'
   gem 'pickle'
   gem 'database_cleaner'
-  gem 'spork'
+  gem 'spork', '~> 0.9.0.rc'
 end
 
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'seed-fu', '~> 2.0'
+gem 'seed-fu'
 
 # Use unicorn as the web server
 # gem 'unicorn'
