@@ -34,4 +34,8 @@ Spork.each_run do
   # The :transaction strategy is faster, but might give you threading problems.
   # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
   Cucumber::Rails::Database.javascript_strategy = :truncation
+
+  # Needed so that pickle picks up any instance methods (predicates, mostly)
+  # from models. For some reason it doesn't seem to do this by itself.
+  Dir["#{Rails.root}/app/models/*.rb"].each { |f| load f }
 end
