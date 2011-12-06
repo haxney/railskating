@@ -1,3 +1,0 @@
-# Cucumber profiles
----
-default: --color --drb --no-multiline

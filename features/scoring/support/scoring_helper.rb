@@ -1,5 +1,11 @@
 # Helper functions for testing scoring steps.
 
+# These are needed to make re-running work. Only the support files in the subdir
+# of the features to be run are loaded, so dependencies need to be required
+# explicitly.
+require File.dirname(__FILE__) + '/../../support/pickle'
+require File.dirname(__FILE__) + '/../../step_definitions/pickle_steps'
+
 # Find or create a model with the given fields.
 #
 # Since there could be multiple sub rounds within a single round, don't recreate
