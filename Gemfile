@@ -23,10 +23,8 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '~> 4.0'
   gem 'forgery'
   gem 'cucumber-rails', require: false
-  gem 'pickle'
   gem 'database_cleaner'
-  gem 'spork', '~> 1.0.0rc3'
 end
