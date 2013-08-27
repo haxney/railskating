@@ -1,41 +1,29 @@
-Level.seed do |l|
-  l.id     = Constants::Levels::NEWCOMER_ID
-  l.name   = "Newcomer"
-  l.weight = 100
-end
+Level.seed(:id,
+  { id: Constants::Levels::NEWCOMER_ID,
+    name: "Newcomer",
+    weight: 100 },
 
-Level.seed do |l|
-  l.id     = Constants::Levels::BRONZE_ID
-  l.name   = "Bronze"
-  l.weight = 200
-end
+  { id: Constants::Levels::BRONZE_ID,
+    name: "Bronze",
+    weight: 200 },
 
-Level.seed do |l|
-  l.id     = Constants::Levels::SILVER_ID
-  l.name   = "Silver"
-  l.weight = 300
-end
+  { id: Constants::Levels::SILVER_ID,
+    name: "Silver",
+    weight: 300 },
 
-Level.seed do |l|
-  l.id     = Constants::Levels::GOLD_ID
-  l.name   = "Gold"
-  l.weight = 300
-end
+  { id: Constants::Levels::GOLD_ID,
+    name: "Gold",
+    weight: 300 },
 
-Level.seed do |l|
-  l.id     = Constants::Levels::OPEN_ID
-  l.name   = "Open"
-  l.weight = 400
-end
+  { id: Constants::Levels::OPEN_ID,
+    name: "Open",
+    weight: 400 },
 
-Level.seed do |l|
-  l.id     = Constants::Levels::PRE_CHAMPIONSHIP_ID
-  l.name   = "Pre-Championship"
-  l.weight = 450
-end
+  { id: Constants::Levels::PRE_CHAMPIONSHIP_ID,
+    name: "Pre-Championship",
+    weight: 450 },
 
-Level.seed do |l|
-  l.id     = Constants::Levels::CHAMPIONSHIP_ID
-  l.name   = "Championship"
-  l.weight = 470
-end
+  { id: Constants::Levels::CHAMPIONSHIP_ID,
+    name: "Championship",
+    weight: 470 }
+  )
