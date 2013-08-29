@@ -16,7 +16,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
       |     16 |   |   |   |   |   | X |   |
       |     17 | X | X | X | X | X |   | X |
       |     18 | X | X | X | X | X | X | X |
-      |     19 | X |   |   |   | X |   |   |
+      |     19 | X |   |   |   | X |   | X |
 
   Scenario: Couples each receive the number of marks given by the adjudicators
     Then 3 marks should exist for couple 10
@@ -28,7 +28,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
       And 1 marks should exist for couple 16
       And 6 marks should exist for couple 17
       And 7 marks should exist for couple 18
-      And 2 marks should exist for couple 19
+      And 3 marks should exist for couple 19
 
   Scenario: Adjudicators call back exactly as many couples as requested
     Then the non-final sub round should be resolved
