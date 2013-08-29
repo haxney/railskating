@@ -47,10 +47,10 @@ Given(/^the adjudicators marked the following couples in a non-final sub round$/
 
       # Only create the mark if the entry in the table is not ' '.
       FactoryGirl.create(:mark,
-                         adjudicator: judge,
-                         couple: couple,
-                         sub_round: @sub_round,
-                         placement: place.to_i) if /\w+/ =~ place
+        adjudicator: judge,
+        couple: couple,
+        sub_round: @sub_round,
+        placement: place.to_i) if /\w+/ =~ place
     end
   end
 end
