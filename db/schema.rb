@@ -9,11 +9,11 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110927203830) do
+ActiveRecord::Schema.define(version: 20130829203636) do
 
-  create_table "adjudicators", :force => true do |t|
+  create_table "adjudicators", force: true do |t|
     t.integer  "user_id"
     t.integer  "competition_id"
     t.string   "shorthand"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "competitions", :force => true do |t|
+  create_table "competitions", force: true do |t|
     t.string   "name"
     t.date     "start_date"
     t.date     "end_date"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "couples", :force => true do |t|
+  create_table "couples", force: true do |t|
     t.integer  "lead_id"
     t.integer  "follow_id"
     t.integer  "event_id"
@@ -39,19 +39,19 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "couples_rounds", :id => false, :force => true do |t|
+  create_table "couples_rounds", id: false, force: true do |t|
     t.integer "couple_id"
     t.integer "round_id"
   end
 
-  create_table "dances", :force => true do |t|
+  create_table "dances", force: true do |t|
     t.string   "name"
     t.integer  "section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "events", :force => true do |t|
+  create_table "events", force: true do |t|
     t.integer  "competition_id"
     t.integer  "level_id"
     t.integer  "number"
@@ -59,14 +59,14 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "levels", :force => true do |t|
+  create_table "levels", force: true do |t|
     t.string   "name"
     t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "marks", :force => true do |t|
+  create_table "marks", force: true do |t|
     t.integer  "adjudicator_id"
     t.integer  "sub_round_id"
     t.integer  "couple_id"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "rounds", :force => true do |t|
+  create_table "rounds", force: true do |t|
     t.integer  "event_id"
     t.integer  "number"
     t.boolean  "final"
@@ -85,13 +85,13 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "sections", :force => true do |t|
+  create_table "sections", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "sub_events", :force => true do |t|
+  create_table "sub_events", force: true do |t|
     t.integer  "event_id"
     t.integer  "dance_id"
     t.integer  "order"
@@ -99,23 +99,23 @@ ActiveRecord::Schema.define(:version => 20110927203830) do
     t.datetime "updated_at"
   end
 
-  create_table "sub_rounds", :force => true do |t|
+  create_table "sub_rounds", force: true do |t|
     t.integer  "round_id"
     t.integer  "sub_event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sub_rounds", ["round_id"], :name => "index_sub_rounds_on_round_id"
-  add_index "sub_rounds", ["sub_event_id"], :name => "index_sub_rounds_on_sub_event_id"
+  add_index "sub_rounds", ["round_id"], name: "index_sub_rounds_on_round_id"
+  add_index "sub_rounds", ["sub_event_id"], name: "index_sub_rounds_on_sub_event_id"
 
-  create_table "teams", :force => true do |t|
+  create_table "teams", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", :force => true do |t|
+  create_table "users", force: true do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "team_id"
