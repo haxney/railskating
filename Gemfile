@@ -27,4 +27,6 @@ group :test, :development do
   gem 'forgery'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'pry-debugger'
+  gem 'pry-rails'
 end
