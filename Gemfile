@@ -25,7 +25,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'forgery'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', require: false, git: 'https://github.com/cucumber/cucumber-rails.git'
   gem 'database_cleaner'
   gem 'pry-debugger'
   gem 'pry-rails'
