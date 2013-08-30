@@ -4,5 +4,6 @@ class Couple < ActiveRecord::Base
   belongs_to :event, inverse_of: :couples
   has_one :competition, through: :event
   has_many :marks
+  has_many :couple_round_tallies
   has_and_belongs_to_many :rounds
 end
