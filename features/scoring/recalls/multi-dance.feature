@@ -29,7 +29,7 @@ Feature: Couples recalled for a multi-dance round determined by adjudicator's ma
       |     17 | X | X | X | X | X |   | X |
       |     18 | X | X | X | X | X | X | X |
       |     19 | X |   |   |   | X |   | X |
-
+    And 6 couples are requested from the preliminary round
 
   Scenario: Couples each receive the number of marks given by the adjudicators
     Then 6 marks should exist for couple 10

@@ -17,6 +17,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
       |     17 | X | X | X | X | X |   | X |
       |     18 | X | X | X | X | X | X | X |
       |     19 | X |   |   |   | X |   | X |
+    And 6 couples are requested from the preliminary round
 
   Scenario: Couples each receive the number of marks given by the adjudicators
     Then 3 marks should exist for couple 10

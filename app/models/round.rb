@@ -30,16 +30,37 @@ class Round < ActiveRecord::Base
   def recalled_couples
     raise RoundFinalnessError, "cannot recall couples from final round" if self.final?
 
-    # Since `prelim_results` is cumulative, there is guaranteed to be at most
-    # one matching element.
-    res = self.prelim_results.select { |p| p.num_couples == self.requested }
-    return false if res.empty?
+    num_marks =
+      if self.cutoff
+        self.cutoff
+      else
+        # Since `prelim_results` is cumulative, there is guaranteed to be at
+        # most one matching element.
+        res = self.prelim_results.select { |p| p.num_couples == self.requested }
+        return false if res.empty?
 
-    num_marks = res.first.num_marks
+        res.first.num_marks
+      end
+
     c_ids = self.couple_tallies
       .where(['num_marks >= ?', num_marks])
       .map { |ct| ct.couple_id }
     Couple.find(c_ids)
+  end
+
+  # Determines what number of marks could be used as cutoffs to get closest to
+  # the requested number of couples.
+  #
+  # Returns a two-element array of objects with properties `num_couples` and
+  # `num_marks`.
+  def possible_cutoffs
+    lower = self.prelim_results
+      .take_while { |e| e.num_couples < self.requested }[-1]
+
+    upper = self.prelim_results
+      .drop_while { |e| e.num_couples < self.requested }[0]
+
+    return [lower, upper]
   end
 
   # Test whether the requested number of couples can be recalled.

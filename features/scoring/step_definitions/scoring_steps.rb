@@ -58,8 +58,12 @@ Given(/^the adjudicators marked the following couples in (?:a|the) preliminary (
   end
 end
 
-Then(/^the preliminary round should be resolved$/) do
-  expect(@round).to be_resolved
+Then(/^the preliminary round should( not)? be resolved$/) do |neg|
+  if neg
+    expect(@round).not_to be_resolved
+  else
+    expect(@round).to be_resolved
+  end
 end
 
 Then(/^(\d+) marks should exist for couple (\d+)/) do |num_marks, couple|
@@ -73,6 +77,16 @@ Then(/^(\d+) couples should be recalled from the preliminary round$/ ) do |count
   expect(@round.recalled_couples.length).to eq(count.to_i)
 end
 
+# Set the value of `requested` for the sub-round
+And(/^(\d+) couples are requested from the preliminary round$/) do |num|
+  @round.update(requested: num.to_i)
+end
+
+Then(/^the possible cutoffs of the round should be (\d+) marks, (\d+) couples and (\d+) marks, (\d+) couples$/) do |lower_m, lower_c, upper_m, upper_c|
+  expect(@round.possible_cutoffs.map &:num_marks).to eq([lower_m.to_i, upper_m.to_i])
+  expect(@round.possible_cutoffs.map &:num_couples).to eq([lower_c.to_i, upper_c.to_i])
+end
+
 # Expect {Couple}s, identified by their number, to be recalled from a {Round}.
 #
 # The table is of the form:
@@ -83,7 +97,9 @@ end
 #     |     12 |
 #     |     13 |
 #
-Then(/^the following couples should be recalled from the preliminary round$/) do |table|
+Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?$/) do |cutoff, table|
+  @round.cutoff = cutoff.to_i if cutoff
+
   couple_numbers = @round.recalled_couples.map &:number
   table.hashes.each do |row|
     expect(couple_numbers).to include row['couple'].to_i

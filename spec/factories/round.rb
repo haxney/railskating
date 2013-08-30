@@ -5,6 +5,6 @@ FactoryGirl.define do
     sequence(:number)
     final false
     requested 6
-    cutoff 4
+    cutoff nil
   end
 end
