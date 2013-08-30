@@ -1,0 +1,22 @@
+= form_for @couple do |f|
+  -if @couple.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@couple.errors.count, "error")} prohibited this couple from being saved:"
+      %ul
+        - @couple.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :lead_id
+    = f.number_field :lead_id
+  .field
+    = f.label :follow_id
+    = f.number_field :follow_id
+  .field
+    = f.label :event_id
+    = f.number_field :event_id
+  .field
+    = f.label :number
+    = f.number_field :number
+  .actions
+    = f.submit 'Save'

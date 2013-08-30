@@ -1,0 +1,21 @@
+%h1 Listing dances
+
+%table
+  %tr
+    %th Name
+    %th Section
+    %th
+    %th
+    %th
+
+  - @dances.each do |dance|
+    %tr
+      %td= dance.name
+      %td= dance.section_id
+      %td= link_to 'Show', dance
+      %td= link_to 'Edit', edit_dance_path(dance)
+      %td= link_to 'Destroy', dance, data: {confirm: 'Are you sure?' }, method: :delete
+
+%br
+
+= link_to 'New Dance', new_dance_path

@@ -1,0 +1,23 @@
+%h1 Listing events
+
+%table
+  %tr
+    %th Competition
+    %th Level
+    %th Number
+    %th
+    %th
+    %th
+
+  - @events.each do |event|
+    %tr
+      %td= event.competition_id
+      %td= event.level_id
+      %td= event.number
+      %td= link_to 'Show', event
+      %td= link_to 'Edit', edit_event_path(event)
+      %td= link_to 'Destroy', event, data: {confirm: 'Are you sure?' }, method: :delete
+
+%br
+
+= link_to 'New Event', new_event_path

@@ -1,0 +1,19 @@
+= form_for @adjudicator do |f|
+  -if @adjudicator.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@adjudicator.errors.count, "error")} prohibited this adjudicator from being saved:"
+      %ul
+        - @adjudicator.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :user_id
+    = f.number_field :user_id
+  .field
+    = f.label :competition_id
+    = f.number_field :competition_id
+  .field
+    = f.label :shorthand
+    = f.text_field :shorthand
+  .actions
+    = f.submit 'Save'
