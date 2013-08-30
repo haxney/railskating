@@ -31,9 +31,9 @@ Feature: Couples recalled for a round determined by adjudicator's marks
       And 3 marks should exist for couple 19
 
   Scenario: Adjudicators call back exactly as many couples as requested
-    Then the non-final sub round should be resolved
-      And 6 couples should be recalled from the non-final sub round
-      And the following couples should be recalled from the non-final sub round
+    Then the preliminary round should be resolved
+      And 6 couples should be recalled from the preliminary round
+      And the following couples should be recalled from the preliminary round
           | couple |
           |     11 |
           |     12 |

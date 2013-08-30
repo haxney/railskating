@@ -21,6 +21,7 @@
 # This allows for the use of multiple scoring tables for different
 Given(/^the adjudicators marked the following couples in a non-final sub round$/) do |table|
   @sub_round = FactoryGirl.create(:sub_round)
+  @round = @sub_round.round
   sub_event = @sub_round.sub_event
   event = sub_event.event
   competition = event.competition
@@ -55,19 +56,19 @@ Given(/^the adjudicators marked the following couples in a non-final sub round$/
   end
 end
 
-Then(/^the non-final sub round should be resolved$/) do
-  pending
+Then(/^the preliminary round should be resolved$/) do
+  expect(@round).to be_resolved
 end
 
 Then(/^(\d+) marks should exist for couple (\d+)/) do |num_marks, couple|
-  Mark
-    .joins(:couple)
-    .where(couples: { number: couple.to_i })
-    .length.should == num_marks.to_i
+  expect(Mark
+      .joins(:couple)
+      .where(couples: { number: couple.to_i })
+      .length).to eq(num_marks.to_i)
 end
 
-Then(/^(\d+) couples should be recalled from the non-final sub round$/ ) do |count|
-  @sub_round.round.recalled.length.should == count.to_i
+Then(/^(\d+) couples should be recalled from the preliminary round$/ ) do |count|
+  expect(@round.recalled_couples.length).to eq(count.to_i)
 end
 
 # Expect {Couple}s, identified by their number, to be recalled from a {Round}.
@@ -80,8 +81,9 @@ end
 #     |     12 |
 #     |     13 |
 #
-Then(/^the following couples should be recalled from the non-final sub round$/) do |table|
-  table.hashes.each do |c|
-    step "Then couple \"#{c['number']}\" should be one of #{round}'s recalled"
+Then(/^the following couples should be recalled from the preliminary round$/) do |table|
+  couple_numbers = @round.recalled_couples.map &:number
+  table.hashes.each do |row|
+    expect(couple_numbers).to include row['couple'].to_i
   end
 end
