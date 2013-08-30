@@ -5,7 +5,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
   To advance to the next round of the competition
 
   Background:
-    Given the adjudicators marked the following couples in a non-final sub round
+    Given the adjudicators marked the following couples in a preliminary round
       | couple | A | B | C | D | E | F | G |
       |     10 |   | X | X | X |   |   |   |
       |     11 | X |   | X | X | X | X |   |

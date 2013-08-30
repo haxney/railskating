@@ -19,12 +19,14 @@
 # Each {Couple} and {Adjudicator} will be created, unless a couple with the
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
-Given(/^the adjudicators marked the following couples in a non-final sub round$/) do |table|
-  @sub_round = FactoryGirl.create(:sub_round)
-  @round = @sub_round.round
-  sub_event = @sub_round.sub_event
-  event = sub_event.event
-  competition = event.competition
+Given(/^the adjudicators marked the following couples in (?:a|the) preliminary (?:sub-)?round(?: "(.+)")?$/) do |round_name, table|
+  @competition ||= FactoryGirl.create(:competition)
+  @event ||= FactoryGirl.create(:event, competition: @competition)
+  @round ||= FactoryGirl.create(:round, event: @event)
+  @sub_rounds ||= {}
+  sub_event = FactoryGirl.create(:sub_event, event: @event)
+  sub_round = FactoryGirl.create(:sub_round, round: @round)
+  @sub_rounds[round_name] = sub_round if round_name
 
   # Remap the headers so that all the columns (aside from the first, the
   # "couple" column) are instances of the `Adjudicator` model (created by a
@@ -33,14 +35,14 @@ Given(/^the adjudicators marked the following couples in a non-final sub round$/
     if header == 'couple'
       header
     else
-      find_or_create_adjudicator(header, competition)
+      find_or_create_adjudicator(header, @competition)
     end
   end
 
   # Create the couple and assign them marks for the sub round.
   table.hashes.each do |row|
     num = row.delete('couple').to_i
-    couple = find_or_create_couple(num, event)
+    couple = find_or_create_couple(num, @event)
 
     # Each adjudicator's mark (or lack thereof) for the current couple
     row.each do |judge, place|
@@ -50,7 +52,7 @@ Given(/^the adjudicators marked the following couples in a non-final sub round$/
       FactoryGirl.create(:mark,
         adjudicator: judge,
         couple: couple,
-        sub_round: @sub_round,
+        sub_round: sub_round,
         placement: place.to_i) if /\w+/ =~ place
     end
   end
