@@ -6,4 +6,9 @@ class Event < ActiveRecord::Base
   has_many :sub_events
   has_many :dances, through: :sub_events
   has_many :sections, through: :dances
+  has_many :placements
+
+  def resolved?
+    (self.placements) ? true : false
+  end
 end
