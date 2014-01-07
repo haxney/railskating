@@ -42,7 +42,7 @@ Given(/^the adjudicators marked the following couples in (?:a|the) preliminary (
   # Create the couple and assign them marks for the sub round.
   table.hashes.each do |row|
     num = row.delete('couple').to_i
-    couple = find_or_create_couple(num, @event)
+    couple = find_or_create_couple(num, @round)
 
     # Each adjudicator's mark (or lack thereof) for the current couple
     row.each do |judge, place|

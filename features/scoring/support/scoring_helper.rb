@@ -5,9 +5,11 @@ def find_or_create_adjudicator(header, competition)
     FactoryGirl.create(:adjudicator, shorthand: header, competition: competition)
 end
 
-def find_or_create_couple(num, event)
-  Couple.where(number: num, event: event).take or
-    FactoryGirl.create(:couple, number: num, event: event)
+def find_or_create_couple(num, round)
+  c = Couple.where(number: num, event: round.event).take ||
+    FactoryGirl.create(:couple, number: num, event: round.event)
+  round.couples << c
+  c
 end
 
 def expect_model_class(model, klass)
