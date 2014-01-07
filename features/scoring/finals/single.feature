@@ -1,7 +1,7 @@
-Feature: Couples in the final placed by simple majority
+Feature: Couples in a single-dance final
   In order to score a final round
   The couples
-  Should be placed according to the adjudicators marks
+  Should be placed according to the adjudicators' marks
   To determine the final ranking
 
   Scenario: Couples are correctly placed by rule 5
