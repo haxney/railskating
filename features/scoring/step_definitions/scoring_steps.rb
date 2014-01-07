@@ -19,10 +19,10 @@
 # Each {Couple} and {Adjudicator} will be created, unless a couple with the
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
-Given(/^the adjudicators marked the following couples in (?:a|the) preliminary (?:sub-)?round(?: "(.+)")?$/) do |round_name, table|
+Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|final) (?:sub-)?round(?: "(.+)")?$/) do |prelim, round_name, table|
   @competition ||= FactoryGirl.create(:competition)
   @event ||= FactoryGirl.create(:event, competition: @competition)
-  @round ||= FactoryGirl.create(:round, event: @event)
+  @round ||= FactoryGirl.create(:round, event: @event, final: prelim == 'final')
   @sub_rounds ||= {}
   sub_event = FactoryGirl.create(:sub_event, event: @event)
   sub_round = FactoryGirl.create(:sub_round, round: @round)
@@ -103,5 +103,26 @@ Then(/^the following couples should be recalled from the preliminary round(?: wi
   couple_numbers = @round.recalled_couples.map &:number
   table.hashes.each do |row|
     expect(couple_numbers).to include row['couple'].to_i
+  end
+end
+
+# Expect {Couple}s, identified by their number, to be placed in an {Event}.
+#
+# The table is of the form
+#
+#     | couple | rank |
+#     |     51 |    1 |
+#     |     52 |    2 |
+#     |     53 |    3 |
+#     |     54 |    4 |
+#     |     55 |    5 |
+Then(/^the placement of the couples should be$/) do |table|
+  @event.compute_placements
+
+  table.hashes.each do |row|
+    expect(@event.placements.index do |p|
+             p.couple.number == row['couple'].to_i &&
+               p.rank == row['rank'].to_i # Change this to allow rule indicator
+           end).to be_true
   end
 end

@@ -1,0 +1,1 @@
+class RoundFinalnessError < Error; end
