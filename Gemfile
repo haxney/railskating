@@ -27,6 +27,6 @@ group :test, :development do
   gem 'forgery'
   gem 'cucumber-rails', require: false, git: 'https://github.com/cucumber/cucumber-rails.git'
   gem 'database_cleaner'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'pry-rails'
 end
