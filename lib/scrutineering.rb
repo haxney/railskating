@@ -55,11 +55,12 @@ module Scrutineering
         else
           # Rule 7
           sorted_by_sum = highest_marks.sort_by { |f| cum_sum(f, place) }
-          lowest_sum = sorted_by_sum.select { |f|
-            cum_sum(f, place) == cum_sum(sorted_by_sum.first, place) }
+          lowest_sum = sorted_by_sum.select do |f|
+            cum_sum(f, place) == cum_sum(sorted_by_sum.first, place)
+          end
           case
           when lowest_sum.count == 1
-            [[place_to_assign, lowest_sum]] # Unique lowest sum
+            [[place_to_assign, lowest_sum.first]] # Unique lowest sum
           when place < max_place
             inner.call(place + 1, lowest_sum) # still tied: advance to next column
           else # Genuine tie
