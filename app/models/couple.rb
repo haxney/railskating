@@ -9,6 +9,7 @@ class Couple < ActiveRecord::Base
   has_many :couple_round_tallies
   has_and_belongs_to_many :rounds
   has_many :placements
+  has_many :sub_placements
 
   # Convert this couple to a `Finalist` structure for computing placement
   # results.

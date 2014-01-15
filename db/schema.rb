@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131229201643) do
+ActiveRecord::Schema.define(version: 20140115173550) do
 
   create_table "adjudicators", force: true do |t|
     t.integer  "user_id"
@@ -110,6 +110,17 @@ ActiveRecord::Schema.define(version: 20131229201643) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "sub_placements", force: true do |t|
+    t.integer  "couple_id"
+    t.integer  "sub_event_id"
+    t.integer  "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sub_placements", ["couple_id"], name: "index_sub_placements_on_couple_id"
+  add_index "sub_placements", ["sub_event_id"], name: "index_sub_placements_on_sub_event_id"
 
   create_table "sub_rounds", force: true do |t|
     t.integer  "round_id"
