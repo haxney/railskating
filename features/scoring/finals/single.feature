@@ -12,7 +12,7 @@ Feature: Couples in a single-dance final
       |     53 | 3 | 3 | 3 | 5 | 4 |
       |     54 | 2 | 4 | 5 | 4 | 3 |
       |     55 | 5 | 6 | 4 | 3 | 5 |
-      |     55 | 6 | 5 | 6 | 6 | 6 |
+      |     56 | 6 | 5 | 6 | 6 | 6 |
 
     Then the placement of the couples should be
       | couple | rank |
@@ -21,6 +21,7 @@ Feature: Couples in a single-dance final
       |     53 |    3 |
       |     54 |    4 |
       |     55 |    5 |
+      |     56 |    6 |
 
   Scenario: Couples are placed by rule 6
     Given the adjudicators marked the following couples in a final round
