@@ -70,6 +70,19 @@ module Scrutineering
     find_in_single_dance(id, single_result).first
   end
 
+  # Sum the elements at each position from each array. The idea is to turn
+  #
+  #     [[1, 2, 3], [4, 5, 6]]
+  #
+  # Into
+  #
+  #     [5, 7, 9]
+  #
+  # Assumes that each of `vecs` are the same length.
+  def self.vector_sum(vecs)
+    Array.new(vecs.first.length) {0}.zip(*vecs).map { |i| i.reduce(&:+) }
+  end
+
   # Combines all of the single-dance results into {LinkedFinalist} structures.
   #
   # @param [Array<Array<Array<Integer, Finalist>>>] single_results array of
@@ -81,22 +94,13 @@ module Scrutineering
     finalists.map do |f|
       id = f.id
       places = single_results.map { |sr| place_of(id, sr) }
-      cum_marks = (1..num_finalists).map { |i| places.select { |p| p.first <= i }.count }
-      cum_sums  = (1..num_finalists).map { |i| places.select { |p| p.first <= i }
-          .reduce(0) { |acc, m| acc + p.first } }
+      cum_marks = (1..num_finalists).map { |i| places.select { |p| p <= i }.count }
+      cum_sums  = (1..num_finalists).map { |i| places.select { |p| p <= i }
+          .reduce(0) { |acc, m| acc + m } }
       fs_single_dances = single_results.map { |sr| find_in_single_dance(id, sr).second }
-      # Sum the marks at each position from each single dance. The idea is to turn
-      #
-      #     [[1, 2, 3], [4, 5, 6]]
-      #
-      # Into
-      #
-      #     [5, 7, 9]
-      cum_marks_single = Array.new(num_finalists) {0}
-        .zip(*fs_single_dances.map(&:cumulative_marks)).map { |i| i.reduce(&:+) }
 
-      cum_sums_single = Array.new(num_finalists) {0}
-        .zip(*fs_single_dances.map(&:cumulative_sums)).map { |i| i.reduce(&:+) }
+      cum_marks_single = vector_sum(fs_single_dances.map(&:cumulative_marks))
+      cum_sums_single = vector_sum(fs_single_dances.map(&:cumulative_sums))
 
       LinkedFinalist.new(id, cum_marks, cum_sums, places, places.reduce(&:+),
                          Finalist.new(id, cum_marks_single, cum_sums_single))
@@ -142,7 +146,7 @@ module Scrutineering
           when place < max_place
             inner.call(place + 1, lowest_sum) # still tied: advance to next column
           else # Genuine tie
-            score = place_to_assign + (lowest_sum - 1) / 2
+            score = place_to_assign + (lowest_sum.length - 1) / 2
             lowest_sum.map { |c| [score, c] }
           end
         end
@@ -160,7 +164,7 @@ module Scrutineering
   # @param [Integer] place the place to assign.
   # @return [Array<Array<Integer, LinkedFinalist>>] array of `[place, linked_finalist]` arrays.
   def self.rule_9(linked_finalists, place)
-    sorted = highest_marks.sort_by { |lf| lf.sum }
+    sorted = linked_finalists.sort_by { |lf| lf.sum }
     highest = sorted.first.sum
     contenders = sorted.select { |lf| lf.sum == highest }
     if contenders.length == 1
@@ -229,7 +233,7 @@ module Scrutineering
   # @param finalists [Array<Finalist>] Array of {Finalist}s to compute.
   # @param compute_next [Function] a function which takes a list of {Finalist}
   #   objects and the numerical rank to place.
-  # @return [Array<Array<Integer, Finalist>>] array of `[place finalist]`
+  # @return [Array<Array<Integer, Finalist>>] array of `[place, finalist]`
   #   arrays, sorted by increasing place.
   def self.compute_all_places(finalists, compute_next)
     inner = lambda do |placed, unplaced|
@@ -250,7 +254,7 @@ module Scrutineering
   #
   # @param [Array<Finalist>] finalists array of {Finalist} structures.
   #
-  # @return [Array<Array<Integer, Finalist>>] array of `[place
+  # @return [Array<Array<Integer, Finalist>>] array of `[place,
   # finalist]` arrays, sorted by increasing place.
   def self.place_one_dance(finalists)
     compute_all_places(finalists,

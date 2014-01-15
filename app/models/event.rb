@@ -1,4 +1,5 @@
 require 'scrutineering'
+require 'exceptions'
 
 class Event < ActiveRecord::Base
   belongs_to :competition
@@ -15,7 +16,7 @@ class Event < ActiveRecord::Base
   end
 
   def resolved?
-    (self.placements) ? true : false
+    self.placements.size > 0
   end
 
   # Is this {Event} a single-dance event?
@@ -36,30 +37,27 @@ class Event < ActiveRecord::Base
   # `placements` association.
   def compute_placements
     raise RoundFinalnessError, "No final round for event" unless self.final_round
+    return self.placements if resolved?
+
+    sub_events.each { |se| se.compute_placements }
 
     if single_dance?
-      compute_next = Scrutineering.method(:rules_5_to_8)
-      finalists = couples.map do |c|
-        c.to_single_finalist(final_round.sub_rounds.take!)
+      # Copy {SubPlacement}s from {SubEvent}
+      sub_events.first.sub_placements.map do |p|
+        self.placements.create(rank: p.rank, couple: p.couple)
       end
     else
-      compute_next = Scrutineering.method(:rule_9)
-      single_results = final_round.sub_rounds.map do |sr|
-        sub_finalists = couples.map do |c|
-          c.to_single_finalist(sr)
-        end
-        Scrutineering.compute_all_places(sub_finalists, Scrutineering.method(:rules_5_to_8))
-      end
+      # Apply rules 9-11
+      single_results = sub_events.map(&:to_single_results)
 
       finalists = Scrutineering.single_results_to_linked_finalists(single_results)
-    end
-
-    placements = Scrutineering.compute_all_places(finalists, compute_next)
-
-    placements.map do |elt|
-      p = self.placements.build(rank: elt.first, couple_id: elt.second.id)
-      p.rule = elt.second.rule if elt.second.respond_to? :rule
-      p.save
+      places = Scrutineering.compute_all_places(finalists,
+                                                Scrutineering.method(:rule_9))
+      places.map do |elt|
+        self.placements.create(rank: elt.first,
+                               couple_id: elt.second.id,
+                               rule: elt.second.rule)
+      end
     end
   end
 end

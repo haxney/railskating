@@ -23,8 +23,10 @@ Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|
   @round ||= FactoryGirl.create(:round, event: @event, final: prelim == 'final')
   @sub_rounds ||= {}
   sub_event = FactoryGirl.create(:sub_event, event: @event)
-  sub_round = FactoryGirl.create(:sub_round, round: @round)
+  sub_round = FactoryGirl.create(:sub_round, round: @round, sub_event: sub_event)
   @sub_rounds[round_name] = sub_round if round_name
+
+  table.map_column!('couple') { |c| c.to_i }
 
   # Remap the headers so that all the columns (aside from the first, the
   # "couple" column) are instances of the `Adjudicator` model (created by a
@@ -39,7 +41,7 @@ Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|
 
   # Create the couple and assign them marks for the sub round.
   table.hashes.each do |row|
-    num = row.delete('couple').to_i
+    num = row.delete('couple')
     couple = find_or_create_couple(num, @round)
 
     # Each adjudicator's mark (or lack thereof) for the current couple
@@ -52,6 +54,50 @@ Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|
         couple: couple,
         sub_round: sub_round,
         placement: place.to_i) if /\w+/ =~ place
+    end
+  end
+end
+
+# Create `SubPlacement` objects from a table of the form
+#
+#     | couple | W | T | V | Q | F |
+#     |     91 | 1 | 1 | 1 | 1 | 1 |
+#     |     92 | 4 | 2 | 2 | 2 | 2 |
+#     |     93 | 2 | 3 | 3 | 3 | 3 |
+#     |     94 | 5 | 5 | 6 | 4 | 5 |
+#     |     95 | 3 | 4 | 5 | 7 | 7 |
+#     |     96 | 6 | 7 | 4 | 5 | 6 |
+#     |     97 | 7 | 6 | 7 | 6 | 4 |
+#     |     98 | 8 | 8 | 8 | 8 | 8 |
+#
+# For the purpose of creating dances, this will always assume the standard
+# section when converting single-letter dance names to `Dance` objects.
+Given(/the couples received the following places in the final summary:/) do |table|
+  @competition = FactoryGirl.create(:competition)
+  @event = FactoryGirl.create(:event, competition: @competition)
+  @round = FactoryGirl.create(:round, event: @event, final: true)
+
+  table.map_column!('couple') { |c| c.to_i }
+
+  table.map_headers! do |header|
+    if header == 'couple'
+      header
+    else
+      find_or_create_sub_event(header, @round)
+    end
+  end
+
+  table.hashes.each do |row|
+    num = row.delete('couple')
+    couple = find_or_create_couple(num, @round)
+
+    row.each do |sub_event, place|
+
+      # Only create the mark if the entry in the table is not ' '.
+      FactoryGirl.create(:sub_placement,
+                         couple: couple,
+                         sub_event: sub_event,
+                         rank: place.to_i)
     end
   end
 end
@@ -97,10 +143,11 @@ end
 #
 Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?$/) do |cutoff, table|
   @round.cutoff = cutoff.to_i if cutoff
+  table.map_column!('couple') { |c| c.to_i }
 
   couple_numbers = @round.recalled_couples.map &:number
   table.hashes.each do |row|
-    expect(couple_numbers).to include row['couple'].to_i
+    expect(couple_numbers).to include row['couple']
   end
 end
 
@@ -114,13 +161,34 @@ end
 #     |     53 |    3 |
 #     |     54 |    4 |
 #     |     55 |    5 |
+#
+# Or, if there is a multi-dance final decided by rules 10 or 11, then the form is
+#
+#     | couple | rank  |
+#     |     51 | 1 R10 |
+#     |     52 | 2 R10 |
+#     |     53 | 3     |
+#     |     54 | 4 R11 |
+#     |     55 | 5 R11 |
 Then(/^the placement of the couples should be$/) do |table|
   @event.compute_placements
+  table.map_column!('couple') { |c| c.to_i }
+  table.map_column!('rank') do |r|
+    sp = r.split
+    rule = case sp.second
+           when "R10" then 10
+           when "R11" then 11
+           else nil
+           end
+    {place: sp.first.to_i, rule: rule}
+  end
+
 
   table.hashes.each do |row|
     expect(@event.placements.index do |p|
-             p.couple.number == row['couple'].to_i &&
-               p.rank == row['rank'].to_i # Change this to allow rule indicator
+             p.couple.number == row['couple'] &&
+               p.rank == row['rank'][:place] &&
+               p.rule == row['rank'][:rule]
            end).to be_true
   end
 end

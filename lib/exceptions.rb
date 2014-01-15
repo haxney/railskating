@@ -1,1 +1,1 @@
-class RoundFinalnessError < Error; end
+class RoundFinalnessError < StandardError; end
