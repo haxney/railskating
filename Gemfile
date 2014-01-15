@@ -29,4 +29,5 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'yard-cucumber'
 end
