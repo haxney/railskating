@@ -1,6 +1,4 @@
-# Step definitions for scores
-
-# Turn a table of marks into a set of {Couple}s, {Adjudicator}s, and {Mark}s.
+# Turn a table of marks into a set of `Couple`s, `Adjudicator`s, and `Mark`s.
 #
 # The table is of the form:
 #
@@ -16,7 +14,7 @@
 #     |     18 | X | X | X | X | X | X | X |
 #     |     19 | X |   |   |   | X |   |   |
 #
-# Each {Couple} and {Adjudicator} will be created, unless a couple with the
+# Each `Couple` and `Adjudicator` will be created, unless a couple with the
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
 Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|final) (?:sub-)?round(?: "(.+)")?$/) do |prelim, round_name, table|
@@ -87,7 +85,7 @@ Then(/^the possible cutoffs of the round should be (\d+) marks, (\d+) couples an
   expect(@round.possible_cutoffs.map &:num_couples).to eq([lower_c.to_i, upper_c.to_i])
 end
 
-# Expect {Couple}s, identified by their number, to be recalled from a {Round}.
+# Expect `Couple`s, identified by their number, to be recalled from a `Round`.
 #
 # The table is of the form:
 #
@@ -106,7 +104,7 @@ Then(/^the following couples should be recalled from the preliminary round(?: wi
   end
 end
 
-# Expect {Couple}s, identified by their number, to be placed in an {Event}.
+# Expect `Couple`s, identified by their number, to be placed in an `Event`.
 #
 # The table is of the form
 #
