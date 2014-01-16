@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
   has_many :sub_events
   has_many :dances, through: :sub_events
   has_many :sections, through: :dances
-  has_many :placements
+  has_many :placements, -> { order :rank }
 
   def final_round
     @final_round ||= self.rounds.where(final: true).first
