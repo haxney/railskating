@@ -141,14 +141,12 @@ end
 #     |     12 |
 #     |     13 |
 #
+# The table must be sorted.
 Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?$/) do |cutoff, table|
   @round.cutoff = cutoff.to_i if cutoff
-  table.map_column!('couple') { |c| c.to_i }
 
-  couple_numbers = @round.recalled_couples.map &:number
-  table.hashes.each do |row|
-    expect(couple_numbers).to include row['couple']
-  end
+  couple_numbers = @round.recalled_couples.map(&:number).sort
+  table.diff!([['couple']] + couple_numbers.map { |num| [num.to_s] } )
 end
 
 # Expect `Couple`s, identified by their number, to be placed in an `Event`.
@@ -172,23 +170,6 @@ end
 #     |     55 | 5 R11 |
 Then(/^the placement of the couples should be$/) do |table|
   @event.compute_placements
-  table.map_column!('couple') { |c| c.to_i }
-  table.map_column!('rank') do |r|
-    sp = r.split
-    rule = case sp.second
-           when "R10" then 10
-           when "R11" then 11
-           else nil
-           end
-    {place: sp.first.to_i, rule: rule}
-  end
 
-
-  table.hashes.each do |row|
-    expect(@event.placements.index do |p|
-             p.couple.number == row['couple'] &&
-               p.rank == row['rank'][:place] &&
-               p.rule == row['rank'][:rule]
-           end).to be_true
-  end
+  table.diff!(placements_to_table(@event.placements))
 end

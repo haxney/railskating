@@ -37,3 +37,15 @@ end
 def expect_model_class(model, klass)
   raise UnexpectedModelClass, "Expected a '#{klass}' object, but got '#{model.class}'" unless model.class == klass
 end
+
+# Converts an array of {Placement} models to a 2D string array compatible with
+# {Cucumber::Ast::Table#diff!}.
+#
+# @param [Array<Placement>] placements array of placements to convert.
+# @return [Array<Array<String>>] 2D array of strings representing a table.
+def placements_to_table(placements)
+  [['couple', 'rank']] + placements.map do |p|
+    [p.couple.number.to_s,
+     p.rank.to_s + ((p.rule) ? " R#{p.rule}" : "")]
+  end
+end
