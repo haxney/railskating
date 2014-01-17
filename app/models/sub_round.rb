@@ -3,5 +3,5 @@ class SubRound < ActiveRecord::Base
   belongs_to :sub_event
   has_many :marks
   has_many :couple_round_tallies
-  has_many :couples, through: :round
+  has_many :couples, -> { distinct }, through: :round
 end

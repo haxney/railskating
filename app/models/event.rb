@@ -7,8 +7,8 @@ class Event < ActiveRecord::Base
   has_many :couples
   has_many :rounds
   has_many :sub_events
-  has_many :dances, through: :sub_events
-  has_many :sections, through: :dances
+  has_many :dances, -> { distinct }, through: :sub_events
+  has_many :sections, -> { distinct }, through: :dances
   has_many :placements, -> { order :rank }
 
   def final_round
