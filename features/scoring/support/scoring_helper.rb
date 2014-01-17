@@ -6,10 +6,13 @@ def find_or_create_adjudicator(header, competition)
 end
 
 def find_or_create_couple(num, round)
-  c = Couple.where(number: num, event: round.event).take ||
-    FactoryGirl.create(:couple, number: num, event: round.event)
-  round.couples << c
-  c
+  if c = Couple.where(number: num, event: round.event).take
+    c
+  else
+    c = FactoryGirl.create(:couple, number: num, event: round.event)
+    round.couples << c
+    c
+  end
 end
 
 # Finds or creates a factory {SubEvent} given a short name. Also creates a
