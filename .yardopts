@@ -1,1 +1,5 @@
+app/**/*.rb
+lib/**/*.rb
+features/**/*.feature
+features/**/*.rb
 -m markdown
