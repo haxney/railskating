@@ -44,7 +44,8 @@ end
 # @param [Array<Placement>] placements array of placements to convert.
 # @return [Array<Array<String>>] 2D array of strings representing a table.
 def placements_to_table(placements)
-  [['couple', 'rank']] + placements.map do |p|
+  sorted = placements.sort_by { |p| p.couple.number }
+  [['couple', 'rank']] + sorted.map do |p|
     [p.couple.number.to_s,
      p.rank.to_s + ((p.rule) ? " R#{p.rule}" : "")]
   end

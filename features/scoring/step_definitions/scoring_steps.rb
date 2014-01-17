@@ -168,6 +168,8 @@ end
 #     |     53 | 3     |
 #     |     54 | 4 R11 |
 #     |     55 | 5 R11 |
+#
+# The table must be sorted by the couple number, not the placement.
 Then(/^the placement of the couples should be$/) do |table|
   @event.compute_placements
 
