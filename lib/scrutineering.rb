@@ -184,7 +184,7 @@ module Scrutineering
   # @return [Array<Array<Integer, LinkedFinalist>>] array of `[place,
   #   linked_finalist]` arrays.
   def self.rule_10(contenders, place)
-    contenders.each { |lf| lf.rule = 10 }
+    contenders.each { |lf| lf.rule ||= 10 }
     by_count = contenders.sort_by { |lf| cum_marks(lf, place) }.reverse
     by_count_max = cum_marks(by_count.first, place)
     highest_count = by_count.select { |lf| cum_marks(lf, place) == by_count_max }
