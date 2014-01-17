@@ -1,3 +1,4 @@
+@single @prelim
 Feature: Couples recalled for a round determined by adjudicator's marks
   In order to score an individual round
   The couples
@@ -5,7 +6,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
   To advance to the next round of the competition
 
   Background:
-    Given the adjudicators marked the following couples in a preliminary round
+    Given the adjudicators marked the following couples in a preliminary round:
       | couple | A | B | C | D | E | F | G |
       |     10 |   | X | X | X |   |   |   |
       |     11 | X |   | X | X | X | X |   |
@@ -17,6 +18,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
       |     17 | X | X | X | X | X |   | X |
       |     18 | X | X | X | X | X | X | X |
       |     19 | X |   |   |   | X |   | X |
+
     And 6 couples are requested from the preliminary round
 
   Scenario: Couples each receive the number of marks given by the adjudicators
@@ -34,7 +36,7 @@ Feature: Couples recalled for a round determined by adjudicator's marks
   Scenario: Adjudicators call back exactly as many couples as requested
     Then the preliminary round should be resolved
       And 6 couples should be recalled from the preliminary round
-      And the following couples should be recalled from the preliminary round
+      And the following couples should be recalled from the preliminary round:
           | couple |
           |     11 |
           |     12 |

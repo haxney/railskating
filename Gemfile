@@ -15,6 +15,7 @@ gem 'coffee-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
+gem 'schema_plus'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -27,6 +28,8 @@ group :test, :development do
   gem 'forgery'
   gem 'cucumber-rails', require: false, git: 'https://github.com/cucumber/cucumber-rails.git'
   gem 'database_cleaner'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'pry-stack_explorer'
+  gem 'yard-cucumber'
 end
