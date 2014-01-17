@@ -29,5 +29,6 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'pry-stack_explorer'
   gem 'yard-cucumber'
 end

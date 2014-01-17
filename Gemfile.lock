@@ -45,6 +45,8 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.13)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     builder (3.1.4)
     byebug (2.5.0)
       columnize (~> 0.3.6)
@@ -71,6 +73,7 @@ GEM
       multi_json (~> 1.7.5)
       multi_test (>= 0.0.2)
     database_cleaner (1.1.1)
+    debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.4)
     erubis (2.7.0)
@@ -120,6 +123,9 @@ GEM
       pry (~> 0.9.12)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
+    pry-stack_explorer (0.4.9.1)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -204,6 +210,7 @@ DEPENDENCIES
   jquery-rails
   pry-byebug
   pry-rails
+  pry-stack_explorer
   rails (= 4.0.0)
   rspec-rails
   sass-rails
