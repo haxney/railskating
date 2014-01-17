@@ -17,7 +17,7 @@
 # Each `Couple` and `Adjudicator` will be created, unless a couple with the
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
-Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|final) (?:sub-)?round(?: "(.+)")?$/) do |prelim, round_name, table|
+Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|final) (?:sub-)?round(?: "(.+)")?:$/) do |prelim, round_name, table|
   @competition ||= FactoryGirl.create(:competition)
   @event ||= FactoryGirl.create(:event, competition: @competition)
   @round ||= FactoryGirl.create(:round, event: @event, final: prelim == 'final')
@@ -72,7 +72,7 @@ end
 #
 # For the purpose of creating dances, this will always assume the standard
 # section when converting single-letter dance names to `Dance` objects.
-Given(/the couples received the following places in the final summary:/) do |table|
+Given(/^the couples received the following places in the final summary:$/) do |table|
   @competition = FactoryGirl.create(:competition)
   @event = FactoryGirl.create(:event, competition: @competition)
   @round = FactoryGirl.create(:round, event: @event, final: true)
@@ -142,7 +142,7 @@ end
 #     |     13 |
 #
 # The table must be sorted.
-Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?$/) do |cutoff, table|
+Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?:$/) do |cutoff, table|
   @round.cutoff = cutoff.to_i if cutoff
 
   couple_numbers = @round.recalled_couples.map(&:number).sort
@@ -170,7 +170,7 @@ end
 #     |     55 | 5 R11 |
 #
 # The table must be sorted by the couple number, not the placement.
-Then(/^the placement of the couples should be$/) do |table|
+Then(/^the placement of the couples should be:$/) do |table|
   @event.compute_placements
 
   table.diff!(placements_to_table(@event.placements))
