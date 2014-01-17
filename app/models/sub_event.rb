@@ -26,7 +26,7 @@ class SubEvent < ActiveRecord::Base
   # {#placements} association.
   #
   # @return [Array<SubPlacement>] the computed {Placement} objects.
-  def compute_placements
+  def compute_sub_placements
     raise RoundFinalnessError, "No final sub round for sub_event" unless final_sub_round
     return self.sub_placements if resolved?
 

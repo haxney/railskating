@@ -38,8 +38,7 @@ class Event < ActiveRecord::Base
   def compute_placements
     raise RoundFinalnessError, "No final round for event" unless self.final_round
     return self.placements if resolved?
-
-    sub_events.each { |se| se.compute_placements }
+    sub_events.each { |se| se.compute_sub_placements }
 
     if single_dance?
       # Copy {SubPlacement}s from {SubEvent}
