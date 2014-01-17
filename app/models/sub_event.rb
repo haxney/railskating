@@ -4,6 +4,9 @@ class SubEvent < ActiveRecord::Base
   belongs_to :event
   belongs_to :dance
   has_many :sub_rounds
+
+  # @!attribute sub_placements
+  #   @return [Array<SubPlacement>] The {SubPlacement}s for this {SubEvent}.
   has_many :sub_placements, -> { order :rank }
   has_many :rounds, -> { distinct }, through: :sub_rounds
   has_one :section, through: :dance
@@ -23,7 +26,7 @@ class SubEvent < ActiveRecord::Base
   end
 
   # Computes the placements of the couples and stores the results in the
-  # {#placements} association.
+  # {#sub_placements} association.
   #
   # @return [Array<SubPlacement>] the computed {Placement} objects.
   def compute_sub_placements

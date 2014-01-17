@@ -19,7 +19,7 @@ end
 # {SubRound} off of the {Round} given.
 #
 # @param [String] header a single letter indicating the dance.
-# @param [Round] event parent {Round} object.
+# @param [Round] round parent {Round} object.
 # @return [SubEvent] a {SubEvent}
 def find_or_create_sub_event(header, round)
   dance = case header
@@ -41,8 +41,9 @@ def expect_model_class(model, klass)
   raise UnexpectedModelClass, "Expected a '#{klass}' object, but got '#{model.class}'" unless model.class == klass
 end
 
-# Converts an array of {Placement} models to a 2D string array compatible with
-# {Cucumber::Ast::Table#diff!}.
+# Converts an array of {Placement} models to a 2D string array to compare to a
+# table from a Cucumber step.
+#
 #
 # @param [Array<Placement>] placements array of placements to convert.
 # @return [Array<Array<String>>] 2D array of strings representing a table.

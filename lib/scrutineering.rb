@@ -59,7 +59,7 @@ module Scrutineering
   #
   # @param [Integer] id {Couple} id to find.
   # @param [Array<Array<Integer, Finalist>>] single_result array of `[place,
-  #   finalist]` arrays, as returned from {#compute_all_places}.
+  #   finalist]` arrays, as returned from {::compute_all_places}.
   # @return [Array<Integer, Finalist>] the placement of the {Finalist} with the
   #   given `id` as an array `[place, finalist]`.
   def self.find_in_single_dance(id, single_result)
@@ -86,7 +86,7 @@ module Scrutineering
   # Combines all of the single-dance results into {LinkedFinalist} structures.
   #
   # @param [Array<Array<Array<Integer, Finalist>>>] single_results array of
-  # results returned by {#place_one_dance}
+  # results returned by {::place_one_dance}
   # @return [Array<LinkedFinalist>] array of {LinkedFinalist}s.
   def self.single_results_to_linked_finalists(single_results)
     num_finalists = single_results.first.length
@@ -157,7 +157,7 @@ module Scrutineering
   end
 
   # Determines the `place`th {LinkedFinalist}, starting with rule 9 of the
-  # skating system. If this rule produces a tie, it calls {#rule_10} to settle
+  # skating system. If this rule produces a tie, it calls {::rule_10} to settle
   # it.
   #
   # @param [Array<LinkedFinalist>] linked_finalists {LinkedFinalist}s to place.
@@ -175,7 +175,7 @@ module Scrutineering
   end
 
   # Determines the `place`th {LinkedFinalist}, starting with rule 10 of the
-  # skating system. If this rule produces a tie, it calls {#rule_11} to break
+  # skating system. If this rule produces a tie, it calls {::rule_11} to break
   # it.
   #
   # @param [Array<LinkedFinalist>] contenders the {LinkedFinalist}s which have
