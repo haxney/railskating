@@ -75,7 +75,9 @@ module ResultsScrapers::ZSConcepts
 
     if linked_event
       round = {}
-      doc.css('table h4+table').each do |table|
+      doc.css('table h4+table').select do |t|
+        t.previous.content != 'Final'
+      end.each do |table|
         round = scrape_final_round(table,
                                    round,
                                    table.previous.content,
@@ -89,8 +91,6 @@ module ResultsScrapers::ZSConcepts
                                            event[:dances].first,
                                            false)
     end
-
-
 
     event
   end
@@ -165,8 +165,20 @@ module ResultsScrapers::ZSConcepts
     round[:judges] = judges
     round[:dances] ||= []
     round[:dances] << dance
-    round[:couples] = scrape_couples(rows, [dance], judges)
+    couples_tmp = scrape_couples(rows, [dance], judges)
+    round[:couples] ||= couples_tmp
+    merge_couples!(round[:couples], couples_tmp)
     round
+  end
+
+  # Merge two couples arrays together by combining the `:dances` element of each
+  # of the couples.
+  #
+  # @param [Array<Hash>] h1 First array to merge. The hashes within this array
+  #   are modified.
+  # @param [Array<Hash>] h2 Second array to merge. This array is not modified.
+  def self.merge_couples!(h1, h2)
+    h1.each_index { |i| h1[i][:dances].merge!(h2[i][:dances]) }
   end
 
   # Scrape the contents of a round table, either preliminary or final.
