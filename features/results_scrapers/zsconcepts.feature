@@ -58,6 +58,40 @@ Feature: Scraping from dance.zsconcepts.com
       |    365 | X | X |   | X | X |
       |    503 |   |   |   |   |   |
 
+      And round 3 should have the following couples:
+      | number | lead name           | lead team           | follow name       | follow team         | no name |
+      |    112 | Dilip Thekkoodan    | MIT                 | Amy Fan           | MIT                 |         |
+      |    162 |                     |                     |                   |                     | true    |
+      |    165 | Ross Finman         | MIT                 | Ji Shiyan         | MIT                 |         |
+      |    213 | Daniel Pham         | Yale                | Miranda Kephart   | Yale                |         |
+      |    223 | Derek Mullen        | Unaffiliated        | Katrina Gocan     | Unaffiliated        |         |
+      |    286 | Basil Siddiqui      | Harvard University  | Connie Liu        | MIT                 |         |
+      |    345 | Roel Mercado        | Columbia University | Christina LaGamma | Columbia University |         |
+      |    365 | Doron Shiffer-Sebba | Brown University    | Huyen Phan        | Brown University    |         |
+
+    And round 3 should have the following marks in the dance "Waltz":
+      | number | A | B | E | F | G | I | J |
+      |    112 | 1 | 2 | 1 | 2 | 1 | 3 | 1 |
+      |    162 | 5 | 4 | 7 | 6 | 6 | 5 | 6 |
+      |    165 | 4 | 1 | 8 | 3 | 5 | 6 | 3 |
+      |    213 | 6 | 7 | 4 | 4 | 8 | 7 | 4 |
+      |    223 | 3 | 3 | 6 | 5 | 2 | 2 | 5 |
+      |    286 | 2 | 5 | 2 | 1 | 3 | 1 | 2 |
+      |    345 | 7 | 8 | 3 | 8 | 4 | 8 | 8 |
+      |    365 | 8 | 6 | 5 | 7 | 7 | 4 | 7 |
+
+    And round 3 should have the following marks in the dance "Quickstep":
+      | number | A | B | E | F | G | I | J |
+      |    112 | 1 | 2 | 1 | 1 | 1 | 1 | 1 |
+      |    162 | 5 | 6 | 5 | 2 | 6 | 7 | 6 |
+      |    165 | 2 | 1 | 3 | 6 | 5 | 5 | 4 |
+      |    213 | 4 | 5 | 4 | 5 | 7 | 8 | 3 |
+      |    223 | 7 | 3 | 7 | 4 | 3 | 3 | 7 |
+      |    286 | 3 | 4 | 2 | 3 | 2 | 2 | 2 |
+      |    345 | 6 | 8 | 6 | 8 | 4 | 4 | 5 |
+      |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
+
+
   @single
   Scenario: Brown Comp 2013 event 5
     Given I parse the file "features/results_scrapers/event5.html" with "ZSConcepts"
