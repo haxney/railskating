@@ -1,7 +1,6 @@
 require 'results_scrapers/zsconcepts'
 require 'results_scrapers/importer'
 
-
 # Parse `file` using `ResultsScrapers::<mod>.scrape_event`.
 Given(/^I parse the file "(.+)" with "(.+)"$/) do |file, mod|
   scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)

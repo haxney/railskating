@@ -10,7 +10,7 @@ Feature: Importing scraped ZSConcepts data
     Then there should be 4 imported rounds
     And the imported level should be Bronze
     And the imported dances should be:
-      | Swing |
+      | American Swing |
 
     And imported round 1 should have the following judges:
       | B |
