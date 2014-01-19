@@ -1,6 +1,6 @@
 @scraping @zsconcepts
 Feature: Scraping from dance.zsconcepts.com
-  In order to pull results from dance.zsconcepts
+  In order to pull results from dance.zsconcepts.com
   The events page
   Should be parsed into a structure
 
