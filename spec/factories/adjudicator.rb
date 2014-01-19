@@ -2,6 +2,8 @@ FactoryGirl.define do
   factory :adjudicator do
     user
     competition
-    sequence(:shorthand) { |n| ('A'..'Z').to_a[n] }
+    # First argument passed in is 1, so we need to start one code point before
+    # 'A', which is '@'.
+    sequence(:shorthand) { |n| ('@'..'Z').to_a[n] }
   end
 end
