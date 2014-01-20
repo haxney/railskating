@@ -85,6 +85,7 @@ module ResultsScrapers::Importer
                                         follow: follow,
                                         event: event,
                                         number: couple_hash[:number])
+      round.couples << couple # Hopefully Rails takes care not to double-insert couples
 
       couple_hash[:dances].each do |d, marks|
         sub_round = sr_hash[d]

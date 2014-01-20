@@ -91,7 +91,6 @@ Feature: Scraping from dance.zsconcepts.com
       |    345 | 6 | 8 | 6 | 8 | 4 | 4 | 5 |
       |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
 
-
   @single
   Scenario: Brown Comp 2013 event 5
     Given I parse the file "features/results_scrapers/event5.html" with "ZSConcepts"

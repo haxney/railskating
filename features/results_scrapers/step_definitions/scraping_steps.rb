@@ -14,8 +14,13 @@ Given(/^I import the file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, 
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
 end
 
-Then(/^the event should be number ([0-9]+)$/) do |num|
-  expect(@event[:number]).to eq(num.to_i)
+Then(/^the( imported)? event should be number ([0-9]+)$/) do |imported, num|
+  src = if imported
+          @imported_event.number
+        else
+          @event[:number]
+        end
+  expect(src).to eq(num.to_i)
 end
 
 Then(/^there should be ([0-9]+) (imported )?rounds$/) do |num, imported|
@@ -117,7 +122,7 @@ Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "
       res = {"number" => c.number }
       judge_hash.each do |short, judge|
         mark = Mark.find_by(adjudicator: judge,
-                            sub_round: sub_round,
+                            sub_round_id: sub_round.id,
                             couple: c)
         res[short] = if mark
                        (mark.placement == 0) ? 'X' : mark.placement.to_s
