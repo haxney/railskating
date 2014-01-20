@@ -3,7 +3,7 @@ class Round < ActiveRecord::Base
   has_many :sub_rounds
 
   # Couples entering the round
-  has_and_belongs_to_many :couples, -> { uniq }
+  has_and_belongs_to_many :couples, -> { uniq.order('number ASC') }
 
   # The judges scoring the round.
   has_and_belongs_to_many :adjudicators, -> { uniq.order('shorthand ASC') }
