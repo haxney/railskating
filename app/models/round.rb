@@ -21,7 +21,7 @@ class Round < ActiveRecord::Base
                  ) AS num_couples
             FROM couple_round_tallies AS t1
             WHERE t1.round_id = #{self.id}
-            GROUP BY t1.num_marks
+            GROUP BY t1.num_marks, t1.round_id
             ORDER BY t1.num_marks DESC;
       SQL
   }
@@ -32,6 +32,8 @@ class Round < ActiveRecord::Base
   # meaningful for preliminary rounds
   def recalled_couples
     raise RoundFinalnessError, "cannot recall couples from final round" if self.final?
+
+    return @recalled if @recalled
 
     num_marks =
       if self.cutoff
@@ -48,7 +50,7 @@ class Round < ActiveRecord::Base
     c_ids = self.couple_tallies
       .where(['num_marks >= ?', num_marks])
       .map { |ct| ct.couple_id }
-    Couple.find(c_ids)
+    @recalled = Couple.find(c_ids)
   end
 
   # Determines what number of marks could be used as cutoffs to get closest to
