@@ -21,4 +21,13 @@ class Couple < ActiveRecord::Base
         .reduce(0) { |acc, m| acc + m.placement } }
     Scrutineering::Finalist.new(self.id, cum_marks, cum_sums)
   end
+
+  # Determines whether this {Couple} was recalled from the given {Round}.
+  #
+  # @param [Round] round The {Round} to examine.
+  #
+  # @return [Boolean] `true` if this {Couple} was recalled from `round`.
+  def recalled_from?(round)
+    round.recalled_couples.include?(self)
+  end
 end
