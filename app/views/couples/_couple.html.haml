@@ -1,0 +1,12 @@
+%tr[couple]
+  %td.couple_number= couple.number
+  %td.couple_lead
+    %span.lead_name= couple.lead.name
+    %span.lead_team= '(' + couple.lead.team.name + ')'
+  %td.couple_follow
+    %span.follow_name= couple.follow.name
+    %span.follow_team= '(' + couple.follow.team.name + ')'
+
+  - sub_rounds.each do |sr|
+    - judges.each do |j|
+      %td{class: cell_classes(sr, j)}= format_cell(couple, sr, j)

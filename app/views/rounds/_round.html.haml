@@ -1,0 +1,12 @@
+%div[round, :wrapper]
+  %h3.round_title= "Round #{@round.number}"
+  %table
+    %tr
+      %th Number
+      %th Leader
+      %th Follower
+      - @round.sub_rounds.each do |sr|
+        %th{colspan: @round.adjudicators.length}[sr.sub_event.dance]<
+          = sr.sub_event.dance.name
+    = render @round.couples, judges: @round.adjudicators,
+      sub_rounds: @round.sub_rounds
