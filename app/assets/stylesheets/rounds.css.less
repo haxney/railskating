@@ -1,0 +1,11 @@
+@zebra-stripe-color: #f0f0f0;
+
+/*
+ * Border lines and zebra striping.
+ */
+table.results_round, th, td {
+  border: 1px solid black;
+  tr:nth-child(2n+1) {
+    background-color: @zebra-stripe-color;
+  }
+}
