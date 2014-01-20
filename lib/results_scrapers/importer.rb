@@ -10,26 +10,28 @@ module ResultsScrapers::Importer
   # @return [Event] A newly-created {Event} filled in with information from
   #   `hash`.
   def self.import_event(hash, comp)
-    level = hash[:level].parameterize.underscore.upcase.to_sym
-    event = comp.events.create(level: Constants::Levels.const_get(level),
-                               number: hash[:number])
-    se_hash = {}
-    hash[:dances].each_index do |i|
-      dance = hash[:dances][i]
-      dance_model = Dance.find_by!(name: hash[:section] + ' ' + dance)
-      sub_event = event.sub_events.create(dance: dance_model,
-                                          order: i)
-      se_hash[dance] = sub_event
-    end
+    comp.transaction do
+      level = hash[:level].parameterize.underscore.upcase.to_sym
+      event = comp.events.create(level: Constants::Levels.const_get(level),
+                                 number: hash[:number])
+      se_hash = {}
+      hash[:dances].each_index do |i|
+        dance = hash[:dances][i]
+        dance_model = Dance.find_by!(name: hash[:section] + ' ' + dance)
+        sub_event = event.sub_events.create(dance: dance_model,
+                                            order: i)
+        se_hash[dance] = sub_event
+      end
 
-    judge_hash = {}
-    comp.adjudicators.each do |a|
-      judge_hash[a.shorthand] = a
-    end
+      judge_hash = {}
+      comp.adjudicators.each do |a|
+        judge_hash[a.shorthand] = a
+      end
 
-    hash[:rounds].each { |r| import_round(r, event, se_hash, judge_hash) }
-    event.save!
-    event
+      hash[:rounds].each { |r| import_round(r, event, se_hash, judge_hash) }
+      event.save!
+      event
+    end
   end
 
   # Imports a single round into the database.
