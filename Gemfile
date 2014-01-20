@@ -34,4 +34,5 @@ group :test, :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'yard-cucumber'
+  gem 'quiet_assets'
 end
