@@ -8,6 +8,5 @@
         %th.follow_header Follower
         - round.sub_rounds.each do |sr|
           %th{colspan: round.adjudicators.length}[sr.sub_event.dance, :header]<
-            = sr.sub_event.dance.name
-      = render round.couples, judges: round.adjudicators,
-        sub_rounds: round.sub_rounds
+            = sr.sub_event.dance.base_name
+      = render round.couples, round: round

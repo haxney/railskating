@@ -7,6 +7,12 @@
     %span.follow_name= couple.follow.name
     %span.follow_team= '(' + couple.follow.team.name + ')'
 
-  - sub_rounds.each do |sr|
-    - judges.each do |j|
-      %td{class: cell_classes(sr, j)}= format_cell(couple, sr, j)
+  - round.sub_rounds.each do |sr|
+    - round.adjudicators.each do |j|
+      %td{class: mark_cell_classes(sr, j)}= format_cell(couple, sr, j)
+
+-#
+  - unless round.final?
+    %td{ class: result_cell_classes(round)}<
+    - if couple.recalled_from?(round)
+      %span.glyphicon.glyphicon-glass
