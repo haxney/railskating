@@ -227,4 +227,5 @@ DEPENDENCIES
   sqlite3
   turbolinks
   uglifier
+  yard
   yard-cucumber
