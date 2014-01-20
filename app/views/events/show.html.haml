@@ -1,5 +1,5 @@
 .page-header
   %h1= build_title(@event)
 
-%div[@vent]
+%div[@event, :result]
   = render @event.rounds
