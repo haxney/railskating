@@ -3,7 +3,7 @@ class Round < ActiveRecord::Base
   has_many :sub_rounds
 
   # Couples entering the round
-  has_and_belongs_to_many :couples, -> { uniq }
+  has_and_belongs_to_many :couples, -> { uniq.order('number ASC') }
 
   # The judges scoring the round.
   has_and_belongs_to_many :adjudicators, -> { uniq.order('shorthand ASC') }
@@ -21,10 +21,15 @@ class Round < ActiveRecord::Base
                  ) AS num_couples
             FROM couple_round_tallies AS t1
             WHERE t1.round_id = #{self.id}
-            GROUP BY t1.num_marks
+            GROUP BY t1.num_marks, t1.round_id
             ORDER BY t1.num_marks DESC;
       SQL
   }
+
+  # This is a bit aggressive, since it might clear the cache when unrelated
+  # attributes are saved, but seeing as how {Round}s are not modified frequently
+  # (or at all), this shouldn't matter.
+  after_update :clear_recalled
 
   # Returns the couples to be recalled to the next round, if possible.
   #
@@ -32,6 +37,7 @@ class Round < ActiveRecord::Base
   # meaningful for preliminary rounds
   def recalled_couples
     raise RoundFinalnessError, "cannot recall couples from final round" if self.final?
+    return @recalled if @recalled
 
     num_marks =
       if self.cutoff
@@ -48,7 +54,7 @@ class Round < ActiveRecord::Base
     c_ids = self.couple_tallies
       .where(['num_marks >= ?', num_marks])
       .map { |ct| ct.couple_id }
-    Couple.find(c_ids)
+    @recalled = Couple.find(c_ids)
   end
 
   # Determines what number of marks could be used as cutoffs to get closest to
@@ -75,5 +81,11 @@ class Round < ActiveRecord::Base
     else
       false
     end
+  end
+
+  protected
+  # Cleare the `@recalled` cache object.
+  def clear_recalled
+    @recalled = nil
   end
 end

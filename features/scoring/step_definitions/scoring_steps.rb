@@ -143,7 +143,7 @@ end
 #
 # The table must be sorted.
 Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?:$/) do |cutoff, table|
-  @round.cutoff = cutoff.to_i if cutoff
+  @round.update(cutoff: cutoff.to_i) if cutoff
 
   couple_numbers = @round.recalled_couples.map(&:number).sort
   table.diff!([['couple']] + couple_numbers.map { |num| [num.to_s] } )

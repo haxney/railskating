@@ -10,7 +10,7 @@ end
 Given(/^I import the file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, mod, num_judges|
   step %Q{I parse the file "#{file}" with "#{mod}"}
   comp = FactoryGirl.create(:competition)
-  (1..num_judges.to_i).each { |i| FactoryGirl.create(:adjudicator, competition: comp) }
+  FactoryGirl.create_list(:adjudicator, num_judges.to_i, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
 end
 
