@@ -6,7 +6,7 @@ Feature: Importing scraped ZSConcepts data
 
   @single
   Scenario: Brown Comp 2013 event 5
-    Given I import the file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
+    Given I import the event file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
     Then there should be 4 imported rounds
     And the imported level should be Bronze
     And the imported dances should be:
@@ -92,7 +92,7 @@ Feature: Importing scraped ZSConcepts data
 
   @multi
   Scenario: Brown Comp 2013 event 13
-    Given I import the file "features/results_scrapers/event13.html" with "ZSConcepts" using 10 judges
+    Given I import the event file "features/results_scrapers/event13.html" with "ZSConcepts" using 10 judges
     Then the imported event should be number 13
     And there should be 3 rounds
     And the imported level should be Silver

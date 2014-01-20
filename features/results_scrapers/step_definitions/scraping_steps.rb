@@ -1,13 +1,17 @@
 require 'results_scrapers'
 
 # Parse `file` using `ResultsScrapers::<mod>.scrape_event`.
-Given(/^I parse the file "(.+)" with "(.+)"$/) do |file, mod|
+Given(/^I parse the event file "(.+)" with "(.+)"$/) do |file, mod|
   scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
   @event = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
-Given(/^I import the file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, mod, num_judges|
-  step %Q{I parse the file "#{file}" with "#{mod}"}
+Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
+  pending
+end
+
+Given(/^I import the event file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, mod, num_judges|
+  step %Q{I parse the event file "#{file}" with "#{mod}"}
   comp = FactoryGirl.create(:competition)
   FactoryGirl.create_list(:adjudicator, num_judges.to_i, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
@@ -147,5 +151,12 @@ Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "
     end
     table.diff!(actual)
   end
+end
 
+Then(/^the competition should have the following adjudicators:$/) do |table|
+  pending
+end
+
+Then(/^the competition should have the following events:$/) do |table|
+  pending
 end

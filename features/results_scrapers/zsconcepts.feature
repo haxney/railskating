@@ -6,7 +6,7 @@ Feature: Scraping from dance.zsconcepts.com
 
   @multi
   Scenario: Brown Comp 2013 event 13
-    Given I parse the file "features/results_scrapers/event13.html" with "ZSConcepts"
+    Given I parse the event file "features/results_scrapers/event13.html" with "ZSConcepts"
     Then the event should be number 13
     And there should be 3 rounds
     And the level should be Silver
@@ -93,7 +93,7 @@ Feature: Scraping from dance.zsconcepts.com
 
   @single
   Scenario: Brown Comp 2013 event 5
-    Given I parse the file "features/results_scrapers/event5.html" with "ZSConcepts"
+    Given I parse the event file "features/results_scrapers/event5.html" with "ZSConcepts"
     Then the event should be number 5
     And there should be 4 rounds
     And the level should be Bronze
@@ -178,3 +178,55 @@ Feature: Scraping from dance.zsconcepts.com
       |    319 | 2 | 8 | 6 | 4 | 5 | 5 | 8 |
       |    335 | 1 | 2 | 2 | 7 | 2 | 3 | 6 |
       |    370 | 5 | 1 | 3 | 6 | 8 | 7 | 4 |
+
+  @comp
+  Scenario: Brown Comp 2013
+    Given I parse the competition file "features/results_scrapers/comp.html" with "ZSConcepts"
+    Then the competition should have the following adjudicators:
+      | shorthand | first name | last name  |
+      | A         | Istvan     | Cserven    |
+      | B         | Christine  | Harvey     |
+      | C         | Ruta       | Loukhnikov |
+      | D         | Helle      | Rusholt-Yi |
+      | E         | Kalin      | Mitov      |
+      | F         | Gail       | Rundlett   |
+      | G         | Mark       | Sheldon    |
+      | H         | Kathy      | St. Jean   |
+      | I         | Michael    | ulbrich    |
+      | J         | Peter      | Walker     |
+
+    And the competition should have the following events:
+      | number | file name    |
+      |      1 | event1.html  |
+      |      2 | event2.html  |
+      |      3 | event3.html  |
+      |      4 | event4.html  |
+      |      5 | event5.html  |
+      |      6 | event6.html  |
+      |      7 | event7.html  |
+      |      8 | event8.html  |
+      |      9 | event9.html  |
+      |     10 | event10.html |
+      |     11 | event11.html |
+      |     12 | event12.html |
+      |     13 | event13.html |
+      |     14 | event14.html |
+      |     15 | event15.html |
+      |     16 | event16.html |
+      |     17 | event17.html |
+      |     18 | event18.html |
+      |     19 | event19.html |
+      |     20 | event20.html |
+      |     21 | event21.html |
+      |     22 | event22.html |
+      |     23 | event23.html |
+      |     24 | event24.html |
+      |     25 | event25.html |
+      |     26 | event26.html |
+      |     27 | event27.html |
+      |     28 | event28.html |
+      |     29 | event29.html |
+      |     30 | event30.html |
+      |     31 | event31.html |
+      |     32 | event32.html |
+      |     33 | event33.html |
