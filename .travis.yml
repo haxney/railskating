@@ -5,3 +5,5 @@ script:
   - RAILS_ENV=test bundle exec rake --trace db:setup cucumber
 before_script:
   - psql -c 'create database railskating_test;' -U postgres
+notifications:
+  email: false
