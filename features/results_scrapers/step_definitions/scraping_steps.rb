@@ -76,7 +76,6 @@ end
 Then(/^(imported )?round ([0-9]+) should have the following couples:$/) do |imported, round, table|
   idx = round.to_i - 1
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
-  table.map_column!('number', &:to_i)
   couples =
     if imported
       @imported_event.rounds[idx].couples.map do |c|
@@ -114,7 +113,6 @@ end
 #     |    153 |   |   | X | X |   |
 #     |    162 |   | X |   |   | X |
 Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "(.+)":$/) do |imported, round, dance, table|
-  table.map_column!('number', &:to_i)
   idx = round.to_i - 1
   if imported
     round = @imported_event.rounds[idx]
@@ -159,4 +157,9 @@ end
 
 Then(/^the competition should have the following events:$/) do |table|
   pending
+end
+
+Transform(/^table:number/) do |table|
+  table.map_column!(:number) {|num| num.to_i }
+  table
 end
