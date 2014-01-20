@@ -12,9 +12,9 @@ module CouplesHelper
   #   {Round} was final, or and empty string, if the adjudicator did not mark
   #   the couple.
   def format_cell(couple, sub_round, adjudicator)
-    mark = couple.marks.detect do |m|
-      m.sub_round_id == sub_round.id and m.adjudicator_id == adjudicator.id
-    end
+    mark = Mark.find_by(adjudicator: adjudicator,
+                        sub_round_id: sub_round.id,
+                        couple: couple)
     if mark
       (mark.placement == 0) ? 'X' : mark.placement.to_s
     else

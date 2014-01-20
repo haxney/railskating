@@ -15,8 +15,7 @@ class RoundsController < ApplicationController
   def show
     r = Round.find(params[:id])
     @round = Round.includes(:adjudicators, { sub_rounds: :dance},
-                            {couples: [:marks, :lead, :follow]})
-      .where('marks.sub_round_id' => r.sub_round_ids).find(params[:id])
+                            {couples: [:lead, :follow]}).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
