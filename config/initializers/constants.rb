@@ -8,6 +8,7 @@
 module Constants
   module Sections
     @@model_class = Section
+    @@collection_sym = :SECTIONS
     @@ids = { STANDARD: 1, LATIN: 2, SMOOTH: 3, RHYTHM: 4 }
 
     # Create `<name>_ID` constants for each element of @@ids.
@@ -17,7 +18,7 @@ module Constants
     # constant.
     def self.const_missing(sym)
       case
-      when sym == :SECTIONS
+      when sym == @@collection_sym
         const_set(sym, @@model_class.all)
       when @@ids.has_key?(sym)
         const_set(sym, @@model_class.find(@@ids[sym]))
@@ -29,6 +30,7 @@ module Constants
 
   module Dances
     @@model_class = Dance
+    @@collection_sym = :DANCES
 
     @@ids = {
       INTERNATIONAL_WALTZ: 1,
@@ -59,7 +61,7 @@ module Constants
     # constant.
     def self.const_missing(sym)
       case
-      when sym == :DANCES
+      when sym == @@collection_sym
         const_set(sym, @@model_class.all)
       when @@ids.has_key?(sym)
         const_set(sym, @@model_class.find(@@ids[sym]))
@@ -71,6 +73,7 @@ module Constants
 
   module Levels
     @@model_class = Level
+    @@collection_sym = :LEVELS
 
     @@ids = {
       NEWCOMER: 1,
@@ -89,7 +92,56 @@ module Constants
     # constant.
     def self.const_missing(sym)
       case
-      when sym == :LEVELS
+      when sym == @@collection_sym
+        const_set(sym, @@model_class.all)
+      when @@ids.has_key?(sym)
+        const_set(sym, @@model_class.find(@@ids[sym]))
+      else
+        super(sym)
+      end
+    end
+  end
+
+  module Teams
+    @@model_class = Team
+    @@collection_sym = :TEAMS
+
+    @@ids = {
+      UNKNOWN: 1
+    }
+    # Create `<name>_ID` constants for each element of @@ids.
+    @@ids.each { |k, v| const_set("#{k}_ID", v) } unless const_defined?("#{@@ids.keys.first}_ID")
+
+    # If the constant is undefined, pull the model from the database and set the
+    # constant.
+    def self.const_missing(sym)
+      case
+      when sym == @@collection_sym
+        const_set(sym, @@model_class.all)
+      when @@ids.has_key?(sym)
+        const_set(sym, @@model_class.find(@@ids[sym]))
+      else
+        super(sym)
+      end
+    end
+  end
+
+  module Users
+    @@model_class = User
+    @@collection_sym = :USERS
+
+    @@ids = {
+      UNKNOWN_LEAD: 1,
+      UNKNOWN_FOLLOW: 2
+    }
+    # Create `<name>_ID` constants for each element of @@ids.
+    @@ids.each { |k, v| const_set("#{k}_ID", v) } unless const_defined?("#{@@ids.keys.first}_ID")
+
+    # If the constant is undefined, pull the model from the database and set the
+    # constant.
+    def self.const_missing(sym)
+      case
+      when sym == @@collection_sym
         const_set(sym, @@model_class.all)
       when @@ids.has_key?(sym)
         const_set(sym, @@model_class.find(@@ids[sym]))

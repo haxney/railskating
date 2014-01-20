@@ -1,8 +1,5 @@
 require 'net/http'
-
-module ResultsScrapers
-  class ScrapeError < StandardError; end
-end
+require 'results_scrapers'
 
 module ResultsScrapers::ZSConcepts
   # Base URI of all ZSConcepts results pages

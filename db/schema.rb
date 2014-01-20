@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140117045429) do
+ActiveRecord::Schema.define(version: 20140119191005) do
 
   create_table "teams", force: true do |t|
     t.string   "name"
@@ -71,6 +71,28 @@ ActiveRecord::Schema.define(version: 20140117045429) do
     t.foreign_key ["level_id"], "levels", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_events_level_id"
   end
 
+  create_table "rounds", force: true do |t|
+    t.integer  "event_id"
+    t.integer  "number"
+    t.boolean  "final"
+    t.integer  "requested"
+    t.integer  "cutoff"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["event_id"], :name => "fk__rounds_event_id"
+    t.foreign_key ["event_id"], "events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_rounds_event_id"
+  end
+
+  create_table "adjudicators_rounds", id: false, force: true do |t|
+    t.integer "adjudicator_id", null: false
+    t.integer "round_id",       null: false
+    t.index ["adjudicator_id", "round_id"], :name => "index_adjudicators_rounds_on_adjudicator_id_and_round_id", :unique => true
+    t.index ["adjudicator_id"], :name => "fk__adjudicators_rounds_adjudicator_id"
+    t.index ["round_id"], :name => "fk__adjudicators_rounds_round_id"
+    t.foreign_key ["adjudicator_id"], "adjudicators", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_adjudicators_rounds_adjudicator_id"
+    t.foreign_key ["round_id"], "rounds", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_adjudicators_rounds_round_id"
+  end
+
   create_table "couples", force: true do |t|
     t.integer  "lead_id"
     t.integer  "follow_id"
@@ -84,18 +106,6 @@ ActiveRecord::Schema.define(version: 20140117045429) do
     t.foreign_key ["event_id"], "events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_couples_event_id"
     t.foreign_key ["follow_id"], "follows", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_couples_follow_id"
     t.foreign_key ["lead_id"], "leads", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_couples_lead_id"
-  end
-
-  create_table "rounds", force: true do |t|
-    t.integer  "event_id"
-    t.integer  "number"
-    t.boolean  "final"
-    t.integer  "requested"
-    t.integer  "cutoff"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["event_id"], :name => "fk__rounds_event_id"
-    t.foreign_key ["event_id"], "events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_rounds_event_id"
   end
 
   create_table "sections", force: true do |t|
@@ -130,9 +140,7 @@ ActiveRecord::Schema.define(version: 20140117045429) do
     t.integer  "sub_event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["round_id"], :name => "fk__sub_rounds_round_id"
     t.index ["round_id"], :name => "index_sub_rounds_on_round_id"
-    t.index ["sub_event_id"], :name => "fk__sub_rounds_sub_event_id"
     t.index ["sub_event_id"], :name => "index_sub_rounds_on_sub_event_id"
     t.foreign_key ["round_id"], "rounds", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_sub_rounds_round_id"
     t.foreign_key ["sub_event_id"], "sub_events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_sub_rounds_sub_event_id"
@@ -145,12 +153,8 @@ ActiveRecord::Schema.define(version: 20140117045429) do
     t.integer  "placement"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["adjudicator_id"], :name => "fk__marks_adjudicator_id"
     t.index ["adjudicator_id"], :name => "k__marks_adjudicator_id"
-    t.index ["couple_id"], :name => "fk__marks_couple_id"
     t.index ["couple_id"], :name => "k__marks_couple_id"
-    t.index ["sub_round_id"], :name => "fk__marks_round_id"
-    t.index ["sub_round_id"], :name => "fk__marks_sub_round_id"
     t.index ["sub_round_id"], :name => "k__marks_sub_round_id"
     t.foreign_key ["adjudicator_id"], "adjudicators", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_marks_adjudicator_id"
     t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_marks_couple_id"
@@ -175,9 +179,7 @@ ActiveRecord::Schema.define(version: 20140117045429) do
     t.integer  "rule"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["couple_id"], :name => "fk__placements_couple_id"
     t.index ["couple_id"], :name => "index_placements_on_couple_id"
-    t.index ["event_id"], :name => "fk__placements_event_id"
     t.index ["event_id"], :name => "index_placements_on_event_id"
     t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_placements_couple_id"
     t.foreign_key ["event_id"], "events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_placements_event_id"
@@ -189,9 +191,7 @@ ActiveRecord::Schema.define(version: 20140117045429) do
     t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["couple_id"], :name => "fk__sub_placements_couple_id"
     t.index ["couple_id"], :name => "index_sub_placements_on_couple_id"
-    t.index ["sub_event_id"], :name => "fk__sub_placements_sub_event_id"
     t.index ["sub_event_id"], :name => "index_sub_placements_on_sub_event_id"
     t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_sub_placements_couple_id"
     t.foreign_key ["sub_event_id"], "sub_events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_sub_placements_sub_event_id"

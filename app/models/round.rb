@@ -5,6 +5,9 @@ class Round < ActiveRecord::Base
   # Couples entering the round
   has_and_belongs_to_many :couples, -> { uniq }
 
+  # The judges scoring the round.
+  has_and_belongs_to_many :adjudicators, -> { uniq.order('shorthand ASC') }
+
   has_many :couple_tallies, class_name: 'CoupleRoundTally'
 
   has_many :prelim_results, class_name: 'CoupleRoundTally', finder_sql:
