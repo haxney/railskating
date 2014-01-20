@@ -185,17 +185,17 @@ Feature: Scraping from dance.zsconcepts.com
     Then the competition should be called "Brown Ballroom Competition"
     And the year should be 2013
     And the competition should have the following adjudicators:
-      | shorthand | first name | last name  |
-      | A         | Istvan     | Cserven    |
-      | B         | Christine  | Harvey     |
-      | C         | Ruta       | Loukhnikov |
-      | D         | Helle      | Rusholt-Yi |
-      | E         | Kalin      | Mitov      |
-      | F         | Gail       | Rundlett   |
-      | G         | Mark       | Sheldon    |
-      | H         | Kathy      | St. Jean   |
-      | I         | Michael    | ulbrich    |
-      | J         | Peter      | Walker     |
+      | shorthand | name             |
+      | A         | Istvan Cserven   |
+      | B         | Christine Harvey |
+      | C         | Ruta Loukhnikov  |
+      | D         | Helle Rusholt-Yi |
+      | E         | Kalin Mitov      |
+      | F         | Gail Rundlett    |
+      | G         | Mark Sheldon     |
+      | H         | Kathy St. Jean   |
+      | I         | Michael ulbrich  |
+      | J         | Peter Walker     |
 
     And the competition should have the following events:
       | number | file name    |

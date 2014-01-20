@@ -260,4 +260,49 @@ module ResultsScrapers::ZSConcepts
     end
     marks
   end
+
+  # Scrape a Nokogiri document parsed from a ZSConcepts competition overview
+  # page.
+  #
+  # @param [Nokogiri::HTML::Document] doc A document containing a parsed
+  #   ZSConcepts competition page.
+  #
+  # @return [Hash] A hash with the following keys:
+  #
+  #   - `:name` The name of the competition.
+  #   - `:year` The year of the competition, as an Integer
+  #   - `:judges` A hash returned from {scrape_judge}.
+  #   - `:events` A hash with the keys `:number` (the event number as an
+  #               Integer) and `:file_name` (the name of the file which contains
+  #               the event).
+  def self.scrape_comp(doc)
+    comp = {}
+
+    title =  doc.css('h1').first.content.strip.split
+    comp[:name] = title[0..title.length - 2].join(" ")
+    comp[:year] = title.last.to_i
+    judge_table = doc.css('table h2+table').first
+    comp[:judges] = judge_table.css('tr').map { |row| scrape_judge(row) }
+    comp[:events] = []
+
+    doc.css('ol li a').each_with_index do |link, i|
+      comp[:events] << { number: i + 1, file_name: link['href'] }
+    end
+    comp
+  end
+
+  # Scrapes a single judge from a row in the judges table.
+  #
+  # @param [Nokogiri::XML::Element] row A `<tr>` element from the judges table.
+  #
+  # @return [Hash] A hash with the keys:
+  #
+  #   - `:shorthand` The shorthand name of the judge.
+  #   - `:name` The name of the judge
+  def self.scrape_judge(row)
+    {
+      shorthand: row.children[0].content.strip,
+      name: row.children[1].content.strip
+    }
+  end
 end
