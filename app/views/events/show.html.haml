@@ -2,4 +2,5 @@
   %h1= build_title(@event)
 
 %div[@event, :result]
-  = render @event.rounds
+  - cache(@event) do
+    = render @event.rounds
