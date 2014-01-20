@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140119191005) do
+ActiveRecord::Schema.define(version: 20140120172916) do
 
   create_table "teams", force: true do |t|
     t.string   "name"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 20140119191005) do
     t.integer  "section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "base_name"
     t.index ["section_id"], :name => "fk__dances_section_id"
     t.foreign_key ["section_id"], "sections", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_dances_section_id"
   end
