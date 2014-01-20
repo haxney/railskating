@@ -22,11 +22,18 @@ module CouplesHelper
     end
   end
 
-  # Compute the classes to use for the cell.
+  # Compute the classes to use for a mark cell.
   #
   # @return [Array<String>] Array of strings in which the first element is the encoded
-  def cell_classes(sub_round, adjudicator)
-    ["sub_round_#{sub_round.dance.name.parameterize.underscore}",
+  def mark_cell_classes(sub_round, adjudicator)
+    ["mark_cell",
+     "sub_round_#{sub_round.dance.name.parameterize.underscore}",
      "adjudicator_#{adjudicator.shorthand}"]
+  end
+
+  # Compute the classes to use for a result cell.
+  def result_cell_classes(round)
+    ['result_cell',
+     "round_#{round.id}"]
   end
 end
