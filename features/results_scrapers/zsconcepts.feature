@@ -182,7 +182,9 @@ Feature: Scraping from dance.zsconcepts.com
   @comp
   Scenario: Brown Comp 2013
     Given I parse the competition file "features/results_scrapers/comp.html" with "ZSConcepts"
-    Then the competition should have the following adjudicators:
+    Then the competition should be called "Brown Ballroom Competition"
+    And the year should be 2013
+    And the competition should have the following adjudicators:
       | shorthand | first name | last name  |
       | A         | Istvan     | Cserven    |
       | B         | Christine  | Harvey     |

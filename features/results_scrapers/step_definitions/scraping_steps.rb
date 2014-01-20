@@ -7,7 +7,8 @@ Given(/^I parse the event file "(.+)" with "(.+)"$/) do |file, mod|
 end
 
 Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
-  pending
+  scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_comp)
+  @comp = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
 Given(/^I import the event file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, mod, num_judges|
@@ -151,12 +152,23 @@ Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "
   end
 end
 
+Then(/^the competition should be called "(.+)"$/) do |name|
+  expect(@comp[:name]).to eq(name)
+end
+
+Then(/^the year should be (\d+)$/) do |year|
+  expect(@comp[:year]).to eq(year)
+end
+
 Then(/^the competition should have the following adjudicators:$/) do |table|
-  pending
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+  table.diff!(@comp[:judges])
 end
 
 Then(/^the competition should have the following events:$/) do |table|
-  pending
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+
+  table.diff!(@comp[:events])
 end
 
 Transform(/^table:number/) do |table|
