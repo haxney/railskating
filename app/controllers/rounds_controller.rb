@@ -13,7 +13,6 @@ class RoundsController < ApplicationController
   # GET /rounds/1
   # GET /rounds/1.json
   def show
-    r = Round.find(params[:id])
     @round = Round.includes(:adjudicators, { sub_rounds: :dance},
                             {couples: [:lead, :follow]}).find(params[:id])
 

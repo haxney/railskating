@@ -13,7 +13,8 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find(params[:id])
+    @event = Event.includes(rounds: [:adjudicators, { sub_rounds: :dance},
+                              {couples: [:lead, :follow]}]).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
