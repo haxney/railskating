@@ -1,5 +1,4 @@
-require 'results_scrapers/zsconcepts'
-require 'results_scrapers/importer'
+require 'results_scrapers'
 
 # Parse `file` using `ResultsScrapers::<mod>.scrape_event`.
 Given(/^I parse the file "(.+)" with "(.+)"$/) do |file, mod|

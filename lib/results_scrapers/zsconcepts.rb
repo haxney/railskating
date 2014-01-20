@@ -1,5 +1,4 @@
 require 'net/http'
-require 'results_scrapers'
 
 module ResultsScrapers::ZSConcepts
   # Base URI of all ZSConcepts results pages

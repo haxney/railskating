@@ -1,5 +1,3 @@
-require 'results_scrapers'
-
 module ResultsScrapers::Importer
   # Imports an event hash into the database.
   #
