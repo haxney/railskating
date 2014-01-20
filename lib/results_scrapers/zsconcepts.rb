@@ -14,7 +14,7 @@ module ResultsScrapers::ZSConcepts
   #
   # Results pages have the form:
   #
-  #    http://www.dance.zsconcepts.com/results/<comp>/event<num>.html
+  #     http://www.dance.zsconcepts.com/results/<comp>/event<num>.html
   #
   # This function requests that page and scrapes the results
   #
@@ -35,17 +35,18 @@ module ResultsScrapers::ZSConcepts
 
   # Scrapes a Nokogiri document parsed from a ZSConcepts event results page.
   #
-  # @param [Nokogiri::HTML::Document] doc A document containing a parsed ZSConcepts
-  #   results page.
+  # @param [Nokogiri::HTML::Document] doc A document containing a parsed
+  #   ZSConcepts results page.
   #
   # @return [Hash] A hash with the following keys:
-  #   - `:number`: The number of the event.
-  #   - `:level`: The level of the event.
-  #   - `:section`: The section of the event.
-  #   - `:dances`: Array of the dances of the event, in the order they appear on
-  #                the page.
-  #   - `:rounds`: Array of "round hashes" as returned from
-  #                {scrape_prelim_round} and {scrape_final_round}.
+  #
+  #   - `:number` The number of the event.
+  #   - `:level` The level of the event.
+  #   - `:section` The section of the event.
+  #   - `:dances` Array of the dances of the event, in the order they appear on
+  #               the page.
+  #   - `:rounds` Array of "round hashes" as returned from
+  #               {scrape_prelim_round} and {scrape_final_round}.
   def self.scrape_event(doc)
     event = {}
 
@@ -94,12 +95,12 @@ module ResultsScrapers::ZSConcepts
   # Scrape the table of a preliminary round.
   #
   # @return [Hash] A hash with the keys:
-  #   - `:number`: The number of the round.
-  #   - `:final`: False, since this is a preliminary round.
-  #   - `:judges`: Array of (shorthand) judge names, in the order they appear on
-  #                the page.
-  #   - `:dances`: Array of dances, in the order they appear on the page.
-  #   - `:couples`: Array of "couple hashes" as returned by {scrape_couples}.
+  #   - `:number` The number of the round.
+  #   - `:final` False, since this is a preliminary round.
+  #   - `:judges` Array of (shorthand) judge names, in the order they appear on
+  #               the page.
+  #   - `:dances` Array of dances, in the order they appear on the page.
+  #   - `:couples` Array of "couple hashes" as returned by {scrape_couples}.
   def self.scrape_prelim_round(table)
     round = {}
     round[:number] = /Round ([0-9]+)/.match(table.previous.content)[1].to_i
@@ -132,15 +133,14 @@ module ResultsScrapers::ZSConcepts
   # @param [Hash] round Pre-built hash which will be extended to include the
   #   parsed information.
   # @param [String] dance The dance referenced by the table.
-  # @param [Boolean] final Whether this event is linked or not.
   #
   # @return [Hash] A hash with the keys:
-  #   - `:number`: The number of the round.
-  #   - `:final`: True, since this is a final round.
-  #   - `:judges`: Array of (shorthand) judge names, in the order they appear on
-  #                the page.
-  #   - `:dances`: Array of dances, in the order they appear on the page.
-  #   - `:couples`: Array of "couple hashes" as returned by {scrape_couples}.
+  #   - `:number` The number of the round.
+  #   - `:final` True, since this is a final round.
+  #   - `:judges` Array of (shorthand) judge names, in the order they appear on
+  #               the page.
+  #   - `:dances` Array of dances, in the order they appear on the page.
+  #   - `:couples` Array of "couple hashes" as returned by {scrape_couples}.
   def self.scrape_final_round(table, round, dance, linked)
     round[:final] = true
     number_elem = if linked
@@ -189,15 +189,15 @@ module ResultsScrapers::ZSConcepts
   # @return [Array<Hash>] Array of "couple hashes", each of which has the
   #   following keys:
   #
-  #   - `:number`: The number of the couple
-  #   - `:no_name`: No name information was available for the couple
-  #   - `:lead_name`: The name of the leader
-  #   - `:lead_team`: The team of the leader
-  #   - `:follow_name`: The name of the follower
-  #   - `:follow_team`: The team of the follower
-  #   - `:dances`: The value returned from {scrape_marks_row}
-  #   - `:recall_or_place`: Whether the couple was recalled, as a boolean or
-  #                         the placement of the couple, as an integer.
+  #   - `:number` The number of the couple
+  #   - `:no_name` No name information was available for the couple
+  #   - `:lead_name` The name of the leader
+  #   - `:lead_team` The team of the leader
+  #   - `:follow_name` The name of the follower
+  #   - `:follow_team` The team of the follower
+  #   - `:dances` The value returned from {scrape_marks_row}
+  #   - `:recall_or_place` Whether the couple was recalled, as a boolean or
+  #                        the placement of the couple, as an integer.
   def self.scrape_couples(rows, dances, judges)
     rows.map do |row|
       couple = {}
