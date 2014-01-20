@@ -26,13 +26,17 @@ class Round < ActiveRecord::Base
       SQL
   }
 
+  # This is a bit aggressive, since it might clear the cache when unrelated
+  # attributes are saved, but seeing as how {Round}s are not modified frequently
+  # (or at all), this shouldn't matter.
+  after_update :clear_recalled
+
   # Returns the couples to be recalled to the next round, if possible.
   #
   # If `self.requested` couples cannot be recalled, returns `false`. Is only
   # meaningful for preliminary rounds
   def recalled_couples
     raise RoundFinalnessError, "cannot recall couples from final round" if self.final?
-
     return @recalled if @recalled
 
     num_marks =
@@ -77,5 +81,11 @@ class Round < ActiveRecord::Base
     else
       false
     end
+  end
+
+  protected
+  # Cleare the `@recalled` cache object.
+  def clear_recalled
+    @recalled = nil
   end
 end
