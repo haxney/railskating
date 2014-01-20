@@ -11,25 +11,25 @@ Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
   @comp = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
-Given(/^I import the event file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, mod, num_judges|
+Given(/^I import the event file "(.+)" with "(.+)" using (\d+) judges$/) do |file, mod, num_judges|
   step %Q{I parse the event file "#{file}" with "#{mod}"}
   comp = FactoryGirl.create(:competition)
-  FactoryGirl.create_list(:adjudicator, num_judges.to_i, competition: comp)
+  FactoryGirl.create_list(:adjudicator, num_judges, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
 end
 
-Then(/^the( imported)? event should be number ([0-9]+)$/) do |imported, num|
+Then(/^the( imported)? event should be number (\d+)$/) do |imported, num|
   src = if imported
           @imported_event.number
         else
           @event[:number]
         end
-  expect(src).to eq(num.to_i)
+  expect(src).to eq(num)
 end
 
-Then(/^there should be ([0-9]+) (imported )?rounds$/) do |num, imported|
+Then(/^there should be (\d+) (imported )?rounds$/) do |num, imported|
   src = imported ? @imported_event.rounds : @event[:rounds]
-  expect(@event[:rounds].length).to eq(num.to_i)
+  expect(@event[:rounds].length).to eq(num)
 end
 
 Then(/^the( imported)? level should be (.+)$/) do |imported, level|
@@ -50,8 +50,8 @@ Then(/^the( imported)? dances should be:$/) do |imported, table|
   table.diff!(src.map { |d| [d] })
 end
 
-Then(/^(imported )?round ([0-9]+) should have the following judges:$/) do |imported, round, table|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should have the following judges:$/) do |imported, round, table|
+  idx = round - 1
   src = if imported
           @imported_event.rounds[idx].adjudicators.map(&:shorthand)
         else
@@ -60,8 +60,8 @@ Then(/^(imported )?round ([0-9]+) should have the following judges:$/) do |impor
   table.diff!(src.map { |j| [j] })
 end
 
-Then(/^(imported )?round ([0-9]+) should( not)? be final$/) do |imported, round, not_final|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should( not)? be final$/) do |imported, round, not_final|
+  idx = round - 1
   final = if imported
             @imported_event.rounds[idx].final
           else
@@ -74,8 +74,8 @@ end
 # should have the following headers:
 #
 #     | number | lead name | lead team | follow name | follow team | no name |
-Then(/^(imported )?round ([0-9]+) should have the following couples:$/) do |imported, round, table|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should have the following couples:$/) do |imported, round, table|
+  idx = round - 1
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
   couples =
     if imported
@@ -113,8 +113,8 @@ end
 #     |    112 | X | X |   | X | X |
 #     |    153 |   |   | X | X |   |
 #     |    162 |   | X |   |   | X |
-Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "(.+)":$/) do |imported, round, dance, table|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should have the following marks in the dance "(.+)":$/) do |imported, round, dance, table|
+  idx = round - 1
   if imported
     round = @imported_event.rounds[idx]
     judge_hash = Hash[round.adjudicators.map { |j| [j.shorthand, j] }]
