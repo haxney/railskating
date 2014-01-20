@@ -1,6 +1,4 @@
 .page-header
   %h1= build_title(@event)
 
-%div[@event, :result]
-  - cache(@event) do
-    = render @event.rounds
+= render @event
