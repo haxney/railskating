@@ -1,30 +1,49 @@
 require 'results_scrapers'
 
 # Parse `file` using `ResultsScrapers::<mod>.scrape_event`.
-Given(/^I parse the file "(.+)" with "(.+)"$/) do |file, mod|
+Given(/^I parse the event file "(.+)" with "(.+)"$/) do |file, mod|
   scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
   @event = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
-Given(/^I import the file "(.+)" with "(.+)" using ([0-9]+) judges$/) do |file, mod, num_judges|
-  step %Q{I parse the file "#{file}" with "#{mod}"}
+Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
+  scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_comp)
+  @comp = scrape_func.call(Nokogiri::HTML(open(file)))
+end
+
+Given(/^I import the competition file "(.+)" with "(.+)" and the events?:$/) do |file, mod, table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+  step %Q{I parse the competition file "#{file}" with "#{mod}"}
+  event_scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
+
+  # Parse and add events to comp
+  table.hashes.each do |row|
+    event = event_scrape_func.call(Nokogiri::HTML(open(row[:file_name])))
+    @comp[:events][row[:number]].merge!(event)
+  end
+
+  @imported_comp = ResultsScrapers::Importer.import_comp(@comp)
+end
+
+Given(/^I import the event file "(.+)" with "(.+)" using (\d+) judges$/) do |file, mod, num_judges|
+  step %Q{I parse the event file "#{file}" with "#{mod}"}
   comp = FactoryGirl.create(:competition)
-  FactoryGirl.create_list(:adjudicator, num_judges.to_i, competition: comp)
+  FactoryGirl.create_list(:adjudicator, num_judges, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
 end
 
-Then(/^the( imported)? event should be number ([0-9]+)$/) do |imported, num|
+Then(/^the( imported)? event should be number (\d+)$/) do |imported, num|
   src = if imported
           @imported_event.number
         else
           @event[:number]
         end
-  expect(src).to eq(num.to_i)
+  expect(src).to eq(num)
 end
 
-Then(/^there should be ([0-9]+) (imported )?rounds$/) do |num, imported|
+Then(/^there should be (\d+) (imported )?rounds?$/) do |num, imported|
   src = imported ? @imported_event.rounds : @event[:rounds]
-  expect(@event[:rounds].length).to eq(num.to_i)
+  expect(@event[:rounds].length).to eq(num)
 end
 
 Then(/^the( imported)? level should be (.+)$/) do |imported, level|
@@ -36,7 +55,7 @@ Then(/^the section should be (.+)$/) do |section|
   expect(@event[:section]).to eq(section)
 end
 
-Then(/^the( imported)? dances should be:$/) do |imported, table|
+Then(/^the( imported)? dances? should be:$/) do |imported, table|
   src = if imported
           @imported_event.sub_events.map { |se| se.dance.name }
         else
@@ -45,8 +64,8 @@ Then(/^the( imported)? dances should be:$/) do |imported, table|
   table.diff!(src.map { |d| [d] })
 end
 
-Then(/^(imported )?round ([0-9]+) should have the following judges:$/) do |imported, round, table|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should have the following judges:$/) do |imported, round, table|
+  idx = round - 1
   src = if imported
           @imported_event.rounds[idx].adjudicators.map(&:shorthand)
         else
@@ -55,8 +74,8 @@ Then(/^(imported )?round ([0-9]+) should have the following judges:$/) do |impor
   table.diff!(src.map { |j| [j] })
 end
 
-Then(/^(imported )?round ([0-9]+) should( not)? be final$/) do |imported, round, not_final|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should( not)? be final$/) do |imported, round, not_final|
+  idx = round - 1
   final = if imported
             @imported_event.rounds[idx].final
           else
@@ -69,10 +88,9 @@ end
 # should have the following headers:
 #
 #     | number | lead name | lead team | follow name | follow team | no name |
-Then(/^(imported )?round ([0-9]+) should have the following couples:$/) do |imported, round, table|
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should have the following couples:$/) do |imported, round, table|
+  idx = round - 1
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
-  table.map_column!('number', &:to_i)
   couples =
     if imported
       @imported_event.rounds[idx].couples.map do |c|
@@ -109,9 +127,8 @@ end
 #     |    112 | X | X |   | X | X |
 #     |    153 |   |   | X | X |   |
 #     |    162 |   | X |   |   | X |
-Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "(.+)":$/) do |imported, round, dance, table|
-  table.map_column!('number', &:to_i)
-  idx = round.to_i - 1
+Then(/^(imported )?round (\d+) should have the following marks in the dance "(.+)":$/) do |imported, round, dance, table|
+  idx = round - 1
   if imported
     round = @imported_event.rounds[idx]
     judge_hash = Hash[round.adjudicators.map { |j| [j.shorthand, j] }]
@@ -147,5 +164,55 @@ Then(/^(imported )?round ([0-9]+) should have the following marks in the dance "
     end
     table.diff!(actual)
   end
+end
 
+Then(/^the( imported)? competition should be called "(.+)"$/) do |imported, name|
+  src = if imported
+          @imported_comp.name
+        else
+          @comp[:name]
+        end
+  expect(src).to eq(name)
+end
+
+Then(/^the year should be (\d+)$/) do |year|
+  expect(@comp[:year]).to eq(year)
+end
+
+Then(/^the( imported)? competition should have the following adjudicators:$/) do |imported, table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+  src = if imported
+          @imported_comp.adjudicators.map do |a|
+      {
+        shorthand: a.shorthand,
+        first_name: a.user.first_name,
+        last_name: a.user.last_name
+      }
+    end
+        else
+          @comp[:judges]
+        end
+  table.diff!(src)
+end
+
+Then(/^the( imported)? competition should have the following events?:$/) do |imported, table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+
+  src = if imported
+          @imported_comp.events.map do |event|
+      {
+        number: event.number,
+        level: event.level.name,
+        dances: event.dances.map(&:base_name).join(', ')
+      }
+    end
+        else
+          @comp[:events]
+        end
+  table.diff!(src)
+end
+
+Transform(/^table:number/) do |table|
+  table.map_column!(:number) {|num| num.to_i }
+  table
 end

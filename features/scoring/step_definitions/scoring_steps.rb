@@ -113,22 +113,22 @@ end
 Then(/^(\d+) marks should exist for couple (\d+)/) do |num_marks, couple|
   expect(Mark
       .joins(:couple)
-      .where(couples: { number: couple.to_i })
-      .length).to eq(num_marks.to_i)
+      .where(couples: { number: couple })
+      .length).to eq(num_marks)
 end
 
 Then(/^(\d+) couples should be recalled from the preliminary round$/ ) do |count|
-  expect(@round.recalled_couples.length).to eq(count.to_i)
+  expect(@round.recalled_couples.length).to eq(count)
 end
 
 # Set the value of `requested` for the sub-round
 And(/^(\d+) couples are requested from the preliminary round$/) do |num|
-  @round.update(requested: num.to_i)
+  @round.update(requested: num)
 end
 
 Then(/^the possible cutoffs of the round should be (\d+) marks, (\d+) couples and (\d+) marks, (\d+) couples$/) do |lower_m, lower_c, upper_m, upper_c|
-  expect(@round.possible_cutoffs.map &:num_marks).to eq([lower_m.to_i, upper_m.to_i])
-  expect(@round.possible_cutoffs.map &:num_couples).to eq([lower_c.to_i, upper_c.to_i])
+  expect(@round.possible_cutoffs.map &:num_marks).to eq([lower_m, upper_m])
+  expect(@round.possible_cutoffs.map &:num_couples).to eq([lower_c, upper_c])
 end
 
 # Expect `Couple`s, identified by their number, to be recalled from a `Round`.
@@ -143,7 +143,7 @@ end
 #
 # The table must be sorted.
 Then(/^the following couples should be recalled from the preliminary round(?: with a cutoff of (\d+) marks)?:$/) do |cutoff, table|
-  @round.update(cutoff: cutoff.to_i) if cutoff
+  @round.update(cutoff: cutoff) if cutoff
 
   couple_numbers = @round.recalled_couples.map(&:number).sort
   table.diff!([['couple']] + couple_numbers.map { |num| [num.to_s] } )

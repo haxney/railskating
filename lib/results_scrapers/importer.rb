@@ -101,8 +101,35 @@ module ResultsScrapers::Importer
           end
         end
       end
-
     end
   end
 
+  # Imports a competition hash into the database.
+  #
+  # @param [Hash] hash A hash returned from a `scrape_comp` function.
+  #
+  # @return [Event] A newly-created {Competition} filled in with information
+  #   from `hash`.
+  def self.import_comp(hash)
+    Competition.transaction do
+      comp = Competition.create(name: hash[:name])
+      hash[:judges].each do |j|
+        first_name = j[:name].split.first
+        last_name = j[:name].split[1..-1].join(' ')
+        u = User.find_or_create_by(first_name: first_name,
+                                   last_name: last_name)
+
+        ad = comp.adjudicators.create(shorthand: j[:shorthand],
+                                      user: u)
+      end
+
+      hash[:events].each do |event|
+        # Skip events which have not been parsed.
+        next unless event[:dances]
+        import_event(event, comp)
+      end
+
+      comp
+    end
+  end
 end

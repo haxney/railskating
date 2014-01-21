@@ -5,8 +5,8 @@ Feature: Scraping from dance.zsconcepts.com
   Should be parsed into a structure
 
   @multi
-  Scenario: Brown Comp 2013 event 13
-    Given I parse the file "features/results_scrapers/event13.html" with "ZSConcepts"
+  Scenario: Brown Comp 2013 event 13 (Silver International Waltz/Quickstep)
+    Given I parse the event file "features/results_scrapers/event13.html" with "ZSConcepts"
     Then the event should be number 13
     And there should be 3 rounds
     And the level should be Silver
@@ -92,13 +92,13 @@ Feature: Scraping from dance.zsconcepts.com
       |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
 
   @single
-  Scenario: Brown Comp 2013 event 5
-    Given I parse the file "features/results_scrapers/event5.html" with "ZSConcepts"
+  Scenario: Brown Comp 2013 event 5 (Bronze American Swing)
+    Given I parse the event file "features/results_scrapers/event5.html" with "ZSConcepts"
     Then the event should be number 5
     And there should be 4 rounds
     And the level should be Bronze
     And the section should be American
-    And the dances should be:
+    And the dance should be:
       | Swing |
 
     And round 1 should have the following judges:
@@ -178,3 +178,152 @@ Feature: Scraping from dance.zsconcepts.com
       |    319 | 2 | 8 | 6 | 4 | 5 | 5 | 8 |
       |    335 | 1 | 2 | 2 | 7 | 2 | 3 | 6 |
       |    370 | 5 | 1 | 3 | 6 | 8 | 7 | 4 |
+
+  @comp
+  Scenario: Brown Comp 2013
+    Given I parse the competition file "features/results_scrapers/comp.html" with "ZSConcepts"
+    Then the competition should be called "Brown Ballroom Competition"
+    And the year should be 2013
+    And the competition should have the following adjudicators:
+      | shorthand | name             |
+      | A         | Istvan Cserven   |
+      | B         | Christine Harvey |
+      | C         | Ruta Loukhnikov  |
+      | D         | Helle Rusholt-Yi |
+      | E         | Kalin Mitov      |
+      | F         | Gail Rundlett    |
+      | G         | Mark Sheldon     |
+      | H         | Kathy St. Jean   |
+      | I         | Michael ulbrich  |
+      | J         | Peter Walker     |
+
+    And the competition should have the following events:
+      | number | file name    |
+      |      1 | event1.html  |
+      |      2 | event2.html  |
+      |      3 | event3.html  |
+      |      4 | event4.html  |
+      |      5 | event5.html  |
+      |      6 | event6.html  |
+      |      7 | event7.html  |
+      |      8 | event8.html  |
+      |      9 | event9.html  |
+      |     10 | event10.html |
+      |     11 | event11.html |
+      |     12 | event12.html |
+      |     13 | event13.html |
+      |     14 | event14.html |
+      |     15 | event15.html |
+      |     16 | event16.html |
+      |     17 | event17.html |
+      |     18 | event18.html |
+      |     19 | event19.html |
+      |     20 | event20.html |
+      |     21 | event21.html |
+      |     22 | event22.html |
+      |     23 | event23.html |
+      |     24 | event24.html |
+      |     25 | event25.html |
+      |     26 | event26.html |
+      |     27 | event27.html |
+      |     28 | event28.html |
+      |     29 | event29.html |
+      |     30 | event30.html |
+      |     31 | event31.html |
+      |     32 | event32.html |
+      |     33 | event33.html |
+
+  @multi @event17
+  Scenario: Brown Comp 2013 event 17 (Open International 5-dance)
+    Given I parse the event file "features/results_scrapers/event17.html" with "ZSConcepts"
+    Then the event should be number 17
+    And there should be 2 rounds
+    And the level should be Open
+    And the section should be International
+    And the dances should be:
+      | Waltz          |
+      | Quickstep      |
+      | Foxtrot        |
+      | Tango          |
+      | Viennese Waltz |
+
+    And round 1 should have the following judges:
+      | A |
+      | B |
+      | E |
+      | F |
+      | G |
+      | I |
+      | J |
+
+    And round 1 should not be final
+    And round 2 should be final
+    And round 1 should have the following couples:
+      | number | lead name          | lead team                | follow name        | follow team          | no name |
+      |    102 | Matthew Sorrentino | MIT                      | Theresa Vallese    | MIT                  |         |
+      |    104 | Andrey Grinshpun   | MIT                      | Mandi Davis        | MIT                  |         |
+      |    111 | Ben Moss           | MIT                      | Esther Rheinbay    | MIT                  |         |
+      |    113 | Arthur Lue         | Boston Dance Options/MIT | Sarah Wong         | Boston Dance Options |         |
+      |    114 | Paul Tillman       | Boston Dance Options     | Mutsuko Ohnishi    | MIT                  |         |
+      |    157 | Zach Germain       | MIT                      | Lu Wang            | Unaffiliated         |         |
+      |    163 | Jonathan Liu       | Yale                     | Annie Yao          | Yale                 |         |
+      |    166 | Ping Zhang         | Boston University        | Courtney Delmonico | UConn                |         |
+      |    168 | Michael Otero      | Unaffiliated             | Diane Darling      | Unaffiliated         |         |
+      |    183 | Kevin Liu Huang    | Harvard University       | Lihua Bai          | MIT                  |         |
+      |    184 | Mark Chen          | MIT                      | Bella Pindrus      | Boston Dance Options |         |
+      |    189 | Cloud Cray         | Boston Dance Options     | Noelle Sun         | Boston Dance Options |         |
+      |    225 | Jeff McCollum      | MIT                      | Anna Poberetsky    | Unaffiliated         |         |
+      |    293 | Paul Freitas       | Unaffiliated             | Kelly Glasheen     | Unaffiliated         |         |
+      |    300 | Meredith Stead     | Unaffiliated             | Daphna Locker      | Unaffiliated         |         |
+      |    346 | Alan Wong          | UConn                    | Amy Friss          | UConn                |         |
+      |    388 |                    |                          |                    |                      | true        |
+
+    And round 1 should have the following marks in the dance "Tango":
+      | number | A | B | E | F | G | I | J |
+      |    102 |   |   |   |   |   | X |   |
+      |    104 |   |   |   |   |   |   |   |
+      |    111 | X | X | X | X | X | X | X |
+      |    113 | X | X | X | X | X | X | X |
+      |    114 | X | X |   | X | X | X | X |
+      |    157 |   |   | X |   |   |   | X |
+      |    163 |   | X |   | X | X |   | X |
+      |    166 |   |   |   |   |   |   |   |
+      |    168 | X |   |   |   |   |   |   |
+      |    183 |   | X | X |   |   | X |   |
+      |    184 |   |   |   |   |   |   |   |
+      |    189 | X | X | X | X | X | X | X |
+      |    225 |   |   |   |   |   |   |   |
+      |    293 |   |   |   |   |   |   |   |
+      |    300 |   |   | X |   | X |   |   |
+      |    346 | X | X | X | X | X | X | X |
+      |    388 | X |   |   | X |   |   |   |
+
+      And round 2 should have the following couples:
+      | number | lead name       | lead team                | follow name     | follow team          |
+      |    111 | Ben Moss        | MIT                      | Esther Rheinbay | MIT                  |
+      |    113 | Arthur Lue      | Boston Dance Options/MIT | Sarah Wong      | Boston Dance Options |
+      |    114 | Paul Tillman    | Boston Dance Options     | Mutsuko Ohnishi | MIT                  |
+      |    163 | Jonathan Liu    | Yale                     | Annie Yao       | Yale                 |
+      |    183 | Kevin Liu Huang | Harvard University       | Lihua Bai       | MIT                  |
+      |    189 | Cloud Cray      | Boston Dance Options     | Noelle Sun      | Boston Dance Options |
+      |    346 | Alan Wong       | UConn                    | Amy Friss       | UConn                |
+
+    And round 2 should have the following marks in the dance "Foxtrot":
+      | number | A | B | E | F | G | I | J |
+      |    111 | 1 | 2 | 1 | 5 | 2 | 2 | 2 |
+      |    113 | 2 | 1 | 2 | 3 | 1 | 1 | 1 |
+      |    114 | 4 | 5 | 6 | 4 | 5 | 6 | 7 |
+      |    163 | 5 | 6 | 5 | 2 | 4 | 4 | 4 |
+      |    183 | 7 | 7 | 4 | 6 | 7 | 7 | 6 |
+      |    189 | 3 | 3 | 3 | 1 | 3 | 3 | 3 |
+      |    346 | 6 | 4 | 7 | 7 | 6 | 5 | 5 |
+
+    And round 2 should have the following marks in the dance "Viennese Waltz":
+      | number | A | B | E | F | G | I | J |
+      |    111 | 2 | 1 | 1 | 4 | 1 | 1 | 1 |
+      |    113 | 1 | 2 | 2 | 2 | 2 | 2 | 2 |
+      |    114 | 4 | 6 | 7 | 1 | 5 | 7 | 6 |
+      |    163 | 5 | 5 | 4 | 3 | 4 | 6 | 5 |
+      |    183 | 7 | 7 | 5 | 5 | 7 | 3 | 7 |
+      |    189 | 3 | 3 | 3 | 7 | 3 | 5 | 3 |
+      |    346 | 6 | 4 | 6 | 6 | 6 | 4 | 4 |

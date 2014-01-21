@@ -10,23 +10,55 @@ module ResultsScrapers::ZSConcepts
   # Format to use for building event URIs.
   EVENT_FORMAT = COMP_FORMAT + 'event%s.html'
 
+  # Scrape a competition, including all of its events, usig ZSConcepts.
+  #
+  # Competition results pages have the form:
+  #
+  #     http://www.dance.zsconcepts.com/results/<comp>/
+  #
+  # This function requests that page and scrapes the results to find a list of
+  # events, and then fetches each event page and scrapes that.
+  #
+  # @param [String] comp The name of the competition, as it appears on
+  #   ZSConcepts.
+  #
+  # @return [Hash] See the output of {scrape_comp}. The `:events` key is
+  #   populated with the contents of the scraped event pages. It is an array of
+  #   "event hashes".
+  def self.fetch_and_scrape_comp(comp)
+    uri = URI(COMP_FORMAT % comp)
+    req = Net::HTTP::Get.new(uri)
+
+    # Need to set the referer header in order to get the correct page.
+    # ZSConcepts will redirect to the index if there is no referer.
+    req['Referer'] = COMP_FORMAT % comp
+    res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
+
+    comp_data = scrape_comp(Nokogiri::HTML(res.body))
+    comp_data[:events].each do |event|
+      event.merge!(fetch_and_scrape_event(comp, event[:number]))
+    end
+    comp_data
+  end
+
   # Scrape a given event from a competition usig ZSConcepts.
   #
   # Results pages have the form:
   #
-  #    http://www.dance.zsconcepts.com/results/<comp>/event<num>.html
+  #     http://www.dance.zsconcepts.com/results/<comp>/event<num>.html
   #
   # This function requests that page and scrapes the results
   #
   # @param [String] comp The name of the competition, as it appears on
   #   ZSConcepts.
   # @param [Integer] event The event number.
-  # @return [Hash] See the output of {::scrape_doc}
+  # @return [Hash] See the output of {scrape_event}
   def self.fetch_and_scrape_event(comp, event)
     uri = URI(EVENT_FORMAT % [comp, event])
     req = Net::HTTP::Get.new(uri)
-    # Need to set the referer header in order to get the correct page. ZSConcepts
-    # will send you to the index if there is no referer.
+
+    # Need to set the referer header in order to get the correct page.
+    # ZSConcepts will redirect to the index if there is no referer.
     req['Referer'] = COMP_FORMAT % comp
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
@@ -35,26 +67,27 @@ module ResultsScrapers::ZSConcepts
 
   # Scrapes a Nokogiri document parsed from a ZSConcepts event results page.
   #
-  # @param [Nokogiri::HTML::Document] doc A document containing a parsed ZSConcepts
-  #   results page.
+  # @param [Nokogiri::HTML::Document] doc A document containing a parsed
+  #   ZSConcepts results page.
   #
   # @return [Hash] A hash with the following keys:
-  #   - `:number`: The number of the event.
-  #   - `:level`: The level of the event.
-  #   - `:section`: The section of the event.
-  #   - `:dances`: Array of the dances of the event, in the order they appear on
-  #                the page.
-  #   - `:rounds`: Array of "round hashes" as returned from
-  #                {scrape_prelim_round} and {scrape_final_round}.
+  #
+  #   - `:number` The number of the event.
+  #   - `:level` The level of the event.
+  #   - `:section` The section of the event.
+  #   - `:dances` Array of the dances of the event, in the order they appear on
+  #               the page.
+  #   - `:rounds` Array of "round hashes" as returned from
+  #               {scrape_prelim_round} and {scrape_final_round}.
   def self.scrape_event(doc)
     event = {}
 
     title = doc.css('body title').first.content
-    md = /Event #([0-9]+): (.+) (.+) (.+)/.match(title)
+    md = /Event #([0-9]+): (.+?) (.+?) (.+)/.match(title)
     event[:number] = md[1].to_i
     event[:level] = md[2]
     event[:section] = md[3]
-    event[:dances] = md[4].split('/')
+    event[:dances] = md[4].split('/').map { |d| map_dance_name(d) }
 
     # Need to know whether this is a linked-dance event. The HTML don't contain
     # enough information to figure out which table is for a preliminary round and
@@ -76,7 +109,7 @@ module ResultsScrapers::ZSConcepts
       end.each do |table|
         round = scrape_final_round(table,
                                    round,
-                                   table.previous.content,
+                                   map_dance_name(table.previous.content),
                                    true)
       end
       event[:rounds] << round
@@ -94,12 +127,12 @@ module ResultsScrapers::ZSConcepts
   # Scrape the table of a preliminary round.
   #
   # @return [Hash] A hash with the keys:
-  #   - `:number`: The number of the round.
-  #   - `:final`: False, since this is a preliminary round.
-  #   - `:judges`: Array of (shorthand) judge names, in the order they appear on
-  #                the page.
-  #   - `:dances`: Array of dances, in the order they appear on the page.
-  #   - `:couples`: Array of "couple hashes" as returned by {scrape_couples}.
+  #   - `:number` The number of the round.
+  #   - `:final` False, since this is a preliminary round.
+  #   - `:judges` Array of (shorthand) judge names, in the order they appear on
+  #               the page.
+  #   - `:dances` Array of dances, in the order they appear on the page.
+  #   - `:couples` Array of "couple hashes" as returned by {scrape_couples}.
   def self.scrape_prelim_round(table)
     round = {}
     round[:number] = /Round ([0-9]+)/.match(table.previous.content)[1].to_i
@@ -113,7 +146,7 @@ module ResultsScrapers::ZSConcepts
     num_judges = dance_row.children[1]['colspan'].to_i
 
     # First element is empty
-    dances = dance_row.children.drop(1).map(&:content)
+    dances = dance_row.children.drop(1).map { |d| map_dance_name(d.content) }
     round[:dances] = dances
 
     # First element of the judge row is empty
@@ -132,15 +165,14 @@ module ResultsScrapers::ZSConcepts
   # @param [Hash] round Pre-built hash which will be extended to include the
   #   parsed information.
   # @param [String] dance The dance referenced by the table.
-  # @param [Boolean] final Whether this event is linked or not.
   #
   # @return [Hash] A hash with the keys:
-  #   - `:number`: The number of the round.
-  #   - `:final`: True, since this is a final round.
-  #   - `:judges`: Array of (shorthand) judge names, in the order they appear on
-  #                the page.
-  #   - `:dances`: Array of dances, in the order they appear on the page.
-  #   - `:couples`: Array of "couple hashes" as returned by {scrape_couples}.
+  #   - `:number` The number of the round.
+  #   - `:final` True, since this is a final round.
+  #   - `:judges` Array of (shorthand) judge names, in the order they appear on
+  #               the page.
+  #   - `:dances` Array of dances, in the order they appear on the page.
+  #   - `:couples` Array of "couple hashes" as returned by {scrape_couples}.
   def self.scrape_final_round(table, round, dance, linked)
     round[:final] = true
     number_elem = if linked
@@ -189,15 +221,15 @@ module ResultsScrapers::ZSConcepts
   # @return [Array<Hash>] Array of "couple hashes", each of which has the
   #   following keys:
   #
-  #   - `:number`: The number of the couple
-  #   - `:no_name`: No name information was available for the couple
-  #   - `:lead_name`: The name of the leader
-  #   - `:lead_team`: The team of the leader
-  #   - `:follow_name`: The name of the follower
-  #   - `:follow_team`: The team of the follower
-  #   - `:dances`: The value returned from {scrape_marks_row}
-  #   - `:recall_or_place`: Whether the couple was recalled, as a boolean or
-  #                         the placement of the couple, as an integer.
+  #   - `:number` The number of the couple
+  #   - `:no_name` No name information was available for the couple
+  #   - `:lead_name` The name of the leader
+  #   - `:lead_team` The team of the leader
+  #   - `:follow_name` The name of the follower
+  #   - `:follow_team` The team of the follower
+  #   - `:dances` The value returned from {scrape_marks_row}
+  #   - `:recall_or_place` Whether the couple was recalled, as a boolean or
+  #                        the placement of the couple, as an integer.
   def self.scrape_couples(rows, dances, judges)
     rows.map do |row|
       couple = {}
@@ -213,7 +245,7 @@ module ResultsScrapers::ZSConcepts
         couple[:follow_name] = $3
         couple[:follow_team] = $4
       else
-        raise ScrapeError, "Unexpected couple name '#{name_elem}'"
+        raise ResultsScrapers::ScrapeError, "Unexpected couple name '#{name_elem}'"
       end
 
       couple[:dances] = scrape_marks_row(cols, judges, dances)
@@ -223,7 +255,7 @@ module ResultsScrapers::ZSConcepts
                                  when /R/ then true
                                  when /[0-9]+/ then extra.to_i
                                  else
-                                   raise ScrapeError, "Unexpected extra column '#{extra}'"
+                                   raise ResultsScrapers::ScrapeError, "Unexpected extra column '#{extra}'"
                                  end
       couple
     end
@@ -252,12 +284,71 @@ module ResultsScrapers::ZSConcepts
               when 'X' then true
               when /^[0-9]+$/ then cols[i].content.to_i
               else
-                raise ScrapeError, "Unexpected judge mark '#{cols[i].content}"
+                raise ResultsScrapers::ScrapeError, "Unexpected judge mark '#{cols[i].content}"
               end
         marks[dance][judges[i % judges.length]] = res
       end
       start_idx += judges.length
     end
     marks
+  end
+
+  # Scrape a Nokogiri document parsed from a ZSConcepts competition overview
+  # page.
+  #
+  # @param [Nokogiri::HTML::Document] doc A document containing a parsed
+  #   ZSConcepts competition page.
+  #
+  # @return [Hash] A hash with the following keys:
+  #
+  #   - `:name` The name of the competition.
+  #   - `:year` The year of the competition, as an Integer
+  #   - `:judges` A hash returned from {scrape_judge}.
+  #   - `:events` An array of hashes with the keys `:number` (the event number
+  #               as an Integer) and `:file_name` (the name of the file which
+  #               contains the event).
+  def self.scrape_comp(doc)
+    comp = {}
+
+    title =  doc.css('h1').first.content.strip.split
+    comp[:name] = title[0..-2].join(" ")
+    comp[:year] = title.last.to_i
+    judge_table = doc.css('table h2+table').first
+    comp[:judges] = judge_table.css('tr').map { |row| scrape_judge(row) }
+    comp[:events] = []
+
+    doc.css('ol li a').each_with_index do |link, i|
+      comp[:events] << { number: i + 1, file_name: link['href'] }
+    end
+    comp
+  end
+
+  # Scrapes a single judge from a row in the judges table.
+  #
+  # @param [Nokogiri::XML::Element] row A `<tr>` element from the judges table.
+  #
+  # @return [Hash] A hash with the keys:
+  #
+  #   - `:shorthand` The shorthand name of the judge.
+  #   - `:name` The name of the judge
+  def self.scrape_judge(row)
+    {
+      shorthand: row.children[0].content.strip,
+      name: row.children[1].content.strip
+    }
+  end
+
+  # Convert a ZSConcepts dance name to a Railskating dance name. Some dance
+  # names are different, and must be converted. For example, ZSConcepts calls
+  # the dance "Cha-cha" while Railskating calls it "Cha Cha".
+  #
+  # @param [String] dance The ZSConcepts name of the dance.
+  #
+  # @return [String] The Railskating name of the dance.
+  def self.map_dance_name(dance)
+    case dance
+    when /cha-cha/i then "Cha Cha"
+    else dance
+    end
   end
 end

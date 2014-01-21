@@ -5,11 +5,11 @@ Feature: Importing scraped ZSConcepts data
   Should be imported into the database
 
   @single
-  Scenario: Brown Comp 2013 event 5
-    Given I import the file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
+  Scenario: Brown Comp 2013 event 5 (Bronze Amerian Swing)
+    Given I import the event file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
     Then there should be 4 imported rounds
     And the imported level should be Bronze
-    And the imported dances should be:
+    And the imported dance should be:
       | American Swing |
 
     And imported round 1 should have the following judges:
@@ -90,9 +90,60 @@ Feature: Importing scraped ZSConcepts data
       |    335 | 1 | 2 | 2 | 7 | 2 | 3 | 6 |
       |    370 | 5 | 1 | 3 | 6 | 8 | 7 | 4 |
 
+  @single
+  Scenario: Brown Comp 2013 event 1 (Newcomer American Cha Cha)
+    Given I import the event file "features/results_scrapers/event1.html" with "ZSConcepts" using 10 judges
+    Then there should be 5 imported rounds
+    And the imported level should be Newcomer
+    And the imported dance should be:
+      | American Cha Cha |
+
+    And imported round 1 should have the following judges:
+      | B |
+      | E |
+      | F |
+      | G |
+      | I |
+
+    And imported round 1 should not be final
+    And imported round 5 should be final
+    And imported round 4 should have the following couples:
+      | number | lead name                  | lead team          | follow name           | follow team        |
+      |    151 | Galen Chen                 | Boston University  | Sarah Wu              | Boston University  |
+      |    172 | William Greenlaw           | Harvard University | Frances Ding          | Harvard University |
+      |    173 | Mario Milone               | Harvard University | Lily Zhang            | Harvard University |
+      |    188 | Eddie Ahmadi               | Harvard University | Olivia Campbell       | Harvard University |
+      |    211 | Michael Diamond            | UMass Amherst      | Amanda Nee            | UMass Amherst      |
+      |    220 | Corey Cleveland            | MIT                | Clio Flikkema         | MIT                |
+      |    232 | Jeffery Durand             | Harvard University | Evgenia Nitishinskaya | Harvard University |
+      |    236 | David Clifton              | Harvard University | Daisy Tang            | Harvard University |
+      |    247 | Dan Rigberg                | Yale               | Lucy Wang             | Yale               |
+      |    271 | Paolo Zaldarriaga          | Yale               | Lien Tran             | Yale               |
+      |    318 | Neng Thao                  | Harvard University | Emily Sartin          | Harvard University |
+      |    325 | Christie Cheng             | Harvard University | Christie Chiu         | Harvard University |
+      |    344 | Jonathan Alvarez-Gutierrez | Harvard University | Mirhee Kim            | Harvard University |
+      |    378 | Clara Drumez               | Brown University   | Vicky Ding            | Brown University   |
+
+    And imported round 3 should have the following marks in the dance "American Cha Cha":
+      | number | B | F | G | I | J |
+      |    151 | X | X | X | X | R |
+      |    172 |   |   | X |   |   |
+      |    173 | X |   | X |   | X |
+      |    188 | X | X |   | X |   |
+      |    211 |   |   |   | X | X |
+      |    220 | X | X | X |   | X |
+      |    232 | X | X |   |   |   |
+      |    236 | X | X | X | X |   |
+      |    247 |   |   | X |   | X |
+      |    271 |   | X |   | X | X |
+      |    318 |   | X |   | X |   |
+      |    325 |   |   |   |   |   |
+      |    344 |   |   |   | X | X |
+      |    378 | X |   |   |   |   |
+
   @multi
-  Scenario: Brown Comp 2013 event 13
-    Given I import the file "features/results_scrapers/event13.html" with "ZSConcepts" using 10 judges
+  Scenario: Brown Comp 2013 event 13 (Silver International Waltz/Quickstep)
+    Given I import the event file "features/results_scrapers/event13.html" with "ZSConcepts" using 10 judges
     Then the imported event should be number 13
     And there should be 3 rounds
     And the imported level should be Silver
@@ -175,3 +226,31 @@ Feature: Importing scraped ZSConcepts data
       |    286 | 3 | 4 | 2 | 3 | 2 | 2 | 2 |
       |    345 | 6 | 8 | 6 | 8 | 4 | 4 | 5 |
       |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
+
+  @comp
+  Scenario: Brown Comp 2013 event 13 (Open International Standard 5-dance)
+    Given I import the competition file "features/results_scrapers/comp.html" with "ZSConcepts" and the events:
+      | number | file name                              |
+      |      5 | features/results_scrapers/event5.html  |
+      |     13 | features/results_scrapers/event13.html |
+      |     17 | features/results_scrapers/event17.html |
+
+    Then the imported competition should be called "Brown Ballroom Competition"
+    And the imported competition should have the following adjudicators:
+      | shorthand | first name | last name  |
+      | A         | Istvan     | Cserven    |
+      | B         | Christine  | Harvey     |
+      | C         | Ruta       | Loukhnikov |
+      | D         | Helle      | Rusholt-Yi |
+      | E         | Kalin      | Mitov      |
+      | F         | Gail       | Rundlett   |
+      | G         | Mark       | Sheldon    |
+      | H         | Kathy      | St. Jean   |
+      | I         | Michael    | ulbrich    |
+      | J         | Peter      | Walker     |
+
+    And the imported competition should have the following events:
+      | number | level  | dances                                           |
+      |      5 | Bronze | Swing                                            |
+      |     13 | Silver | Waltz, Quickstep                                 |
+      |     17 | Open   | Waltz, Quickstep, Foxtrot, Tango, Viennese Waltz |
