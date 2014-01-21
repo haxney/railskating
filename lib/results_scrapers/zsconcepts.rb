@@ -87,7 +87,7 @@ module ResultsScrapers::ZSConcepts
     event[:number] = md[1].to_i
     event[:level] = md[2]
     event[:section] = md[3]
-    event[:dances] = md[4].split('/')
+    event[:dances] = md[4].split('/').map { |d| map_dance_name(d) }
 
     # Need to know whether this is a linked-dance event. The HTML don't contain
     # enough information to figure out which table is for a preliminary round and
@@ -109,7 +109,7 @@ module ResultsScrapers::ZSConcepts
       end.each do |table|
         round = scrape_final_round(table,
                                    round,
-                                   table.previous.content,
+                                   map_dance_name(table.previous.content),
                                    true)
       end
       event[:rounds] << round
@@ -146,7 +146,7 @@ module ResultsScrapers::ZSConcepts
     num_judges = dance_row.children[1]['colspan'].to_i
 
     # First element is empty
-    dances = dance_row.children.drop(1).map(&:content)
+    dances = dance_row.children.drop(1).map { |d| map_dance_name(d.content) }
     round[:dances] = dances
 
     # First element of the judge row is empty
@@ -336,5 +336,19 @@ module ResultsScrapers::ZSConcepts
       shorthand: row.children[0].content.strip,
       name: row.children[1].content.strip
     }
+  end
+
+  # Convert a ZSConcepts dance name to a Railskating dance name. Some dance
+  # names are different, and must be converted. For example, ZSConcepts calls
+  # the dance "Cha-cha" while Railskating calls it "Cha Cha".
+  #
+  # @param [String] dance The ZSConcepts name of the dance.
+  #
+  # @return [String] The Railskating name of the dance.
+  def self.map_dance_name(dance)
+    case dance
+    when /cha-cha/i then "Cha Cha"
+    else dance
+    end
   end
 end
