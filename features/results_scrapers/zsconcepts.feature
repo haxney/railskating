@@ -5,7 +5,7 @@ Feature: Scraping from dance.zsconcepts.com
   Should be parsed into a structure
 
   @multi
-  Scenario: Brown Comp 2013 event 13
+  Scenario: Brown Comp 2013 event 13 (Silver International Waltz/Quickstep)
     Given I parse the event file "features/results_scrapers/event13.html" with "ZSConcepts"
     Then the event should be number 13
     And there should be 3 rounds
@@ -92,7 +92,7 @@ Feature: Scraping from dance.zsconcepts.com
       |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
 
   @single
-  Scenario: Brown Comp 2013 event 5
+  Scenario: Brown Comp 2013 event 5 (Bronze American Swing)
     Given I parse the event file "features/results_scrapers/event5.html" with "ZSConcepts"
     Then the event should be number 5
     And there should be 4 rounds
@@ -234,7 +234,7 @@ Feature: Scraping from dance.zsconcepts.com
       |     33 | event33.html |
 
   @multi @event17
-  Scenario: Brown Comp 2013 event 17
+  Scenario: Brown Comp 2013 event 17 (Open International 5-dance)
     Given I parse the event file "features/results_scrapers/event17.html" with "ZSConcepts"
     Then the event should be number 17
     And there should be 2 rounds

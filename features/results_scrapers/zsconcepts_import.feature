@@ -5,7 +5,7 @@ Feature: Importing scraped ZSConcepts data
   Should be imported into the database
 
   @single
-  Scenario: Brown Comp 2013 event 5
+  Scenario: Brown Comp 2013 event 5 (Bronze Amerian Swing)
     Given I import the event file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
     Then there should be 4 imported rounds
     And the imported level should be Bronze
@@ -177,7 +177,7 @@ Feature: Importing scraped ZSConcepts data
       |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
 
   @comp
-  Scenario: Brown Comp 2013 event 13
+  Scenario: Brown Comp 2013 event 13 (Open International Standard 5-dance)
     Given I import the competition file "features/results_scrapers/comp.html" with "ZSConcepts" and the events:
       | number | file name                              |
       |      5 | features/results_scrapers/event5.html  |
