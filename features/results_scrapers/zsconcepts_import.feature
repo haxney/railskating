@@ -9,7 +9,7 @@ Feature: Importing scraped ZSConcepts data
     Given I import the event file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
     Then there should be 4 imported rounds
     And the imported level should be Bronze
-    And the imported dances should be:
+    And the imported dance should be:
       | American Swing |
 
     And imported round 1 should have the following judges:
@@ -91,7 +91,7 @@ Feature: Importing scraped ZSConcepts data
       |    370 | 5 | 1 | 3 | 6 | 8 | 7 | 4 |
 
   @multi
-  Scenario: Brown Comp 2013 event 13
+  Scenario: Brown Comp 2013 event 13 (Silver International Waltz/Quickstep)
     Given I import the event file "features/results_scrapers/event13.html" with "ZSConcepts" using 10 judges
     Then the imported event should be number 13
     And there should be 3 rounds

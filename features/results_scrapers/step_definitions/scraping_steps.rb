@@ -11,7 +11,7 @@ Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
   @comp = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
-Given(/^I import the competition file "(.+)" with "(.+)" and the events:$/) do |file, mod, table|
+Given(/^I import the competition file "(.+)" with "(.+)" and the events?:$/) do |file, mod, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
   step %Q{I parse the competition file "#{file}" with "#{mod}"}
   event_scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
@@ -41,7 +41,7 @@ Then(/^the( imported)? event should be number (\d+)$/) do |imported, num|
   expect(src).to eq(num)
 end
 
-Then(/^there should be (\d+) (imported )?rounds$/) do |num, imported|
+Then(/^there should be (\d+) (imported )?rounds?$/) do |num, imported|
   src = imported ? @imported_event.rounds : @event[:rounds]
   expect(@event[:rounds].length).to eq(num)
 end
@@ -55,7 +55,7 @@ Then(/^the section should be (.+)$/) do |section|
   expect(@event[:section]).to eq(section)
 end
 
-Then(/^the( imported)? dances should be:$/) do |imported, table|
+Then(/^the( imported)? dances? should be:$/) do |imported, table|
   src = if imported
           @imported_event.sub_events.map { |se| se.dance.name }
         else
@@ -195,7 +195,7 @@ Then(/^the( imported)? competition should have the following adjudicators:$/) do
   table.diff!(src)
 end
 
-Then(/^the( imported)? competition should have the following events:$/) do |imported, table|
+Then(/^the( imported)? competition should have the following events?:$/) do |imported, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
 
   src = if imported

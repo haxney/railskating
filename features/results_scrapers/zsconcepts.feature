@@ -98,7 +98,7 @@ Feature: Scraping from dance.zsconcepts.com
     And there should be 4 rounds
     And the level should be Bronze
     And the section should be American
-    And the dances should be:
+    And the dance should be:
       | Swing |
 
     And round 1 should have the following judges:
