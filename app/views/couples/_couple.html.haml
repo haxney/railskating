@@ -1,0 +1,18 @@
+%tr[couple]
+  %td.couple_number= couple.number
+  %td.couple_lead
+    %span.lead_name= couple.lead.name
+    %span.lead_team= '(' + couple.lead.team.name + ')'
+  %td.couple_follow
+    %span.follow_name= couple.follow.name
+    %span.follow_team= '(' + couple.follow.team.name + ')'
+
+  - round.sub_rounds.each do |sr|
+    - round.adjudicators.each do |j|
+      %td{class: mark_cell_classes(sr, j)}= format_cell(couple, sr, j)
+
+-#
+  - unless round.final?
+    %td{ class: result_cell_classes(round)}<
+    - if couple.recalled_from?(round)
+      %span.glyphicon.glyphicon-glass

@@ -26,4 +26,9 @@ class User < ActiveRecord::Base
         OR 'couples'.'follow_id' = #{self.id}
     EOQ
   }
+
+  # Combines the {#first_name} and {#last_name} attributes.
+  def name
+    "#{first_name} #{last_name}"
+  end
 end

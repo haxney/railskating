@@ -1,15 +1,4 @@
-%p#notice= notice
+.page-header
+  %h1= build_title(@event)
 
-%p
-  %b Competition:
-  = @event.competition_id
-%p
-  %b Level:
-  = @event.level_id
-%p
-  %b Number:
-  = @event.number
-
-= link_to 'Edit', edit_event_path(@event)
-\|
-= link_to 'Back', events_path
+= render @event
