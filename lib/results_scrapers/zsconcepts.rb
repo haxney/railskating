@@ -311,7 +311,7 @@ module ResultsScrapers::ZSConcepts
     comp = {}
 
     title =  doc.css('h1').first.content.strip.split
-    comp[:name] = title[0..-1].join(" ")
+    comp[:name] = title[0..-2].join(" ")
     comp[:year] = title.last.to_i
     judge_table = doc.css('table h2+table').first
     comp[:judges] = judge_table.css('tr').map { |row| scrape_judge(row) }

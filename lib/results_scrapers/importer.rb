@@ -112,7 +112,7 @@ module ResultsScrapers::Importer
   #   from `hash`.
   def self.import_comp(hash)
     Competition.transaction do
-      comp = Competition.create(name: hash[:name].split[0..-2].join(' '))
+      comp = Competition.create(name: hash[:name])
       hash[:judges].each do |j|
         first_name = j[:name].split.first
         last_name = j[:name].split[1..-1].join(' ')
