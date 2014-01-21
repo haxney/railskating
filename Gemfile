@@ -16,6 +16,7 @@ gem 'nokogiri'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'unicorn'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -34,6 +35,7 @@ group :test, :development do
   gem 'yard'
   gem 'yard-cucumber'
   gem 'quiet_assets'
+  gem 'foreman'
 end
 
 group :production do
