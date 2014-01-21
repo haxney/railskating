@@ -13,6 +13,10 @@
   %b Team:
   = @competition.team_id
 
-= link_to 'Edit', edit_competition_path(@competition)
-\|
+%h3 Events
+%ol.events_list
+  - cache(@competition) do
+    - @competition.events.each do |event|
+      %li= link_to(build_title(event), event)
+
 = link_to 'Back', competitions_path
