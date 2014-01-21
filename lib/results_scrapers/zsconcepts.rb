@@ -10,6 +10,37 @@ module ResultsScrapers::ZSConcepts
   # Format to use for building event URIs.
   EVENT_FORMAT = COMP_FORMAT + 'event%s.html'
 
+  # Scrape a competition, including all of its events, usig ZSConcepts.
+  #
+  # Competition results pages have the form:
+  #
+  #     http://www.dance.zsconcepts.com/results/<comp>/
+  #
+  # This function requests that page and scrapes the results to find a list of
+  # events, and then fetches each event page and scrapes that.
+  #
+  # @param [String] comp The name of the competition, as it appears on
+  #   ZSConcepts.
+  #
+  # @return [Hash] See the output of {scrape_comp}. The `:events` key is
+  #   populated with the contents of the scraped event pages. It is an array of
+  #   "event hashes".
+  def self.fetch_and_scrape_comp(comp)
+    uri = URI(COMP_FORMAT % comp)
+    req = Net::HTTP::Get.new(uri)
+
+    # Need to set the referer header in order to get the correct page.
+    # ZSConcepts will redirect to the index if there is no referer.
+    req['Referer'] = COMP_FORMAT % comp
+    res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
+
+    comp_data = scrape_comp(Nokogiri::HTML(res.body))
+    comp_data[:events] = comp_data[:events].map do |event|
+      fetch_and_scrape_event(comp, event[:number])
+    end
+    comp_data
+  end
+
   # Scrape a given event from a competition usig ZSConcepts.
   #
   # Results pages have the form:
@@ -21,12 +52,13 @@ module ResultsScrapers::ZSConcepts
   # @param [String] comp The name of the competition, as it appears on
   #   ZSConcepts.
   # @param [Integer] event The event number.
-  # @return [Hash] See the output of {::scrape_doc}
+  # @return [Hash] See the output of {scrape_event}
   def self.fetch_and_scrape_event(comp, event)
     uri = URI(EVENT_FORMAT % [comp, event])
     req = Net::HTTP::Get.new(uri)
-    # Need to set the referer header in order to get the correct page. ZSConcepts
-    # will send you to the index if there is no referer.
+
+    # Need to set the referer header in order to get the correct page.
+    # ZSConcepts will redirect to the index if there is no referer.
     req['Referer'] = COMP_FORMAT % comp
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
@@ -51,7 +83,7 @@ module ResultsScrapers::ZSConcepts
     event = {}
 
     title = doc.css('body title').first.content
-    md = /Event #([0-9]+): (.+) (.+) (.+)/.match(title)
+    md = /Event #([0-9]+): (.+?) (.+?) (.+)/.match(title)
     event[:number] = md[1].to_i
     event[:level] = md[2]
     event[:section] = md[3]
@@ -213,7 +245,7 @@ module ResultsScrapers::ZSConcepts
         couple[:follow_name] = $3
         couple[:follow_team] = $4
       else
-        raise ScrapeError, "Unexpected couple name '#{name_elem}'"
+        raise ResultsScrapers::ScrapeError, "Unexpected couple name '#{name_elem}'"
       end
 
       couple[:dances] = scrape_marks_row(cols, judges, dances)
@@ -223,7 +255,7 @@ module ResultsScrapers::ZSConcepts
                                  when /R/ then true
                                  when /[0-9]+/ then extra.to_i
                                  else
-                                   raise ScrapeError, "Unexpected extra column '#{extra}'"
+                                   raise ResultsScrapers::ScrapeError, "Unexpected extra column '#{extra}'"
                                  end
       couple
     end
@@ -252,7 +284,7 @@ module ResultsScrapers::ZSConcepts
               when 'X' then true
               when /^[0-9]+$/ then cols[i].content.to_i
               else
-                raise ScrapeError, "Unexpected judge mark '#{cols[i].content}"
+                raise ResultsScrapers::ScrapeError, "Unexpected judge mark '#{cols[i].content}"
               end
         marks[dance][judges[i % judges.length]] = res
       end
@@ -272,9 +304,9 @@ module ResultsScrapers::ZSConcepts
   #   - `:name` The name of the competition.
   #   - `:year` The year of the competition, as an Integer
   #   - `:judges` A hash returned from {scrape_judge}.
-  #   - `:events` A hash with the keys `:number` (the event number as an
-  #               Integer) and `:file_name` (the name of the file which contains
-  #               the event).
+  #   - `:events` An array of hashes with the keys `:number` (the event number
+  #               as an Integer) and `:file_name` (the name of the file which
+  #               contains the event).
   def self.scrape_comp(doc)
     comp = {}
 
