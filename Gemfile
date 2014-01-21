@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
+ruby '2.0.0'
 
 gem 'rails', '~> 4.0.0'
-gem 'sqlite3'
 gem 'pg'
 
 gem 'jquery-rails'
@@ -16,6 +16,7 @@ gem 'nokogiri'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'unicorn'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -34,4 +35,9 @@ group :test, :development do
   gem 'yard'
   gem 'yard-cucumber'
   gem 'quiet_assets'
+  gem 'foreman'
+end
+
+group :production do
+  gem 'rails_12factor'
 end
