@@ -35,3 +35,7 @@ group :test, :development do
   gem 'yard-cucumber'
   gem 'quiet_assets'
 end
+
+group :production do
+  gem 'rails_12factor'
+end
