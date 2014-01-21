@@ -178,7 +178,12 @@ Feature: Importing scraped ZSConcepts data
 
   @comp
   Scenario: Brown Comp 2013 event 13
-    Given I import the competition file "features/results_scrapers/comp.html" with "ZSConcepts"
+    Given I import the competition file "features/results_scrapers/comp.html" with "ZSConcepts" and the events:
+      | number | file name                              |
+      |      5 | features/results_scrapers/event5.html  |
+      |     13 | features/results_scrapers/event13.html |
+      |     17 | features/results_scrapers/event17.html |
+
     Then the imported competition should be called "Brown Ballroom Competition"
     And the imported competition should have the following adjudicators:
       | shorthand | first name | last name  |
@@ -192,3 +197,9 @@ Feature: Importing scraped ZSConcepts data
       | H         | Kathy      | St. Jean   |
       | I         | Michael    | ulbrich    |
       | J         | Peter      | Walker     |
+
+    And the imported competition should have the following events:
+      | number | level  | dances                                           |
+      |      5 | Bronze | Swing                                            |
+      |     13 | Silver | Waltz, Quickstep                                 |
+      |     17 | Open   | Waltz, Quickstep, Foxtrot, Tango, Viennese Waltz |

@@ -111,5 +111,25 @@ module ResultsScrapers::Importer
   # @return [Event] A newly-created {Competition} filled in with information
   #   from `hash`.
   def self.import_comp(hash)
+    Competition.transaction do
+      comp = Competition.create(name: hash[:name].split[0..-2].join(' '))
+      hash[:judges].each do |j|
+        first_name = j[:name].split.first
+        last_name = j[:name].split[1..-1].join(' ')
+        u = User.find_or_create_by(first_name: first_name,
+                                   last_name: last_name)
+
+        ad = comp.adjudicators.create(shorthand: j[:shorthand],
+                                      user: u)
+      end
+
+      hash[:events].each do |event|
+        # Skip events which have not been parsed.
+        next unless event[:dances]
+        import_event(event, comp)
+      end
+
+      comp
+    end
   end
 end

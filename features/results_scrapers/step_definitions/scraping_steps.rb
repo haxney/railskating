@@ -11,14 +11,23 @@ Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
   @comp = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
-Given(/^I import the competition file "(.+)" with "(.+)"$/) do |file, mod|
+Given(/^I import the competition file "(.+)" with "(.+)" and the events:$/) do |file, mod, table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
   step %Q{I parse the competition file "#{file}" with "#{mod}"}
+  event_scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
+
+  # Parse and add events to comp
+  table.hashes.each do |row|
+    event = event_scrape_func.call(Nokogiri::HTML(open(row[:file_name])))
+    @comp[:events][row[:number]].merge!(event)
+  end
+
   @imported_comp = ResultsScrapers::Importer.import_comp(@comp)
 end
 
 Given(/^I import the event file "(.+)" with "(.+)" using (\d+) judges$/) do |file, mod, num_judges|
   step %Q{I parse the event file "#{file}" with "#{mod}"}
-  comp = @comp || FactoryGirl.create(:competition)
+  comp = FactoryGirl.create(:competition)
   FactoryGirl.create_list(:adjudicator, num_judges, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
 end
@@ -173,19 +182,34 @@ end
 Then(/^the( imported)? competition should have the following adjudicators:$/) do |imported, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
   src = if imported
-          @imported_comp.adjudicators.map { |a| [a.shorthand,
-                                                 a.first_name,
-                                                 a.last_name] }
+          @imported_comp.adjudicators.map do |a|
+      {
+        shorthand: a.shorthand,
+        first_name: a.user.first_name,
+        last_name: a.user.last_name
+      }
+    end
         else
           @comp[:judges]
         end
   table.diff!(src)
 end
 
-Then(/^the competition should have the following events:$/) do |table|
+Then(/^the( imported)? competition should have the following events:$/) do |imported, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
 
-  table.diff!(@comp[:events])
+  src = if imported
+          @imported_comp.events.map do |event|
+      {
+        number: event.number,
+        level: event.level.name,
+        dances: event.dances.map(&:base_name).join(', ')
+      }
+    end
+        else
+          @comp[:events]
+        end
+  table.diff!(src)
 end
 
 Transform(/^table:number/) do |table|

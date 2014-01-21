@@ -35,8 +35,8 @@ module ResultsScrapers::ZSConcepts
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
     comp_data = scrape_comp(Nokogiri::HTML(res.body))
-    comp_data[:events] = comp_data[:events].map do |event|
-      event.merge(fetch_and_scrape_event(comp, event[:number]))
+    comp_data[:events].each do |event|
+      event.merge!(fetch_and_scrape_event(comp, event[:number]))
     end
     comp_data
   end
@@ -311,7 +311,7 @@ module ResultsScrapers::ZSConcepts
     comp = {}
 
     title =  doc.css('h1').first.content.strip.split
-    comp[:name] = title[0..title.length - 2].join(" ")
+    comp[:name] = title[0..-1].join(" ")
     comp[:year] = title.last.to_i
     judge_table = doc.css('table h2+table').first
     comp[:judges] = judge_table.css('tr').map { |row| scrape_judge(row) }
