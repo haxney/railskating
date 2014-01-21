@@ -28,6 +28,8 @@ module ResultsScrapers::Importer
 
       hash[:rounds].each { |r| import_round(r, event, se_hash, judge_hash) }
       event.save!
+      puts("Imported event #{event.number} for competition #{comp.id}")
+
       event
     end
   end
@@ -112,6 +114,9 @@ module ResultsScrapers::Importer
   #   from `hash`.
   def self.import_comp(hash)
     Competition.transaction do
+
+      puts("Beginning import for competition '#{hash[:name]} #{hash[:year]}'")
+
       comp = Competition.create(name: hash[:name])
       hash[:judges].each do |j|
         first_name = j[:name].split.first
@@ -128,6 +133,9 @@ module ResultsScrapers::Importer
         next unless event[:dances]
         import_event(event, comp)
       end
+
+      n, y = [hash[:name], hash[:year]]
+      puts("Completed import for competition '#{n} #{y}'")
 
       comp
     end
