@@ -36,7 +36,7 @@ module ResultsScrapers::ZSConcepts
 
     comp_data = scrape_comp(Nokogiri::HTML(res.body))
     comp_data[:events] = comp_data[:events].map do |event|
-      fetch_and_scrape_event(comp, event[:number])
+      event.merge(fetch_and_scrape_event(comp, event[:number]))
     end
     comp_data
   end

@@ -11,9 +11,14 @@ Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
   @comp = scrape_func.call(Nokogiri::HTML(open(file)))
 end
 
+Given(/^I import the competition file "(.+)" with "(.+)"$/) do |file, mod|
+  step %Q{I parse the competition file "#{file}" with "#{mod}"}
+  @imported_comp = ResultsScrapers::Importer.import_comp(@comp)
+end
+
 Given(/^I import the event file "(.+)" with "(.+)" using (\d+) judges$/) do |file, mod, num_judges|
   step %Q{I parse the event file "#{file}" with "#{mod}"}
-  comp = FactoryGirl.create(:competition)
+  comp = @comp || FactoryGirl.create(:competition)
   FactoryGirl.create_list(:adjudicator, num_judges, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)
 end
@@ -152,17 +157,29 @@ Then(/^(imported )?round (\d+) should have the following marks in the dance "(.+
   end
 end
 
-Then(/^the competition should be called "(.+)"$/) do |name|
-  expect(@comp[:name]).to eq(name)
+Then(/^the( imported)? competition should be called "(.+)"$/) do |imported, name|
+  src = if imported
+          @imported_comp.name
+        else
+          @comp[:name]
+        end
+  expect(src).to eq(name)
 end
 
 Then(/^the year should be (\d+)$/) do |year|
   expect(@comp[:year]).to eq(year)
 end
 
-Then(/^the competition should have the following adjudicators:$/) do |table|
+Then(/^the( imported)? competition should have the following adjudicators:$/) do |imported, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
-  table.diff!(@comp[:judges])
+  src = if imported
+          @imported_comp.adjudicators.map { |a| [a.shorthand,
+                                                 a.first_name,
+                                                 a.last_name] }
+        else
+          @comp[:judges]
+        end
+  table.diff!(src)
 end
 
 Then(/^the competition should have the following events:$/) do |table|

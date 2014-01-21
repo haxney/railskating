@@ -175,3 +175,20 @@ Feature: Importing scraped ZSConcepts data
       |    286 | 3 | 4 | 2 | 3 | 2 | 2 | 2 |
       |    345 | 6 | 8 | 6 | 8 | 4 | 4 | 5 |
       |    365 | 8 | 7 | 8 | 7 | 8 | 6 | 8 |
+
+  @comp
+  Scenario: Brown Comp 2013 event 13
+    Given I import the competition file "features/results_scrapers/comp.html" with "ZSConcepts"
+    Then the imported competition should be called "Brown Ballroom Competition"
+    And the imported competition should have the following adjudicators:
+      | shorthand | first name | last name  |
+      | A         | Istvan     | Cserven    |
+      | B         | Christine  | Harvey     |
+      | C         | Ruta       | Loukhnikov |
+      | D         | Helle      | Rusholt-Yi |
+      | E         | Kalin      | Mitov      |
+      | F         | Gail       | Rundlett   |
+      | G         | Mark       | Sheldon    |
+      | H         | Kathy      | St. Jean   |
+      | I         | Michael    | ulbrich    |
+      | J         | Peter      | Walker     |
