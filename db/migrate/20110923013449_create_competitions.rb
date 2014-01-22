@@ -4,7 +4,7 @@ class CreateCompetitions < ActiveRecord::Migration
       t.string :name
       t.date :start_date
       t.date :end_date
-      t.integer :team_id
+      t.references :team, foreign_key: { on_delete: :restrict }
 
       t.timestamps
     end

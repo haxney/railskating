@@ -2,7 +2,7 @@ class CreateDances < ActiveRecord::Migration
   def change
     create_table :dances do |t|
       t.string :name
-      t.integer :section_id
+      t.references :section, foreign_key: { on_delete: :restrict }
 
       t.timestamps
     end
