@@ -17,7 +17,7 @@ module ResultsScrapers::Importer
         dance = hash[:dances][i]
         dance_model = Dance.find_by!(name: hash[:section] + ' ' + dance)
         sub_event = event.sub_events.create(dance: dance_model,
-                                            order: i)
+                                            weight: i)
         se_hash[dance] = sub_event
       end
 

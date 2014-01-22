@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20140120191726) do
   create_table "sub_events", force: true do |t|
     t.integer  "event_id"
     t.integer  "dance_id"
-    t.integer  "order"
+    t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["dance_id"], :name => "fk__sub_events_dance_id"
