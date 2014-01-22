@@ -7,7 +7,7 @@ class SubEvent < ActiveRecord::Base
 
   # @!attribute sub_placements
   #   @return [Array<SubPlacement>] The {SubPlacement}s for this {SubEvent}.
-  has_many :sub_placements, -> { order :rank }, dependent: :destroy
+  has_many :sub_placements, -> { order(:rank) }, dependent: :destroy
   has_many :rounds, -> { distinct.order(:number) }, through: :sub_rounds
   has_one :section, through: :dance
 
@@ -52,7 +52,7 @@ class SubEvent < ActiveRecord::Base
 
     compute_placements unless resolved?
 
-    self.sub_placements.order(:rank).map do |sp|
+    self.sub_placements.map do |sp|
       [sp.rank, sp.couple.to_single_finalist(final_sub_round)]
     end
   end
