@@ -1,5 +1,5 @@
 class Adjudicator < ActiveRecord::Base
-  has_many :marks
+  has_many :marks, dependent: :destroy
   belongs_to :user
   belongs_to :competition
 

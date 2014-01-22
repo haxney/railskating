@@ -4,13 +4,13 @@ require 'exceptions'
 class Event < ActiveRecord::Base
   belongs_to :competition
   belongs_to :level
-  has_many :couples
-  has_many :rounds
-  has_many :sub_events, -> { order('sub_events.order ASC') }
+  has_many :couples, dependent: :destroy
+  has_many :rounds, dependent: :destroy
+  has_many :sub_events, -> { order('sub_events.order ASC') }, dependent: :destroy
   has_many :dances, -> { select('"dances".*, sub_events.order')
       .distinct.order('sub_events.order ASC') }, through: :sub_events
   has_many :sections, -> { distinct }, through: :dances
-  has_many :placements, -> { order :rank }
+  has_many :placements, -> { order :rank }, dependent: :destroy
 
   def final_round
     @final_round ||= self.rounds.where(final: true).first
