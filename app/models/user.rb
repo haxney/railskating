@@ -1,8 +1,10 @@
 class User < ActiveRecord::Base
   belongs_to :team
-  has_many :lead_couples, class_name: 'Couple', foreign_key: :lead_id, inverse_of: :lead
-  has_many :follow_couples, class_name: 'Couple', foreign_key: :follow_id, inverse_of: :follow
-  has_many :adjudicators
+  has_many :lead_couples, { class_name: 'Couple', foreign_key: :lead_id,
+    inverse_of: :lead, dependent: :restrict_with_exception }
+  has_many :follow_couples, { class_name: 'Couple', foreign_key: :follow_id,
+    inverse_of: :follow, dependent: :restrict_with_exception }
+  has_many :adjudicators, dependent: :restrict_with_exception
 
   has_many :couples, -> {
     joins('JOIN couples ON (couples.lead_id = users.id OR couples.follow_id = users.id)')
