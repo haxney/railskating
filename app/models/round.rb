@@ -1,6 +1,6 @@
 class Round < ActiveRecord::Base
   belongs_to :event
-  has_many :sub_rounds
+  has_many :sub_rounds, -> { joins(:sub_event).order('"sub_events"."order" ASC') }
 
   # Couples entering the round
   has_and_belongs_to_many :couples, -> { uniq.order('number ASC') }

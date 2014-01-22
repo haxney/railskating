@@ -8,7 +8,7 @@ class SubEvent < ActiveRecord::Base
   # @!attribute sub_placements
   #   @return [Array<SubPlacement>] The {SubPlacement}s for this {SubEvent}.
   has_many :sub_placements, -> { order :rank }, dependent: :destroy
-  has_many :rounds, -> { distinct }, through: :sub_rounds
+  has_many :rounds, -> { distinct.order(:number) }, through: :sub_rounds
   has_one :section, through: :dance
 
   def final_sub_round
