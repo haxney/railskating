@@ -3,7 +3,7 @@ ruby '2.0.0'
 
 gem 'rails', '~> 4.0.0'
 gem 'pg'
-gem 'sqlite3'
+
 
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -37,6 +37,8 @@ group :test, :development do
   gem 'yard-cucumber'
   gem 'quiet_assets'
   gem 'foreman'
+  gem 'sqlite3'
+  gem 'mysql2'
 end
 
 group :production do
