@@ -160,8 +160,8 @@ ActiveRecord::Schema.define(version: 20140120191726) do
     t.index ["couple_id", "sub_round_id"], :name => "index_marks_on_couple_id_and_sub_round_id"
     t.index ["couple_id"], :name => "fk__marks_couple_id"
     t.index ["sub_round_id"], :name => "fk__marks_sub_round_id"
-    t.foreign_key ["adjudicator_id"], "adjudicators", ["id"], :on_update => :no_action, :on_delete => :cascade, :name => "fk_marks_adjudicator_id"
-    t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :cascade, :name => "fk_marks_couple_id"
+    t.foreign_key ["adjudicator_id"], "adjudicators", ["id"], :on_update => :no_action, :on_delete => :restrict, :name => "fk_marks_adjudicator_id"
+    t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :restrict, :name => "fk_marks_couple_id"
     t.foreign_key ["sub_round_id"], "sub_rounds", ["id"], :on_update => :no_action, :on_delete => :cascade, :name => "fk_marks_sub_round_id"
   end
 
