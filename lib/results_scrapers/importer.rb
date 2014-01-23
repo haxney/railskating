@@ -17,7 +17,7 @@ module ResultsScrapers::Importer
         dance = hash[:dances][i]
         dance_model = Dance.find_by!(name: hash[:section] + ' ' + dance)
         sub_event = event.sub_events.create(dance: dance_model,
-                                            order: i)
+                                            weight: i)
         se_hash[dance] = sub_event
       end
 
@@ -28,7 +28,10 @@ module ResultsScrapers::Importer
 
       hash[:rounds].each { |r| import_round(r, event, se_hash, judge_hash) }
       event.save!
-      puts("Imported event #{event.number} for competition #{comp.id}")
+
+      Rails.logger.tagged('scraping', 'import') {
+        Rails.logger.info("Imported event #{event.number} for competition #{comp.id}")
+      }
 
       event
     end
@@ -114,8 +117,9 @@ module ResultsScrapers::Importer
   #   from `hash`.
   def self.import_comp(hash)
     Competition.transaction do
-
-      puts("Beginning import for competition '#{hash[:name]} #{hash[:year]}'")
+      Rails.logger.tagged('scraping', 'import') {
+        Rails.logger.info("Beginning import for competition '#{hash[:name]} #{hash[:year]}'")
+      }
 
       comp = Competition.create(name: hash[:name])
       hash[:judges].each do |j|
@@ -135,7 +139,10 @@ module ResultsScrapers::Importer
       end
 
       n, y = [hash[:name], hash[:year]]
-      puts("Completed import for competition '#{n} #{y}'")
+
+      Rails.logger.tagged('scraping', 'import') {
+        Rails.logger.info("Completed import for competition '#{n} #{y}'")
+      }
 
       comp
     end

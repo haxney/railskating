@@ -5,11 +5,11 @@ class Couple < ActiveRecord::Base
   belongs_to :follow, class_name: 'User', inverse_of: :follow_couples
   belongs_to :event, inverse_of: :couples
   has_one :competition, through: :event
-  has_many :marks
+  has_many :marks, dependent: :restrict_with_exception
   has_many :couple_round_tallies
   has_and_belongs_to_many :rounds
-  has_many :placements
-  has_many :sub_placements
+  has_many :placements, dependent: :restrict_with_exception
+  has_many :sub_placements, dependent: :restrict_with_exception
 
   # Convert this couple to a `Finalist` structure for computing placement
   # results.

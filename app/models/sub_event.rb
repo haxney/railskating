@@ -3,12 +3,12 @@ require 'exceptions'
 class SubEvent < ActiveRecord::Base
   belongs_to :event
   belongs_to :dance
-  has_many :sub_rounds
+  has_many :sub_rounds, dependent: :destroy
 
   # @!attribute sub_placements
   #   @return [Array<SubPlacement>] The {SubPlacement}s for this {SubEvent}.
-  has_many :sub_placements, -> { order :rank }
-  has_many :rounds, -> { distinct }, through: :sub_rounds
+  has_many :sub_placements, -> { order(:rank) }, dependent: :destroy
+  has_many :rounds, -> { distinct.order(:number) }, through: :sub_rounds
   has_one :section, through: :dance
 
   def final_sub_round
@@ -52,7 +52,7 @@ class SubEvent < ActiveRecord::Base
 
     compute_placements unless resolved?
 
-    self.sub_placements.order(:rank).map do |sp|
+    self.sub_placements.map do |sp|
       [sp.rank, sp.couple.to_single_finalist(final_sub_round)]
     end
   end

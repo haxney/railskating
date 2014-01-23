@@ -1,20 +1,41 @@
-development:
-  adapter: postgresql
-  database: railskating_development
-  username: <%= ENV['RAILSKATING_USER'] %>
-  password: <%= ENV['RAILSKATING_PASS'] %>
+sqlite: &sqlite
+  adapter: sqlite3
+  database: db/<%= Rails.env %>.sqlite3
 
-test: &test
+mysql: &mysql
+  adapter: mysql2
+  username: <%= ENV['TRAVIS'] ? 'root' : ENV['RAILSKATING_USER'] %>
+  password: <%= ENV['TRAVIS'] ? '' : ENV['RAILSKATING_PASS'] %>
+  database: railskating_<%= Rails.env %>
+
+postgresql: &postgresql
   adapter: postgresql
-  database: railskating_test
   username: <%= ENV['TRAVIS'] ? 'postgres' : ENV['RAILSKATING_USER'] %>
   password: <%= ENV['TRAVIS'] ? '' : ENV['RAILSKATING_PASS'] %>
+  database: railskating_<%= Rails.env %>
+
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+
+test: &test
+  adapter: sqlite3
+  database: db/test.sqlite3
+
+defaults: &defaults
+  pool: 5
+  timeout: 5000
+  host: localhost
+  <<: *<%= ENV['DB'] || "sqlite" %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
 
 production:
-  adapter: postgresql
-  database: railskating_production
-  username: <%= ENV['RAILSKATING_USER'] %>
-  password: <%= ENV['RAILSKATING_PASS'] %>
+  <<: *defaults
 
 cucumber:
   <<: *test
