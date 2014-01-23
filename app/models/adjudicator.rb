@@ -1,5 +1,5 @@
 class Adjudicator < ActiveRecord::Base
-  has_many :marks, dependent: :restrict_with_exception
+  has_many :marks
   belongs_to :user
   belongs_to :competition
 
