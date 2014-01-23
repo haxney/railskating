@@ -1,17 +1,7 @@
-@zebra-stripe-color: #f0f0f0;
-
 /*
- * Border lines and zebra striping.
+ * Make cell sizes uniform and center-aligned.
  */
-table.results_round {
-  th, td {
-    border: 1px solid black;
-  }
-  td.mark_cell {
-    width: 1em;
-    text-align: center;
-  }
-  tr:nth-child(2n+1) {
-    background-color: @zebra-stripe-color;
-  }
+table.results_round td.mark_cell {
+  width: 1em;
+  text-align: center;
 }

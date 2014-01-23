@@ -1,7 +1,7 @@
 - cache(round) do
   %div[round, :wrapper]
     %h3.round_title= "Round #{round.number}"
-    %table[round, :results]
+    %table.table-striped.table-bordered.table-hover[round, :results]
       %tr.header_row
         %th.number_header Number
         %th.lead_header Leader
