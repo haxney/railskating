@@ -19,7 +19,7 @@ class Round < ActiveRecord::Base
                    SELECT count(t2.couple_id)
                    FROM couple_round_tallies AS t2
                    WHERE t2.num_marks >= t1.num_marks AND
-                         t1.round_id = #{self.id}
+                         t2.round_id = #{self.id}
                  ) AS num_couples
             FROM couple_round_tallies AS t1
             WHERE t1.round_id = #{self.id}
@@ -86,7 +86,7 @@ class Round < ActiveRecord::Base
   end
 
   protected
-  # Cleare the `@recalled` cache object.
+  # Clear the `@recalled` cache object.
   def clear_recalled
     @recalled = nil
   end

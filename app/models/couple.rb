@@ -29,6 +29,7 @@ class Couple < ActiveRecord::Base
   #
   # @return [Boolean] `true` if this {Couple} was recalled from `round`.
   def recalled_from?(round)
-    round.recalled_couples.include?(self)
+    recalled = round.recalled_couples
+    recalled.respond_to?(:include?) ? recalled.include?(self) : false
   end
 end
