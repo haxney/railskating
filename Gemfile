@@ -15,8 +15,9 @@ gem 'uglifier'
 gem 'schema_plus'
 gem 'nokogiri'
 gem 'therubyracer'
-gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+gem 'sass-rails'
+gem 'bootstrap-sass'
+gem 'font-awesome-rails'
 gem 'unicorn'
 
 group :doc do
