@@ -6,7 +6,8 @@ class Event < ActiveRecord::Base
   belongs_to :level
   has_many :couples, dependent: :destroy
   has_many :rounds, dependent: :destroy
-  has_many :sub_events, -> { order('sub_events.weight ASC') }, dependent: :destroy
+  has_many :sub_events, -> { select('sub_events.*, sub_events.weight AS weight')
+      .order('sub_events.weight ASC') }, dependent: :destroy
   has_many :dances, -> { select('dances.*, sub_events.weight AS weight')
       .distinct.reorder('sub_events.weight ASC') }, through: :sub_events
   has_many :sections, -> { distinct }, through: :dances
