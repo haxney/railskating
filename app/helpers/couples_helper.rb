@@ -7,16 +7,16 @@ module CouplesHelper
   # @param [SubRound] sub_round The sub round.
   # @param [Adjudicator] adjudicator The adjudicator.
   #
-  # @return [String] An 'X' if `sub_round` is part of a preliminary {Round} and
-  #   the `adjudicator` marked the `couple`, an integer (as a string) if the
-  #   {Round} was final, or and empty string, if the adjudicator did not mark
-  #   the couple.
+  # @return [String] A FontAwesome check mark if `sub_round` is part of a
+  #   preliminary {Round} and the `adjudicator` marked the `couple`, an integer
+  #   (as a string) if the {Round} was final, or and empty string, if the
+  #   adjudicator did not mark the couple.
   def format_cell(couple, sub_round, adjudicator)
     mark = Mark.find_by(adjudicator: adjudicator,
                         sub_round_id: sub_round.id,
                         couple: couple)
     if mark
-      (mark.placement == 0) ? 'X' : mark.placement.to_s
+      (mark.placement == 0) ? fa_icon('check') : mark.placement.to_s
     else
       ''
     end
