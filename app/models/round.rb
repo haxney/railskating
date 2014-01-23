@@ -4,9 +4,11 @@ class Round < ActiveRecord::Base
 
   # Couples entering the round
   has_and_belongs_to_many :couples, -> { uniq.order(number: :asc) }
+  before_destroy { couples.clear }
 
   # The judges scoring the round.
   has_and_belongs_to_many :adjudicators, -> { uniq.order(shorthand: :asc) }
+  before_destroy { adjudicators.clear }
 
   has_many :couple_tallies, class_name: 'CoupleRoundTally'
 

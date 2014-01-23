@@ -5,4 +5,5 @@ class Adjudicator < ActiveRecord::Base
 
   # The rounds which this judge scored.
   has_and_belongs_to_many :rounds, -> { uniq }
+  before_destroy { rounds.clear }
 end
