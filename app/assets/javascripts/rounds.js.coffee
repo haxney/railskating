@@ -1,6 +1,5 @@
 jQuery ->
-  # Currently, there's an error on final tables
-  $('.results_round_prelim').dataTable
+  $('.results_round').dataTable
     bPaginate: false
     bInfo: false
     sDom: 't'

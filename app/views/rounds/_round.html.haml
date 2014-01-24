@@ -10,8 +10,9 @@
           - round.sub_rounds.each do |sr|
             %th{colspan: round.adjudicators.length}[sr.sub_event.dance, :header]<
               = sr.sub_event.dance.base_name
-          %th.recalled_header{rowspan: 2}
-            -# Needed to prevent DataTables from complaining.
+          - unless round.final?
+            %th.recalled_header{rowspan: 2}
+
         %tr.header_row_judges
           - round.sub_rounds.count.times do |i|
             - round.adjudicators.each do |ad|
