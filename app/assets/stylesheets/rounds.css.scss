@@ -12,7 +12,11 @@ table.results_round {
 }
 
 table.floatThead-table {
-    border-top: none;
-    border-bottom: none;
-    background-color: #FFF;
+  border-top: none;
+  border-bottom: none;
+  background-color: #FFF;
+}
+
+table.dataTable.floatThead-table {
+  margin-top: 0px !important;
 }
