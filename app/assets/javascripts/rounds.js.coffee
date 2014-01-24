@@ -1,3 +1,10 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+jQuery ->
+  # Currently, there's an error on final tables
+  $('.results_round_prelim').dataTable
+    bPaginate: false
+    bInfo: false
+    sDom: 't'
+    aoColumnDefs: [
+      aTargets: ['recalled_header', 'adjudicator_header']
+      bSearchable: false
+    ]
