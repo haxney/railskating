@@ -1,4 +1,4 @@
-%tr[couple]
+%tr{class: "couple_#{couple.id}"}
   %td.couple_number= couple.number
   %td.couple_lead
     %span.lead_name= couple.lead.name
@@ -15,3 +15,7 @@
     %td{ class: result_cell_classes(round)}<
       - if couple.recalled_from?(round)
         %i.fa.fa-heart
+          -# Used for DataTables sorting
+          %span.hidden Recalled
+      - else
+        %span.hidden Eliminated
