@@ -1,3 +1,11 @@
+.filter-controls
+  %form.form-horizontal
+    .form-group
+      %label.col-sm-2.control-label{for: 'event-filter'} Filter couples
+      .col-sm-6
+        %input.form-control#event-filter{type: 'text',
+                                         placeholder: 'Enter name or number'}
+
 %div[event, :result]
   - cache(event) do
     = render event.rounds

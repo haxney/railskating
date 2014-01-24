@@ -1,10 +1,7 @@
 source 'http://rubygems.org'
 ruby '2.0.0'
-
 gem 'rails', '~> 4.0.0'
 gem 'pg'
-
-
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
@@ -15,9 +12,12 @@ gem 'uglifier'
 gem 'schema_plus'
 gem 'nokogiri'
 gem 'therubyracer'
-gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+gem 'sass-rails'
+gem 'bootstrap-sass'
+gem 'font-awesome-rails'
 gem 'unicorn'
+gem 'jquery-datatables-rails'
+gem 'lodash-rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -19,33 +19,13 @@
 
 
   %body
-    .navbar.navbar-fluid-top
-      .navbar-inner
-        .container-fluid
-          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.brand(href="#") Railskating
-          .container.nav-collapse
-            %ul.nav
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
+    .container
+      %nav.navbar.navbar-default{role: 'navigation'}
+        .navbar-header
+          = link_to 'Railskating', root_url, class: 'navbar-brand'
 
-    .container-fluid
+      = yield
 
-      .row-fluid
-        .span3
-          .well.sidebar-nav
-            %ul.nav.nav-list
-              %li.nav-header Sidebar
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
-        .span9
-          = bootstrap_flash
-          = yield
-
-      %footer
+    %footer
+      .col-md-5
         %p &copy; Daniel Hackney 2014
