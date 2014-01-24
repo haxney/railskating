@@ -2,13 +2,17 @@ table.results_round {
   td {
     white-space: nowrap;
   }
-
   td.mark_cell, td.result_cell {
     width: 1em;
     text-align: center;
+    i.fa-heart {
+      color: #1D9D74;
+    }
   }
 }
 
-td.result_cell i.fa-heart {
-  color: #1D9D74;
+table.floatThead-table {
+    border-top: none;
+    border-bottom: none;
+    background-color: #FFF;
 }

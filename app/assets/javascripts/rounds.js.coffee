@@ -7,3 +7,5 @@ jQuery ->
       aTargets: ['recalled_header', 'adjudicator_header']
       bSearchable: false
     ]
+
+  $('.results_round').floatThead()
