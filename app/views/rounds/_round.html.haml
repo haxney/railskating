@@ -1,7 +1,7 @@
 - cache(round) do
   %div.table-responsive[round, :wrapper]
     %h3.round_title= "Round #{round.number}"
-    %table.table-striped.table-bordered.table-hover[round, :results]
+    %table.table-striped.table-bordered.table-hover{class: round_table_class(round)}[round, :results]
       %thead
         %tr.header_row_first
           %th.number_header{rowspan: 2} Number
