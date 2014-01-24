@@ -2,9 +2,13 @@ table.results_round {
   td {
     white-space: nowrap;
   }
+  th .adjudicator_header {
+    text-align: center;
+  }
   td.mark_cell, td.result_cell {
     width: 1em;
     text-align: center;
+
     i.fa-heart {
       color: #1D9D74;
     }

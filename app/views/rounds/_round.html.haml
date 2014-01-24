@@ -16,6 +16,8 @@
         %tr.header_row_judges
           - round.sub_rounds.count.times do |i|
             - round.adjudicators.each do |ad|
-              %th{class: adjudicator_header_classes(ad)}= ad.shorthand
+              %th
+                %div{class: adjudicator_header_classes(ad),
+                     data: {title: ad.user.name}}= ad.shorthand
       %tbody
         = render round.couples, round: round
