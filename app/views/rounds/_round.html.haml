@@ -1,12 +1,20 @@
 - cache(round) do
-  %div[round, :wrapper]
+  %div.table-responsive[round, :wrapper]
     %h3.round_title= "Round #{round.number}"
     %table.table-striped.table-bordered.table-hover[round, :results]
-      %tr.header_row
-        %th.number_header Number
-        %th.lead_header Leader
-        %th.follow_header Follower
-        - round.sub_rounds.each do |sr|
-          %th{colspan: round.adjudicators.length}[sr.sub_event.dance, :header]<
-            = sr.sub_event.dance.base_name
-      = render round.couples, round: round
+      %thead
+        %tr.header_row_first
+          %th.number_header{rowspan: 2} Number
+          %th.lead_header{rowspan: 2} Leader
+          %th.follow_header{rowspan: 2} Follower
+          - round.sub_rounds.each do |sr|
+            %th{colspan: round.adjudicators.length}[sr.sub_event.dance, :header]<
+              = sr.sub_event.dance.base_name
+          %th{rowspan: 2}
+            -# Needed to prevent DataTables from complaining.
+        %tr.header_row_judges
+          - round.sub_rounds.count.times do |i|
+            - round.adjudicators.each do |ad|
+              %th[ad]= ad.shorthand
+      %tbody
+        = render round.couples, round: round
