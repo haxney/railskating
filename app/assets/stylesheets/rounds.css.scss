@@ -1,6 +1,12 @@
-table.results_round td.mark_cell {
-  width: 1em;
-  text-align: center;
+table.results_round {
+  td {
+    white-space: nowrap;
+  }
+
+  td.mark_cell, td.result_cell {
+    width: 1em;
+    text-align: center;
+  }
 }
 
 td.result_cell i.fa-heart {
