@@ -17,6 +17,7 @@ gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'unicorn'
 gem 'jquery-datatables-rails'
+gem 'lodash-rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

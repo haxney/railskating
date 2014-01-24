@@ -10,4 +10,6 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap3
 //= require local_datatables_plugins
+//= require lodash
+//= require jquery.floatThead
 //= require_tree .
