@@ -49,7 +49,7 @@ end
 def placements_to_table(placements)
   sorted = placements.sort_by { |p| p.couple.number }
   [['couple', 'rank', 'rule']] + sorted.map do |p|
-    [p.couple.number.to_s,
+    [p.couple.number,
      p.rank.to_s,
      ((p.rule) ? "R#{p.rule}" : "")]
   end

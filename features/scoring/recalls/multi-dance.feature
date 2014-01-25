@@ -1,4 +1,4 @@
-@multi @prelim
+@scoring @multi @prelim
 Feature: Couples recalled for a multi-dance round determined by adjudicator's marks
   In order to score an individual round
   The couples
@@ -6,7 +6,7 @@ Feature: Couples recalled for a multi-dance round determined by adjudicator's ma
   To advance to the next round of the competition
 
   Background:
-    Given the adjudicators marked the following couples in the preliminary sub-round "1":
+    Given the following marks in a preliminary round, dance "International Tango":
       | couple | A | B | C | D | E | F | G |
       |     10 |   | X | X | X |   |   |   |
       |     11 | X |   | X | X | X | X |   |
@@ -19,7 +19,7 @@ Feature: Couples recalled for a multi-dance round determined by adjudicator's ma
       |     18 | X | X | X | X | X | X | X |
       |     19 | X |   |   |   | X |   | X |
 
-    And the adjudicators marked the following couples in the preliminary sub-round "2":
+    Given the following marks in a preliminary round, dance "International Foxtrot":
       | couple | A | B | C | D | E | F | G |
       |     10 |   | X | X | X |   |   |   |
       |     11 | X |   | X | X | X | X |   |

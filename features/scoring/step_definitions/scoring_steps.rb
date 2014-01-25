@@ -42,7 +42,8 @@ Then(/^the following couples should be recalled from the preliminary round(?: wi
   @round.update(cutoff: cutoff) if cutoff
 
   couple_numbers = @round.recalled_couples.map(&:number).sort
-  table.diff!([['couple']] + couple_numbers.map { |num| [num.to_s] } )
+  actual = couple_numbers.map { |num| {'couple' => num} }
+  table.diff!(actual)
 end
 
 # Expect `Couple`s, identified by their number, to be placed in an `Event`.
@@ -58,12 +59,15 @@ end
 #
 # Or, if there is a multi-dance final decided by rules 10 or 11, then the form is
 #
-#     | couple | rank  |
-#     |     51 | 1 R10 |
-#     |     52 | 2 R10 |
-#     |     53 | 3     |
-#     |     54 | 4 R11 |
-#     |     55 | 5 R11 |
+#     | couple | rank | rule |
+#     |    111 |    4 | R11  |
+#     |    112 |    6 | R11  |
+#     |    113 |    7 | R11  |
+#     |    114 |    3 |      |
+#     |    115 |    1 | R11  |
+#     |    116 |    2 | R11  |
+#     |    117 |    8 | R10  |
+#     |    118 |    5 | R11  |
 #
 # The table must be sorted by the couple number, not the placement.
 Then(/^the placement of the couples should be:$/) do |table|

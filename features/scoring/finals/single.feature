@@ -1,4 +1,4 @@
-@final @single
+@scoring @final @single
 Feature: Couples in a single-dance final
   In order to score a final round
   The couples
@@ -7,7 +7,7 @@ Feature: Couples in a single-dance final
 
   @rule5
   Scenario: Couples are placed by rule 5
-    Given the adjudicators marked the following couples in a final round:
+    Given the following marks in a final round:
       | couple | A | B | C | D | E |
       |     51 | 1 | 1 | 1 | 2 | 1 |
       |     52 | 4 | 2 | 2 | 1 | 2 |
@@ -27,7 +27,7 @@ Feature: Couples in a single-dance final
 
   @rule6
   Scenario: Couples are placed by rule 6
-    Given the adjudicators marked the following couples in a final round:
+    Given the following marks in a final round:
       | couple | A | B | C | D | E | F | G |
       |     61 | 1 | 1 | 2 | 1 | 4 | 2 | 1 |
       |     62 | 6 | 2 | 1 | 5 | 2 | 1 | 2 |
@@ -47,7 +47,7 @@ Feature: Couples in a single-dance final
 
   @rule7
   Scenario: Couples are placed by rule 7
-    Given the adjudicators marked the following couples in a final round:
+    Given the following marks in a final round:
       | couple | A | B | C | D | E | F | G |
       |     71 | 3 | 1 | 6 | 1 | 1 | 2 | 1 |
       |     72 | 2 | 2 | 1 | 5 | 3 | 1 | 3 |
@@ -67,7 +67,7 @@ Feature: Couples in a single-dance final
 
   @rule8
   Scenario: Couples are placed by rule 8
-    Given the adjudicators marked the following couples in a final round:
+    Given the following marks in a final round:
       | couple | A | B | C | D | E | F | G |
       |     81 | 3 | 3 | 3 | 2 | 5 | 2 | 3 |
       |     82 | 4 | 4 | 4 | 3 | 2 | 3 | 2 |
