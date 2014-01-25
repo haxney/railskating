@@ -211,8 +211,3 @@ Then(/^the( imported)? competition should have the following events?:$/) do |imp
         end
   table.diff!(src)
 end
-
-Transform(/^table:number/) do |table|
-  table.map_column!(:number) {|num| num.to_i }
-  table
-end
