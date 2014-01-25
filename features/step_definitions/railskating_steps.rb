@@ -17,16 +17,8 @@
 # Each `Couple` and `Adjudicator` will be created, unless a couple with the
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
-Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|final) (?:sub-)?round(?: "(.+)")?:$/) do |prelim, round_name, table|
-  @competition ||= FactoryGirl.create(:competition)
-  @event ||= FactoryGirl.create(:event, competition: @competition)
-  @round ||= FactoryGirl.create(:round, event: @event, final: prelim == 'final')
-  @sub_rounds ||= {}
-  sub_event = FactoryGirl.create(:sub_event, event: @event)
-  sub_round = FactoryGirl.create(:sub_round, round: @round, sub_event: sub_event)
-  @sub_rounds[round_name] = sub_round if round_name
-
-  table.map_column!('couple') { |c| c.to_i }
+Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))(?:, dance "(.+)"):$/) do |prelim, round_num, dance_name, table|
+  @event ||= FactoryGirl.create(:event)
 
   # Remap the headers so that all the columns (aside from the first, the
   # "couple" column) are instances of the `Adjudicator` model (created by a
@@ -35,14 +27,31 @@ Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|
     if header == 'couple'
       header
     else
-      find_or_create_adjudicator(header, @competition)
+      create(:adjudicator, shorthand: header)
     end
   end
+  table.hashes # Force the application of `map_headers!`
+
+  # If there is already a SubEvent with the same name, create a new round.
+  @round = FactoryGirl.create(:round,
+                              number: round_num,
+                              event: @event,
+                              final: prelim == 'final')
+
+  @round.adjudicators = table.headers[1..-1]
+
+  @dance = Dance.find_by(name: dance_name || 'American Mambo')
+  # Might not actually create a sub event, since it is initialized with a call
+  # to `find_or_create_by`
+  @sub_event = FactoryGirl.create(:sub_event, event: @event, dance: @dance)
+  @sub_round = FactoryGirl.create(:sub_round, round: @round, sub_event: @sub_event)
 
   # Create the couple and assign them marks for the sub round.
   table.hashes.each do |row|
     num = row.delete('couple')
-    couple = find_or_create_couple(num, @round)
+    couple = create(:couple, number: num, event: @event)
+    # This is normally a race condition, but tests are single-threaded.
+    @round.couples << couple unless @round.couples.include?(couple)
 
     # Each adjudicator's mark (or lack thereof) for the current couple
     row.each do |judge, place|
@@ -52,7 +61,7 @@ Given(/^the adjudicators marked the following couples in (?:a|the) (preliminary|
       FactoryGirl.create(:mark,
         adjudicator: judge,
         couple: couple,
-        sub_round: sub_round,
+        sub_round: @sub_round,
         placement: place.to_i) if /\w+/ =~ place
     end
   end
@@ -76,8 +85,6 @@ Given(/^the couples received the following places in the final summary:$/) do |t
   @competition = FactoryGirl.create(:competition)
   @event = FactoryGirl.create(:event, competition: @competition)
   @round = FactoryGirl.create(:round, event: @event, final: true)
-
-  table.map_column!('couple') { |c| c.to_i }
 
   table.map_headers! do |header|
     if header == 'couple'

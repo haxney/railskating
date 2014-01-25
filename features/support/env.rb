@@ -6,13 +6,6 @@
 
 require 'cucumber/rails'
 
-SeedFu.seed
-
-# Capybara defaults to CSS3 selectors rather than XPath.
-# If you'd prefer to use XPath, just uncomment this line and adjust any
-# selectors in your step definitions to use the XPath syntax.
-# Capybara.default_selector = :xpath
-
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
 # your application behaves in the production environment, where an error page will
@@ -32,9 +25,15 @@ ActionController::Base.allow_rescue = false
 
 DatabaseCleaner.strategy = :transaction
 
+Before do
+  SeedFu.seed
+end
+
 After do
   FactoryGirl.reload
 end
+
+World(FactoryGirl::Syntax::Methods)
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
@@ -55,3 +54,13 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  options = {
+    inspector: true
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
+end

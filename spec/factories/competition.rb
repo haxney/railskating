@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :competition do
-    name "Brown Competition"
-    start_date 3.days.ago.to_date
-    end_date 1.day.ago.to_date
+    ignore { name "Brown Competition" }
+    start_date Date.new(2013,11,17)
+    end_date Date.new(2013,11,17)
     team
+    initialize_with { Competition.find_or_create_by(name: name) }
   end
 end
