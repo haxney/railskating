@@ -17,7 +17,7 @@
 # Each `Couple` and `Adjudicator` will be created, unless a couple with the
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
-Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))(?:, dance "(.+)"):$/) do |prelim, round_num, dance_name, table|
+Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))?(?:, dance "(.+)")?:$/) do |prelim, round_num, dance_name, table|
   @event ||= FactoryGirl.create(:event)
 
   # Remap the headers so that all the columns (aside from the first, the
@@ -32,11 +32,9 @@ Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))(?:
   end
   table.hashes # Force the application of `map_headers!`
 
-  # If there is already a SubEvent with the same name, create a new round.
-  @round = FactoryGirl.create(:round,
-                              number: round_num,
-                              event: @event,
-                              final: prelim == 'final')
+  round_opts = { event: @event, final: prelim == 'final'}
+  round_opts[:number] = round_num if round_num
+  @round = FactoryGirl.create(:round, round_opts)
 
   @round.adjudicators = table.headers[1..-1]
 
