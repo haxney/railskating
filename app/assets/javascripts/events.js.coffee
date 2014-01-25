@@ -1,5 +1,7 @@
 jQuery ->
   $("#event-filter").keyup ->
-    $('.results_round').dataTable().fnFilterAll(this.value);
+    filt = this.value
+    for setting in $.fn.dataTableSettings
+      setting.oInstance.fnFilter(filt)
 
   $('.adjudicator_header').tooltip()
