@@ -39,6 +39,8 @@ group :test, :development do
   gem 'foreman'
   gem 'sqlite3'
   gem 'mysql2'
+  gem 'capybara'
+  gem 'poltergeist'
 end
 
 group :production do
