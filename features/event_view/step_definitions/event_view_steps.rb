@@ -51,3 +51,16 @@ end
 When(/^I enter "(.+)" into the event filter box$/) do |str|
   find('#event-filter').native.send_keys(str)
 end
+
+When(/^I click on the "(.+)" header for round #(\d+)$/) do |header, round_num|
+  class_name = column_name_to_class(header)
+  round_id = "#results_round_#{round_num}"
+
+  find("#{round_id} #{class_name}").native.send_key(:click)
+end
+
+Then(/^the table for round #(\d) should be sorted by "(.+)"( descending)?$/) do |round_num, header, desc|
+  class_name = column_name_to_class(header)
+  round_id = "#results_round_#{round_num}"
+  expect(all("#{round_id} td.#{class_name}").map(&:text)).to be_monotonically_increasing
+end
