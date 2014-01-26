@@ -1,4 +1,4 @@
-@multi @final
+@scoring @multi @final
 Feature: Couples in a multi-dance final
   In order to score a final round
   The couples
@@ -71,7 +71,7 @@ Feature: Couples in a multi-dance final
 
   @rule11
   Scenario: Couples are placed by rule 11 (first example)
-    Given the adjudicators marked the following couples in the final sub-round "W":
+    Given the following marks in a final round, dance "International Waltz":
       | couple | A | B | C | D | E | F | G |
       |    111 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
       |    112 | 5 | 3 | 5 | 4 | 3 | 3 | 3 |
@@ -79,7 +79,7 @@ Feature: Couples in a multi-dance final
       |    114 | 3 | 4 | 3 | 3 | 4 | 4 | 5 |
       |    115 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
 
-    And the adjudicators marked the following couples in the final sub-round "Q":
+    Given the following marks in a final round, dance "International Quickstep":
       | couple | A | B | C | D | E | F | G |
       |    111 | 1 | 1 | 1 | 1 | 2 | 1 | 1 |
       |    112 | 5 | 3 | 3 | 4 | 3 | 4 | 4 |
@@ -97,7 +97,7 @@ Feature: Couples in a multi-dance final
 
   @rule11
   Scenario: Couples are placed by rule 11 (second example)
-    Given the adjudicators marked the following couples in the final sub-round "F":
+    Given the following marks in a final round, dance "International Foxtrot":
       | couple | A | B | C | D | E |
       |    111 | 2 | 5 | 6 | 6 | 4 |
       |    112 | 6 | 8 | 1 | 5 | 7 |
@@ -108,7 +108,7 @@ Feature: Couples in a multi-dance final
       |    117 | 5 | 7 | 8 | 7 | 3 |
       |    118 | 3 | 6 | 7 | 4 | 5 |
 
-    Given the adjudicators marked the following couples in the final sub-round "T":
+    Given the following marks in a final round, dance "International Tango":
       | couple | A | B | C | D | E |
       |    111 | 3 | 6 | 5 | 5 | 4 |
       |    112 | 7 | 8 | 3 | 8 | 7 |
@@ -132,7 +132,7 @@ Feature: Couples in a multi-dance final
 
   @rule11
   Scenario: Results from Brown 2013 Silver American Cha/Rumba
-    Given the adjudicators marked the following couples in the final sub-round "C":
+    Given the following marks in a final round, dance "International Cha Cha":
       | couple | A | B | E | F | G | I | J |
       |    158 | 4 | 7 | 5 | 5 | 7 | 3 | 4 |
       |    160 | 1 | 2 | 4 | 2 | 1 | 1 | 1 |
@@ -142,7 +142,7 @@ Feature: Couples in a multi-dance final
       |    350 | 2 | 1 | 2 | 4 | 2 | 2 | 2 |
       |    365 | 6 | 4 | 7 | 6 | 4 | 7 | 7 |
 
-    Given the adjudicators marked the following couples in the final sub-round "R":
+    Given the following marks in a final round, dance "International Rumba":
       | couple | A | B | E | F | G | I | J |
       |    158 | 3 | 7 | 7 | 5 | 6 | 1 | 5 |
       |    160 | 1 | 2 | 6 | 3 | 2 | 3 | 1 |
@@ -164,7 +164,7 @@ Feature: Couples in a multi-dance final
 
   @rule11
   Scenario: Results from Brown 2013 Silver International Waltz/Quickstep
-    Given the adjudicators marked the following couples in the final sub-round "W":
+    Given the following marks in a final round, dance "International Waltz":
       | couple | A | B | E | F | G | I | J |
       |    112 | 1 | 2 | 1 | 2 | 1 | 3 | 1 |
       |    162 | 5 | 4 | 7 | 6 | 6 | 5 | 6 |
@@ -175,7 +175,7 @@ Feature: Couples in a multi-dance final
       |    345 | 7 | 8 | 3 | 8 | 4 | 8 | 8 |
       |    365 | 8 | 6 | 5 | 7 | 7 | 4 | 7 |
 
-    Given the adjudicators marked the following couples in the final sub-round "Q":
+    Given the following marks in a final round, dance "International Quickstep":
       | couple | A | B | E | F | G | I | J |
       |    112 | 1 | 2 | 1 | 1 | 1 | 1 | 1 |
       |    162 | 5 | 6 | 5 | 2 | 6 | 7 | 6 |
@@ -199,7 +199,7 @@ Feature: Couples in a multi-dance final
 
   @rule10
   Scenario: Results from Brown 2013 Silver International Cha-cha/Rumba
-    Given the adjudicators marked the following couples in the final sub-round "C":
+    Given the following marks in a final round, dance "International Cha Cha":
       | couple | A | C | D | E | H | I | J |
       |    155 | 6 | 3 | 4 | 4 | 4 | 7 | 7 |
       |    176 | 7 | 7 | 7 | 2 | 3 | 4 | 5 |
@@ -209,7 +209,7 @@ Feature: Couples in a multi-dance final
       |    305 | 4 | 2 | 6 | 7 | 7 | 1 | 6 |
       |    507 | 2 | 5 | 1 | 1 | 2 | 3 | 1 |
 
-    Given the adjudicators marked the following couples in the final sub-round "R":
+    Given the following marks in a final round, dance "International Rumba":
       | couple | A | C | D | E | H | I | J |
       |    155 | 4 | 4 | 3 | 2 | 3 | 7 | 7 |
       |    176 | 6 | 2 | 6 | 4 | 6 | 5 | 3 |

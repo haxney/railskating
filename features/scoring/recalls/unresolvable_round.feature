@@ -1,4 +1,4 @@
-@single @prelim
+@scoring @single @prelim
 Feature: Chairman of Adjudicators must decide how to resolve a round
   In order to resolve a round in which the number of requested couples cannot be recalled
   The couples
@@ -6,7 +6,7 @@ Feature: Chairman of Adjudicators must decide how to resolve a round
   To advance to the next round of the competition
 
   Background:
-    Given the adjudicators marked the following couples in a preliminary round:
+    Given the following marks in a preliminary round:
       | couple | A | B | C | D | E | F | G |
       |     10 |   | X | X | X |   | X |   |
       |     11 | X |   | X | X | X | X | X |

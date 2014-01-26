@@ -1,5 +1,19 @@
-$table-bg-hover: #f9f2f4;
+$table-bg-hover: #dcffdc;
 $table-bg-accent: #f0f0f0;
 
 @import "bootstrap";
 @import "bootstrap/theme";
+
+/*
+ * Fixes compatibility issues between floatThead and DataTables.
+ *
+ */
+table.floatThead-table {
+  border-top: none;
+  border-bottom: none;
+  background-color: #FFF;
+}
+
+table.dataTable.floatThead-table {
+  margin-top: 0px !important;
+}

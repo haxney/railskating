@@ -2,7 +2,7 @@ table.results_round {
   td {
     white-space: nowrap;
   }
-  th .adjudicator_header {
+  th .adjudicator_col {
     text-align: center;
   }
   td.mark_cell, td.result_cell {
@@ -13,14 +13,4 @@ table.results_round {
       color: #1D9D74;
     }
   }
-}
-
-table.floatThead-table {
-  border-top: none;
-  border-bottom: none;
-  background-color: #FFF;
-}
-
-table.dataTable.floatThead-table {
-  margin-top: 0px !important;
 }

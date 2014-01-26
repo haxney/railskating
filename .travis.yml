@@ -1,9 +1,4 @@
 language: ruby
-install: bundle install --without development --deployment
-cache:
-  directories:
-    - vendor/bundle
-
 env:
   - DB=sqlite
   - DB=mysql

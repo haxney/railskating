@@ -1,10 +1,9 @@
-# Helper functions for testing scoring steps.
-
-def find_or_create_adjudicator(header, competition)
-  Adjudicator.where(shorthand: header, competition: competition).take or
-    FactoryGirl.create(:adjudicator, shorthand: header, competition: competition)
-end
-
+# Finds or creates a couple numbered `num` associated with `round`.
+#
+# Note that this cannot use {Couple::find_or_create_by} since it must be able to
+# add existing couples to `round`. The block accepted by
+# {Couple::find_or_create_by} is only executed when the {Couple} is
+# newly-created.
 def find_or_create_couple(num, round)
   if c = Couple.where(number: num, event: round.event).take
     c
@@ -50,7 +49,7 @@ end
 def placements_to_table(placements)
   sorted = placements.sort_by { |p| p.couple.number }
   [['couple', 'rank', 'rule']] + sorted.map do |p|
-    [p.couple.number.to_s,
+    [p.couple.number,
      p.rank.to_s,
      ((p.rule) ? "R#{p.rule}" : "")]
   end

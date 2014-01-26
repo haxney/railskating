@@ -1,23 +1,24 @@
 - cache(round) do
   %div.table-responsive[round, :wrapper]
     %h3.round_title= "Round #{round.number}"
-    %table.table-striped.table-bordered.table-hover{class: round_table_class(round)}[round, :results]
+    %table.table-striped.table-bordered.table-hover{class: round_table_classes(round),
+                                                    id: round_table_id(round)}
       %thead
         %tr.header_row_first
-          %th.number_header{rowspan: 2} Number
-          %th.lead_header{rowspan: 2} Leader
-          %th.follow_header{rowspan: 2} Follower
+          %th.couple_number_col{rowspan: 2} Number
+          %th.couple_leader_col{rowspan: 2} Leader
+          %th.couple_follower_col{rowspan: 2} Follower
           - round.sub_rounds.each do |sr|
-            %th{colspan: round.adjudicators.length}[sr.sub_event.dance, :header]<
+            %th{colspan: round.adjudicators.length,
+                class: dance_to_class_name(sr.sub_event.dance)}<
               = sr.sub_event.dance.base_name
           - unless round.final?
-            %th.recalled_header{rowspan: 2}
+            %th.recalled_col{rowspan: 2}
 
         %tr.header_row_judges
-          - round.sub_rounds.count.times do |i|
+          - round.sub_rounds.each do |sr|
             - round.adjudicators.each do |ad|
-              %th
-                %div{class: adjudicator_header_classes(ad),
-                     data: {title: ad.user.name}}= ad.shorthand
+              %th{class: adjudicator_header_classes(ad, sr)}
+                %div{data: {title: ad.user.name}}= ad.shorthand
       %tbody
         = render round.couples, round: round
