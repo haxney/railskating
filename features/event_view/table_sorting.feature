@@ -4,7 +4,7 @@ Feature: Sorting a results table
   The events page
   Should order couples when a header is clicked
 
-  Background:
+  Scenario:
     Given the following marks in a preliminary round #1, dance "International Waltz":
       | couple | A | B | C | D | E | F | G |
       |     10 |   | X | X | X |   |   |   |
@@ -34,36 +34,27 @@ Feature: Sorting a results table
     And 6 couples are requested from the preliminary round
     When I visit the event page
 
-  Scenario: The initial sort order should be by couple number
+    # The initial sort order should be by couple number
     Then the table for round #1 should be sorted by "Number"
-
     When I click on the "Number" header for round #1
     Then the table for round #1 should be sorted by "Number" descending
 
-  Scenario: Clicking the leader header should sort by leader name
     When I click on the "Leader" header for round #1
     Then the table for round #1 should be sorted by "Leader"
-
     When I click on the "Leader" header for round #1
     Then the table for round #1 should be sorted by "Leader" descending
 
-  Scenario: Clicking the follower header should sort by follower name
     When I click on the "Follower" header for round #1
     Then the table for round #1 should be sorted by "Follower"
-
     When I click on the "Follower" header for round #1
     Then the table for round #1 should be sorted by "Follower" descending
 
-  Scenario: Clicking a judge header sorts by that judge's marks
-    When I click on the "Judge 'A', Waltz" header for round #1
-    Then the table for round #1 should be sorted by "judge 'A', Waltz"
+    When I click on the "Judge 'A', International Waltz" header for round #1
+    Then the table for round #1 should be sorted by "Judge 'A', International Waltz"
+    When I click on the "Judge 'A', International Waltz" header for round #1
+    Then the table for round #1 should be sorted by "Judge 'A', International Waltz" descending
 
-    When I click on the "Judge 'A', Waltz" header for round #1
-    Then the table for round #1 should be sorted by "judge 'A', Waltz" descending
-
-  Scenario: Clicking the recalled header sorts recalled status
     When I click on the "Recalled" header for round #1
     Then the table for round #1 should be sorted by "Recalled"
-
     When I click on the "Recalled" header for round #1
     Then the table for round #1 should be sorted by "Recalled" descending

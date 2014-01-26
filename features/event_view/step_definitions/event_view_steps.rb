@@ -42,7 +42,7 @@ Then(/^I should see a (preliminary|final) round number (\d+) with the following 
 
   round = Round.find_by(number: round_num, event: @event)
   actual = all("table#results_round_#{round.id} tbody tr.couple_row").map do |row|
-    { couple: row.find('td.couple_number').text.to_i }
+    { couple: row.find('td.couple_number_col').text.to_i }
   end
 
   table.diff!(actual)
@@ -56,11 +56,12 @@ When(/^I click on the "(.+)" header for round #(\d+)$/) do |header, round_num|
   class_name = column_name_to_class(header)
   round_id = "#results_round_#{round_num}"
 
-  find("#{round_id} #{class_name}").native.send_key(:click)
+  find("#{round_id} th#{class_name}").native.send_key(:click)
 end
 
 Then(/^the table for round #(\d) should be sorted by "(.+)"( descending)?$/) do |round_num, header, desc|
   class_name = column_name_to_class(header)
   round_id = "#results_round_#{round_num}"
-  expect(all("#{round_id} td.#{class_name}").map(&:text)).to be_monotonically_increasing
+  be_in_order = desc ? be_monotonically_decreasing : be_monotonically_increasing
+  expect(all("#{round_id} td#{class_name}").map(&:text)).to be_in_order
 end

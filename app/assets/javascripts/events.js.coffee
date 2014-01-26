@@ -4,4 +4,4 @@ jQuery ->
     for setting in $.fn.dataTableSettings
       setting.oInstance.fnFilter(filt)
 
-  $('.adjudicator_header').tooltip()
+  $('th.adjudicator_col div').tooltip()

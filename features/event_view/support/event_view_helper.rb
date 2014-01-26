@@ -23,8 +23,9 @@ module EventViewHelper
   # @return [String] The CSS class associated with the column name.
   def column_name_to_class(name)
     res = COL_NAME_CLASS_MAP[name.split.first]
+    raise "Invalid column name '#{res}'" unless res
     if md = name.match(/Judge '(.+)', (.+)/)
-      res % [md[1], md[2]]
+      res % [md[1], md[2].parameterize.underscore]
     else
       res
     end

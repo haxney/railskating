@@ -27,14 +27,15 @@ module CouplesHelper
   #
   # @return [Array<String>] Array of strings in which the first element is the encoded
   def mark_cell_classes(sub_round, adjudicator)
-    ["mark_cell",
-     "sub_round_#{sub_round.dance.name.parameterize.underscore}",
-     "adjudicator_#{adjudicator.shorthand}"]
+    ['mark_cell',
+     dance_to_class_name(sub_round.sub_event.dance),
+     'adjudicator_col',
+     "adjudicator_#{adjudicator.shorthand}_col"]
   end
 
   # Compute the classes to use for a result cell.
   def result_cell_classes(round)
     ['result_cell',
-     "round_#{round.id}"]
+     'recalled_col']
   end
 end
