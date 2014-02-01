@@ -4,7 +4,7 @@ jQuery ->
     bInfo: false
     sDom: 't'
     aoColumnDefs: [
-      aTargets: ['recalled_header', 'adjudicator_header']
+      aTargets: ['recalled_col', 'adjudicator_col']
       bSearchable: false
     ]
 
