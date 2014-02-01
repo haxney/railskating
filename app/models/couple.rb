@@ -32,4 +32,28 @@ class Couple < ActiveRecord::Base
     recalled = round.recalled_couples
     recalled.respond_to?(:include?) ? recalled.include?(self) : false
   end
+
+  # Returns the {Placement} of this {Couple} in `round`. If this {Couple} was
+  # not in `round`, raises an exception.
+  #
+  # @param [Round, SubRound] round The {Round} or {SubRound} to check.
+  #
+  # @return [Placement, SubPlacement] The {Placement} or {SubPlacement} of the
+  #   couple.
+  def placement_in(round)
+    res = case round
+          when Round
+            Placement.find_by(couple: self, event: round.event)
+          when SubRound
+            SubPlacement.find_by(couple: self, sub_event: round.sub_event)
+          else
+            raise "Expected a Round or SubRound, got #{round.class.name}"
+          end
+
+    if res
+      res
+    else
+      raise "No placement found for Couple #{self.id} in #{round.class.name} #{round.id}"
+    end
+  end
 end

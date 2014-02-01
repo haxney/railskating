@@ -8,6 +8,8 @@
     %span.follow_team= '(' + couple.follow.team.name + ')'
 
   - round.sub_rounds.each do |sr|
+    - if round.final?
+      %td.placement_col.placement_cell= couple.placement_in(sr).rank
     - round.adjudicators.each do |j|
       %td{class: mark_cell_classes(sr, j)}= format_cell(couple, sr, j)
 

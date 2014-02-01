@@ -16,6 +16,7 @@ class EventsController < ApplicationController
     @event = Event.includes(rounds: [:adjudicators, { sub_rounds: :dance},
                               {couples: [:lead, :follow]}]).find(params[:id])
 
+    @event.compute_placements if @event.final_round
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }

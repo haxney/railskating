@@ -10,4 +10,10 @@ module RoundsHelper
   def round_table_id(round)
     "results_round_#{round.number}"
   end
+
+  # Returns the `colspan` to use for the round header. If it is a final round,
+  # then an extra column is added for the overall placement.
+  def round_header_colspan(round)
+    round.adjudicators.length + (round.final? ? 1 : 0)
+  end
 end

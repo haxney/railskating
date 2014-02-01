@@ -9,7 +9,7 @@
           %th.couple_leader_col{rowspan: 2} Leader
           %th.couple_follower_col{rowspan: 2} Follower
           - round.sub_rounds.each do |sr|
-            %th{colspan: round.adjudicators.length,
+            %th{colspan: round_header_colspan(round),
                 class: dance_to_class_name(sr.sub_event.dance)}<
               = sr.sub_event.dance.base_name
           - unless round.final?
@@ -17,6 +17,10 @@
 
         %tr.header_row_judges
           - round.sub_rounds.each do |sr|
+            - if round.final?
+              %th.placement_col
+                %div{data: {title: 'Placement'}}
+                  %i.fa.fa-trophy
             - round.adjudicators.each do |ad|
               %th{class: adjudicator_header_classes(ad, sr)}
                 %div{data: {title: ad.user.name}}= ad.shorthand
