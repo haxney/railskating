@@ -1,6 +1,7 @@
 - round = sub_round.round
 %h4.sub_round_dance= sub_round.dance.name
-%table.table-striped.table-bordered.table-hover{class: sub_round_table_classes(sub_round)}
+%table.table-striped.table-bordered.table-hover{class: sub_round_table_classes(sub_round),
+                                                id: sub_round_table_id(sub_round)}
   %thead
     %tr.header_row_first
       %th.couple_number_col{rowspan: 2} Number
