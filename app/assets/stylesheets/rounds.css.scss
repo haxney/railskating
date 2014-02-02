@@ -1,11 +1,11 @@
-table.results_round {
+@mixin result-table {
   td {
     white-space: nowrap;
   }
-  th .adjudicator_col {
+  th.adjudicator_col {
     text-align: center;
   }
-  td.mark_cell, td.result_cell, td.placement_cell {
+  td.data_cell {
     width: 1em;
     text-align: center;
 
@@ -13,6 +13,15 @@ table.results_round {
       color: #1D9D74;
     }
   }
+}
+
+table.results_round {
+  @include result-table;
+}
+
+table.results_sub_round_final {
+  @include result-table;
+
   td.placement_cell {
     font-weight: bold;
   }
