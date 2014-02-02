@@ -9,16 +9,16 @@
           %th.couple_leader_col{rowspan: 2} Leader
           %th.couple_follower_col{rowspan: 2} Follower
           - round.sub_rounds.each do |sr|
-            %th{colspan: round.adjudicators.length,
+            %th.colspanning{colspan: round_header_colspan(round),
                 class: dance_to_class_name(sr.sub_event.dance)}<
               = sr.sub_event.dance.base_name
-          - unless round.final?
-            %th.recalled_col{rowspan: 2}
+          %th.recalled_col{rowspan: 2}
 
         %tr.header_row_judges
           - round.sub_rounds.each do |sr|
-            - round.adjudicators.each do |ad|
-              %th{class: adjudicator_header_classes(ad, sr)}
-                %div{data: {title: ad.user.name}}= ad.shorthand
+            = render partial: 'adjudicators/adjudicator_header',
+              collection: round.adjudicators,
+              as: :adjudicator,
+              locals: { sub_round: sr }
       %tbody
         = render round.couples, round: round

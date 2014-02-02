@@ -1,16 +1,43 @@
-table.results_round {
+@mixin result-table {
   td {
     white-space: nowrap;
   }
-  th .adjudicator_col {
+  th.adjudicator_col {
     text-align: center;
   }
-  td.mark_cell, td.result_cell {
+  td.data_cell {
     width: 1em;
     text-align: center;
 
     i.fa-heart {
       color: #1D9D74;
     }
+  }
+
+  th.colspanning {
+    text-align: center;
+  }
+}
+
+table.results_round {
+  @include result-table;
+}
+
+table.results_sub_round_final {
+  @include result-table;
+
+  td.sub_placement_cell {
+    font-weight: bold;
+  }
+  th.cumulative_col {
+    width: 2em;
+  }
+}
+
+table.final_summary {
+  @include result-table;
+
+  td.placement_cell {
+    font-weight: bold;
   }
 }

@@ -1,4 +1,4 @@
-@view @event @javascript
+@view @event @javascript @single
 Feature: Filtering results table
   In order to filter results tables
   The events page
@@ -42,7 +42,7 @@ Feature: Filtering results table
 
   Scenario: All couples are displayed initially
     When I visit the event page
-    Then I should see a preliminary round number 1 with the following couples:
+    Then I should see a preliminary round #1 with the following couples:
       | couple |
       |     10 |
       |     11 |
@@ -55,7 +55,7 @@ Feature: Filtering results table
       |     18 |
       |     19 |
 
-    And I should see a final round number 2 with the following couples:
+    And I should see a final round #2, dance "International Waltz" with the following couples:
       | couple |
       |     11 |
       |     12 |
@@ -67,7 +67,7 @@ Feature: Filtering results table
   Scenario: Entering text filters the couples
     When I visit the event page
     And I enter "university" into the event filter box
-    Then I should see a preliminary round number 1 with the following couples:
+    Then I should see a preliminary round #1 with the following couples:
       | couple |
       |     13 |
       |     16 |
@@ -75,7 +75,7 @@ Feature: Filtering results table
       |     18 |
       |     19 |
 
-    And I should see a final round number 2 with the following couples:
+    And I should see a final round #2, dance "International Waltz" with the following couples:
       | couple |
       |     17 |
       |     18 |

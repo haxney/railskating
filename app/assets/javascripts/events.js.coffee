@@ -5,3 +5,4 @@ jQuery ->
       setting.oInstance.fnFilter(filt)
 
   $('th.adjudicator_col div').tooltip()
+  $('th.placement_col div').tooltip()

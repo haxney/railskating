@@ -11,11 +11,10 @@
     - round.adjudicators.each do |j|
       %td{class: mark_cell_classes(sr, j)}= format_cell(couple, sr, j)
 
-  - unless round.final?
-    %td{class: result_cell_classes(round)}<
-      - if couple.recalled_from?(round)
-        %i.fa.fa-heart
-          -# Used for DataTables sorting
-          %span.hidden Recalled
-      - else
-        %span.hidden Eliminated
+  %td{class: result_cell_classes(round)}<
+    - if couple.recalled_from?(round)
+      %i.fa.fa-heart
+        -# Used for DataTables sorting
+        %span.hidden Recalled
+    - else
+      %span.hidden Eliminated

@@ -85,6 +85,20 @@ class Round < ActiveRecord::Base
     end
   end
 
+  # Overrides {ActiveModel::Conversion#to_partial_path} to select a different
+  # partial for final rounds.
+  #
+  # @return [String] The path associated with the object, either
+  #   `"rounds/round"` for non-final rounds or `"rounds/final_round"` for final
+  #   rounds.
+  def to_partial_path
+    if final?
+      'rounds/final_round'
+    else
+      self.class._to_partial_path
+    end
+  end
+
   protected
   # Clear the `@recalled` cache object.
   def clear_recalled

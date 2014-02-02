@@ -1,0 +1,18 @@
+- round = sub_round.round
+%tr{class: "couple_row couple_row_#{couple.number}"}
+  %td.couple_number_col= couple.number
+  %td.couple_leader_col
+    %span.lead_name= couple.lead.name
+    %span.lead_team= '(' + couple.lead.team.name + ')'
+  %td.couple_follower_col
+    %span.follow_name= couple.follow.name
+    %span.follow_team= '(' + couple.follow.team.name + ')'
+
+  %td{class: placement_cell_classes(sub_round.dance)}
+    = couple.placement_in(sub_round).rank
+  - round.adjudicators.each do |j|
+    %td{class: mark_cell_classes(sub_round, j)}= format_cell(couple, sub_round, j)
+
+  - 1.upto(round.couples.count) do |i|
+    %td{class: cumulative_cell_classes(i)}
+      = format_cumulative_cell(couple, sub_round, i)

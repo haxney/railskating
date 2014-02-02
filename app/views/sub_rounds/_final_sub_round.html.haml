@@ -1,0 +1,28 @@
+- round = sub_round.round
+%h4.sub_round_dance= sub_round.dance.name
+%table.table-striped.table-bordered.table-hover{class: sub_round_table_classes(sub_round),
+                                                id: sub_round_table_id(sub_round)}
+  %thead
+    %tr.header_row_first
+      %th.couple_number_col{rowspan: 2} Number
+      %th.couple_leader_col{rowspan: 2} Leader
+      %th.couple_follower_col{rowspan: 2} Follower
+      %th.placement_col{rowspan: 2}
+        %div{data: {title: t('.placement')}}
+          %i.fa.fa-trophy
+      %th.colspanning.adjudicators_group{colspan: round.adjudicators.count}
+        = t '.adjudicators'
+      %th.colspanning.cumulative_group{colspan: round.couples.count}
+        = t '.cumulative'
+    %tr.header_row_judges
+      = render partial: 'adjudicators/adjudicator_header',
+        collection: round.adjudicators, as: :adjudicator,
+        locals: { sub_round: sub_round }
+      - 1.upto(round.couples.count) do |i|
+        %th.cumulative_col= cumulative_placement_header(i)
+
+  %tbody
+    = render partial: 'couples/final_couple',
+      collection: round.couples,
+      as: :couple,
+      locals: { sub_round: sub_round }
