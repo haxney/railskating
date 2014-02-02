@@ -47,7 +47,7 @@ Then(/^I should see a (preliminary|final) round #(\d+)(?:, dance "(.+)")? with t
     dance = @dance
   end
 
-  table_class = if final
+  table_selector = if final
                   sub_round = SubRound.joins(:sub_event)
                     .find_by!('sub_events.dance' => dance,
                               :round => round)
@@ -56,7 +56,7 @@ Then(/^I should see a (preliminary|final) round #(\d+)(?:, dance "(.+)")? with t
                 else
                   "table#results_round_#{round.number}"
                 end
-  actual = all("#{table_class} tbody tr.couple_row").map do |row|
+  actual = all("#{table_selector} tbody tr.couple_row").map do |row|
     { couple: row.find('td.couple_number_col').text.to_i }
   end
 
