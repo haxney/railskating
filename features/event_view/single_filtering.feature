@@ -1,4 +1,4 @@
-@view @event @javascript
+@view @event @javascript @single
 Feature: Filtering results table
   In order to filter results tables
   The events page
