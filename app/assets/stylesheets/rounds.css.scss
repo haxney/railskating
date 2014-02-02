@@ -26,11 +26,18 @@ table.results_round {
 table.results_sub_round_final {
   @include result-table;
 
-  td.placement_cell {
+  td.sub_placement_cell {
     font-weight: bold;
   }
   th.cumulative_col {
     width: 2em;
-    text-align: center;
+  }
+}
+
+table.final_summary {
+  @include result-table;
+
+  td.placement_cell {
+    font-weight: bold;
   }
 }

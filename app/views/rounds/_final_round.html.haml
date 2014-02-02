@@ -4,3 +4,7 @@
     %h3.round_title= t '.round_title', number: round.number
     = render partial: 'sub_rounds/final_sub_round',
       collection: round.sub_rounds, as: :sub_round
+
+    - if round.event.multi_dance?
+      %h3.final_summary= t '.final_summary'
+      = render partial: 'events/final_summary', object: round.event, as: :event

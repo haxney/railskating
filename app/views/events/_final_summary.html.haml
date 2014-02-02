@@ -1,0 +1,25 @@
+%table.table-striped.table-bordered.table-hover{class: event_summary_table_classes,
+                                                id: event_summary_table_id}
+  %thead
+    %tr.header_row_first
+      %th.couple_number_col{rowspan: 2} Number
+      %th.couple_leader_col{rowspan: 2} Leader
+      %th.couple_follower_col{rowspan: 2} Follower
+      %th.placement_col{rowspan: 2}
+        %div{data: {title: t('results.placement')}}
+          %i.fa.fa-trophy
+      %th.total_placements_col{rowspan: 2}= t('results.total')
+      %th.colspanning.dances_group{colspan: event.sub_events.count}
+        = t('results.dances')
+      %th.rule_col{rowspan: 2}= t('results.rule')
+
+    %tr.header_row_dances
+      - event.dances.each do |dance|
+        %th{class: dance_to_class_name(dance)}
+          = dance.base_name
+
+  %tbody
+    = render partial: 'couples/final_summary',
+      collection: event.final_round.couples,
+      as: :couple,
+      locals: { event: event }

@@ -5,9 +5,22 @@ en:
   rounds:
     final_round:
       round_title: "Round %{number} (Final)"
+      final_summary: "Final Summary"
 
   sub_rounds:
     final_sub_round:
       placement: "Placement"
       adjudicators: "Adjudicators"
       cumulative: "Cumulative"
+
+  events:
+    final_summary:
+      dances: "Dances"
+      total: "Total"
+
+
+  results:
+    dances: "Dances"
+    placement: "Placement"
+    total: "Total"
+    rule: "Rule"
