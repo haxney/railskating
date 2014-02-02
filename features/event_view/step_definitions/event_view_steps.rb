@@ -36,12 +36,27 @@ end
 
 # Checks the current page for the specified couples in the given round. Requires
 # the current `Event` be set in the `@event` variable.
-Then(/^I should see a (preliminary|final) round number (\d+) with the following couples:$/) do |final, round_num, table|
+Then(/^I should see a (preliminary|final) round number (\d+)(?:, dance "(.+)")? with the following couples:$/) do |final, round_num, dance_name, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
   final = final =~ /final/
 
   round = Round.find_by(number: round_num, event: @event)
-  actual = all("table#results_round_#{round.id} tbody tr.couple_row").map do |row|
+  if dance_name
+    dance = Dance.find_by(name: dance_name)
+  else
+    dance = @dance
+  end
+
+  table_class = if final
+                  sub_round = SubRound.joins(:sub_event)
+                    .find_by!('sub_events.dance' => dance,
+                              :round => round)
+                  weight = sub_round.sub_event.weight
+                  "table#results_sub_round_#{round.number}_#{weight}"
+                else
+                  "table#results_round_#{round.number}"
+                end
+  actual = all("#{table_class} tbody tr.couple_row").map do |row|
     { couple: row.find('td.couple_number_col').text.to_i }
   end
 

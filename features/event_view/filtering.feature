@@ -55,7 +55,7 @@ Feature: Filtering results table
       |     18 |
       |     19 |
 
-    And I should see a final round number 2 with the following couples:
+    And I should see a final round number 2, dance "International Waltz" with the following couples:
       | couple |
       |     11 |
       |     12 |
@@ -75,7 +75,7 @@ Feature: Filtering results table
       |     18 |
       |     19 |
 
-    And I should see a final round number 2 with the following couples:
+    And I should see a final round number 2, dance "International Waltz" with the following couples:
       | couple |
       |     17 |
       |     18 |
