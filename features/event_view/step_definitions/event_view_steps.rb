@@ -63,6 +63,16 @@ Then(/^I should see a (preliminary|final) round #(\d+)(?:, dance "(.+)")? with t
   table.diff!(actual)
 end
 
+Then(/^I should see a final summary with the following couples:$/) do |table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+
+  actual = all("#results_event tbody tr.couple_row").map do |row|
+    { couple: row.find('td.couple_number_col').text.to_i }
+  end
+
+  table.diff!(actual)
+end
+
 When(/^I enter "(.+)" into the event filter box$/) do |str|
   find('#event-filter').native.send_keys(str)
 end
