@@ -21,8 +21,9 @@
               %th.placement_col
                 %div{data: {title: 'Placement'}}
                   %i.fa.fa-trophy
-            - round.adjudicators.each do |ad|
-              %th{class: adjudicator_header_classes(ad, sr)}
-                %div{data: {title: ad.user.name}}= ad.shorthand
+            = render partial: 'adjudicators/adjudicator_header',
+              collection: round.adjudicators,
+              as: :adjudicator,
+              locals: { sub_round: sr }
       %tbody
         = render round.couples, round: round
