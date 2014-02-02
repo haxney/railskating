@@ -9,7 +9,7 @@
           %th.couple_leader_col{rowspan: 2} Leader
           %th.couple_follower_col{rowspan: 2} Follower
           - round.sub_rounds.each do |sr|
-            %th{colspan: round_header_colspan(round),
+            %th.colspanning{colspan: round_header_colspan(round),
                 class: dance_to_class_name(sr.sub_event.dance)}<
               = sr.sub_event.dance.base_name
           %th.recalled_col{rowspan: 2}
