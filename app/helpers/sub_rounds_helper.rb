@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 module SubRoundsHelper
   # Returns the class to use for the results table.
   def sub_round_table_classes(sub_round)
