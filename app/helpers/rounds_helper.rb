@@ -14,6 +14,6 @@ module RoundsHelper
   # Returns the `colspan` to use for the round header. If it is a final round,
   # then an extra column is added for the overall placement.
   def round_header_colspan(round)
-    round.adjudicators.length + (round.final? ? 1 : 0)
+    round.adjudicators.length
   end
 end

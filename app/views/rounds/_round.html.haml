@@ -12,15 +12,10 @@
             %th{colspan: round_header_colspan(round),
                 class: dance_to_class_name(sr.sub_event.dance)}<
               = sr.sub_event.dance.base_name
-          - unless round.final?
-            %th.recalled_col{rowspan: 2}
+          %th.recalled_col{rowspan: 2}
 
         %tr.header_row_judges
           - round.sub_rounds.each do |sr|
-            - if round.final?
-              %th.placement_col
-                %div{data: {title: 'Placement'}}
-                  %i.fa.fa-trophy
             = render partial: 'adjudicators/adjudicator_header',
               collection: round.adjudicators,
               as: :adjudicator,

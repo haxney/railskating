@@ -2,4 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  rounds:
+    final_round:
+      round_title: "Round %{number} (Final)"
+
+  sub_rounds:
+    final_sub_round:
+      placement: "Placement"
+      adjudicators: "Adjudicators"
+      cumulative: "Cumulative"

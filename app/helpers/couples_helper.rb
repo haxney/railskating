@@ -40,4 +40,19 @@ module CouplesHelper
      'data_cell',
      'recalled_col']
   end
+
+  # Return the list of classes to use for a cumulative results cell.
+  def cumulative_cell_classes(num)
+    ['data_cell',
+     'cumulative_cell',
+     "cumulative_cell_#{num}"]
+  end
+
+  # Formats a cumulative cell for a given {Couple}, {SubRound}, and number of
+  # marks.
+  def format_cumulative_cell(couple, sub_round, num)
+    finalist = couple.to_single_finalist(sub_round)
+    cum_marks = finalist.cumulative_marks[num - 1]
+    (cum_marks == 0) ? "–" : cum_marks
+  end
 end
