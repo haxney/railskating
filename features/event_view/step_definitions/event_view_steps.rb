@@ -36,7 +36,7 @@ end
 
 # Checks the current page for the specified couples in the given round. Requires
 # the current `Event` be set in the `@event` variable.
-Then(/^I should see a (preliminary|final) round number (\d+)(?:, dance "(.+)")? with the following couples:$/) do |final, round_num, dance_name, table|
+Then(/^I should see a (preliminary|final) round #(\d+)(?:, dance "(.+)")? with the following couples:$/) do |final, round_num, dance_name, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
   final = final =~ /final/
 
