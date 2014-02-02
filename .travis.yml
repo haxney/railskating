@@ -8,9 +8,7 @@ rvm:
   - 2.0.0
 
 script:
-  - RAILS_ENV=test bundle exec rake --trace db:setup
-  - RAILS_ENV=test bundle exec rake --trace cucumber
-  - RAILS_ENV=test bundle exec rake --trace spec SPEC=spec/models SPEC_OPTS="--format documentation"
+  - RAILS_ENV=test bundle exec rake --trace test_with_coveralls
 
 before_script:
   - mysql -e 'create database railskating_test'
