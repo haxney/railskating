@@ -48,6 +48,14 @@ module CouplesHelper
      "cumulative_cell_#{num}"]
   end
 
+  # Return a list of the classes to use for a final round placement cell.
+  def placement_cell_classes(dance)
+    ['placement_col',
+     'placement_cell',
+     'data_cell',
+     dance_to_class_name(dance)]
+  end
+
   # Formats a cumulative cell for a given {Couple}, {SubRound}, and number of
   # marks.
   def format_cumulative_cell(couple, sub_round, num)
