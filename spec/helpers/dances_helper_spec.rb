@@ -1,15 +1,10 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the DancesHelper. For example:
-#
-# describe DancesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
 describe DancesHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#dance_to_class_name' do
+    it "should format the name of a dance" do
+      res = helper.dance_to_class_name(Constants::Dances::AMERICAN_WALTZ)
+      expect(res).to eq('dance_american_waltz')
+    end
+  end
 end
