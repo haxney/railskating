@@ -12,6 +12,10 @@ describe CouplesHelper do
     @sub_round = create(:sub_round, round: @round, sub_event: @sub_event)
   end
 
+  after(:all) do
+    @comp.destroy
+  end
+
   describe '#format_cell' do
     # Lazily created
     let(:res) { helper.format_cell(@couple,
