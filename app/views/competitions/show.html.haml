@@ -17,6 +17,6 @@
 %ol.events_list
   - cache(@competition) do
     - @competition.events.each do |event|
-      %li= link_to(build_title(event), event)
+      %li= link_to(build_event_title(event), [@competition, event])
 
 = link_to 'Back', competitions_path

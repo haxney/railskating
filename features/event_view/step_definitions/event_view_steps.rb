@@ -31,7 +31,8 @@ end
 
 # Visits the page of the current event.
 When(/^I visit the event page$/) do
-  visit(event_path(@event))
+  visit(competition_event_path(@event.competition, @event))
+  expect(page.status_code).to be(200)
 end
 
 # Checks the current page for the specified couples in the given round. Requires

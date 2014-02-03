@@ -1,3 +1,3 @@
 require 'coveralls/rake/task'
 Coveralls::RakeTask.new
-task :test_with_coveralls => ['spec:models', :cucumber, 'coveralls:push']
+task :test_with_coveralls => ['spec', :cucumber, 'coveralls:push']
