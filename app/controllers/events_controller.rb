@@ -3,8 +3,8 @@ class EventsController < ApplicationController
   def show
     @event = Event.includes(rounds: [:adjudicators, { sub_rounds: :dance},
                               {couples: [:lead, :follow]}])
-      .find_by(competition_id: params[:competition_id],
-               number: params[:number])
+      .find_by!(competition_id: params[:competition_id],
+                number: params[:number])
 
     @event.compute_placements if @event.final_round
   end
