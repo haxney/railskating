@@ -29,6 +29,7 @@ end
 
 When(/^I visit the competition page$/) do
   visit(competition_path(@comp))
+  expect(page.status_code).to be(200)
 end
 
 Then(/^there should be no events$/) do
