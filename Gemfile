@@ -41,6 +41,7 @@ group :test, :development do
   gem 'mysql2'
   gem 'capybara'
   gem 'poltergeist'
+  gem 'coveralls', require: false
 end
 
 group :production do
