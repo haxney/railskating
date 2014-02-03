@@ -1,6 +1,8 @@
 Railskating::Application.routes.draw do
   root 'competitions#index'
 
-  resources :marks, :rounds, :adjudicators, :couples, :levels, :events, :dances,
-    :sections, :teams, :competitions, :users, only: [:index, :show]
+  resources :competitions, only: [:index, :show] do
+    resources :events, only: [:index]
+    get 'events/:number', to: 'events#show', as: :event
+  end
 end
