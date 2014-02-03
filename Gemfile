@@ -4,7 +4,7 @@ gem 'rails', '~> 4.0.0'
 gem 'pg'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder'
 gem 'haml-rails'
 gem 'seed-fu'
 gem 'coffee-rails'
@@ -26,7 +26,7 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'factory_girl_rails'
   gem 'forgery'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
