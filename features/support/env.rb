@@ -29,8 +29,6 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 #
 ActionController::Base.allow_rescue = false
 
-DatabaseCleaner.strategy = :transaction
-
 Before do
   SeedFu.seed
 end
@@ -41,20 +39,13 @@ end
 
 World(FactoryGirl::Syntax::Methods)
 
-# You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
-# See the DatabaseCleaner documentation for details. Example:
-#
-#   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-#     # { :except => [:widgets] } may not do what you expect here
-#     # as Cucumber::Rails::Database.javascript_strategy overrides
-#     # this setting.
-#     DatabaseCleaner.strategy = :truncation
-#   end
-#
-#   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
-#     DatabaseCleaner.strategy = :transaction
-#   end
-#
+DatabaseCleaner.strategy = :transaction
+
+# Transactions are local to a single thread, so features which are
+# multi-threaded cannot use transactions.
+Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
+  DatabaseCleaner.strategy = :truncation
+end
 
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
