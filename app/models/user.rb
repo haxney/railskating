@@ -6,28 +6,25 @@ class User < ActiveRecord::Base
     inverse_of: :follow, dependent: :restrict_with_exception }
   has_many :adjudicators, dependent: :restrict_with_exception
 
-  has_many :couples, -> {
-    joins('JOIN couples ON (couples.lead_id = users.id OR couples.follow_id = users.id)')
-      .select('couples.*')
-  }, class_name: 'User', foreign_key: 'id'
+  def couples
+    ct = Couple.arel_table
+    Couple.where(ct[:lead_id].eq(id).or(ct[:follow_id].eq(id)))
+  end
 
-  has_many :events, class_name: 'Event', finder_sql:
-    proc { <<-EOQ
-      SELECT 'events'.* FROM 'events'
-        INNER JOIN 'couples' ON 'events'.'id' = 'couples'.'event_id'
-        WHERE 'couples'.'lead_id' = #{self.id}
-          OR 'couples'.'follow_id' = #{self.id}
-    EOQ
-  }
-  has_many :competitions, class_name: 'Competition', finder_sql:
-    proc { <<-EOQ
-      SELECT 'competitions'.* FROM 'competitions'
-        INNER JOIN 'events' ON 'competitions'.'id' = 'events'.'competition_id'
-        INNER JOIN 'couples' ON 'events'.'id' = 'couples'.'event_id'
-        WHERE 'couples'.'lead_id' = #{self.id}
-        OR 'couples'.'follow_id' = #{self.id}
-    EOQ
-  }
+  def events
+    ct = Couple.arel_table
+    Event.joins(:couples)
+      .where(ct[:lead_id].eq(id).or(ct[:follow_id].eq(id)))
+      .distinct
+  end
+
+  def competitions
+    ct = Couple.arel_table
+    Competition.joins(events: :couples)
+      .where(ct[:lead_id].eq(id).or(ct[:follow_id].eq(id)))
+      .distinct
+  end
+
 
   # Combines the {#first_name} and {#last_name} attributes.
   def name
