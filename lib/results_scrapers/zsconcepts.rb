@@ -10,6 +10,16 @@ module ResultsScrapers::ZSConcepts
   # Format to use for building event URIs.
   EVENT_FORMAT = COMP_FORMAT + 'event%s.html'
 
+  # Returns the competition URL for `comp` on this site.
+  def self.comp_url(comp)
+    COMP_FORMAT % comp
+  end
+
+  # Returns the event URL for `event` in `comp` on this site.
+  def self.event_url(comp, event)
+    EVENT_FORMAT % [comp, event]
+  end
+
   # Scrape a competition, including all of its events, usig ZSConcepts.
   #
   # Competition results pages have the form:
@@ -26,12 +36,12 @@ module ResultsScrapers::ZSConcepts
   #   populated with the contents of the scraped event pages. It is an array of
   #   "event hashes".
   def self.fetch_and_scrape_comp(comp)
-    uri = URI(COMP_FORMAT % comp)
+    uri = URI(comp_url(comp))
     req = Net::HTTP::Get.new(uri)
 
     # Need to set the referer header in order to get the correct page.
     # ZSConcepts will redirect to the index if there is no referer.
-    req['Referer'] = COMP_FORMAT % comp
+    req['Referer'] = comp_url(comp)
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
     comp_data = scrape_comp(Nokogiri::HTML(res.body))
@@ -54,12 +64,12 @@ module ResultsScrapers::ZSConcepts
   # @param [Integer] event The event number.
   # @return [Hash] See the output of {scrape_event}
   def self.fetch_and_scrape_event(comp, event)
-    uri = URI(EVENT_FORMAT % [comp, event])
+    uri = URI(event_url(comp, event))
     req = Net::HTTP::Get.new(uri)
 
     # Need to set the referer header in order to get the correct page.
     # ZSConcepts will redirect to the index if there is no referer.
-    req['Referer'] = COMP_FORMAT % comp
+    req['Referer'] = comp_url(comp)
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
     scrape_event(Nokogiri::HTML(res.body))
