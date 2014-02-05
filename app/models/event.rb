@@ -61,4 +61,13 @@ class Event < ActiveRecord::Base
       end
     end
   end
+
+  # Returns a representation of the object's key suitable for use in URLs, or
+  # `nil` if `persisted?` is `false`. For {Event}s, this is the event number,
+  # since the path is built by using the {Competition} id and {Event} number.
+  #
+  # @return [String] Representation of the {Event}'s key.
+  def to_param
+    persisted? ? self.number.to_s : nil
+  end
 end
