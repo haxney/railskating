@@ -12,21 +12,40 @@ class Round < ActiveRecord::Base
 
   has_many :couple_tallies, class_name: 'CoupleRoundTally'
 
-  has_many :prelim_results, class_name: 'CoupleRoundTally', finder_sql:
-    proc { <<-SQL
-          SELECT t1.num_marks,
-                 (
-                   SELECT count(t2.couple_id)
-                   FROM couple_round_tallies AS t2
-                   WHERE t2.num_marks >= t1.num_marks AND
-                         t2.round_id = #{self.id}
-                 ) AS num_couples
-            FROM couple_round_tallies AS t1
-            WHERE t1.round_id = #{self.id}
-            GROUP BY t1.num_marks, t1.round_id
-            ORDER BY t1.num_marks DESC;
-      SQL
-  }
+  # Calculate the number of couples which would be recalled for a given number
+  # of marks.
+  #
+  # For example, for a single-dance round with 96 couples and 5 judges, the
+  # results might be:
+  #
+  # | num_marks | num_couples |
+  # |         5 |          16 |
+  # |         4 |          40 |
+  # |         3 |          51 |
+  # |         2 |          60 |
+  # |         1 |          76 |
+  #
+  # Indicating that with a cutoff of 5 marks, 16 couples would be recalled; with
+  # a cutoff of 4 or more marks, 40 couples would be recalled, and so on.
+  #
+  # @return [Array<CoupleRoundTally>] List of results. They are not really
+  #   {CoupleRoundTally} objects, and have only the attributes `num_marks` and
+  #   `num_couples`.
+  def prelim_results
+    t1 = Arel::Table.new(:couple_round_tallies, :as => "t1")
+    t2 = Arel::Table.new(:couple_round_tallies, :as => "t2")
+
+    subquery = t2.project(t2[:couple_id].count)
+      .where(t2[:num_marks].gteq(t1[:num_marks])
+               .and(t2[:round_id].eq(id)))
+
+    query = t1.project(t1[:num_marks], subquery.as('num_couples'))
+      .where(t1[:round_id].eq(id))
+      .group(t1[:num_marks], t1[:round_id])
+      .order(t1[:num_marks].desc)
+
+    CoupleRoundTally.find_by_sql(query)
+  end
 
   # This is a bit aggressive, since it might clear the cache when unrelated
   # attributes are saved, but seeing as how {Round}s are not modified frequently
