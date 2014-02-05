@@ -1,32 +1,38 @@
 require 'results_scrapers'
 
 # Parse `file` using `ResultsScrapers::<mod>.scrape_event`.
-Given(/^I parse the event file "(.+)" with "(.+)"$/) do |file, mod|
-  scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
-  @event = scrape_func.call(Nokogiri::HTML(open(file)))
+Given(/^I fetch and parse event (\d+) from comp "(.+)" with "(.+)"$/) do |event, comp, mod_name|
+  mod = ResultsScrapers.const_get(mod_name.to_sym)
+  url = mod.method(:event_url).call(comp, event)
+  stub = stub_request(:get, url).
+    to_return(body: File.new(event_file_path(mod_name, comp, event)))
+
+  scrape_func = mod.method(:fetch_and_scrape_event)
+  @event = scrape_func.call(comp, event)
+  expect(stub).to have_been_requested
 end
 
-Given(/^I parse the competition file "(.+)" with "(.+)"$/) do |file, mod|
-  scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_comp)
-  @comp = scrape_func.call(Nokogiri::HTML(open(file)))
+Given(/^I fetch and parse the competition "(.+)" with "(.+)"$/) do |comp, mod_name|
+  mod = ResultsScrapers.const_get(mod_name.to_sym)
+  comp_stub = stub_comp_request(mod_name, comp)
+  num_event_files = event_files_for(mod_name, comp).count
+  event_stub = stub_event_requests(mod_name, comp, num_event_files)
+  scrape_func = mod.method(:fetch_and_scrape_comp)
+
+  @comp = scrape_func.call(comp)
+  expect(comp_stub).to have_been_requested
+  expect(event_stub).to have_been_requested.times(num_event_files)
 end
 
-Given(/^I import the competition file "(.+)" with "(.+)" and the events?:$/) do |file, mod, table|
-  table.map_headers! { |h| h.parameterize.underscore.to_sym }
-  step %Q{I parse the competition file "#{file}" with "#{mod}"}
-  event_scrape_func = ResultsScrapers.const_get(mod.to_sym).method(:scrape_event)
-
-  # Parse and add events to comp
-  table.hashes.each do |row|
-    event = event_scrape_func.call(Nokogiri::HTML(open(row[:file_name])))
-    @comp[:events][row[:number]].merge!(event)
-  end
+Given(/^I fetch and import the competition "(.+)" with "(.+)"$/) do |comp, mod_name|
+  mod = ResultsScrapers.const_get(mod_name.to_sym)
+  step %Q{I fetch and parse the competition "#{comp}" with "#{mod_name}"}
 
   @imported_comp = ResultsScrapers::Importer.import_comp(@comp)
 end
 
-Given(/^I import the event file "(.+)" with "(.+)" using (\d+) judges$/) do |file, mod, num_judges|
-  step %Q{I parse the event file "#{file}" with "#{mod}"}
+Given(/^I fetch and import event (\d+) from comp "(.+)" with "(.+)" using (\d+) judges$/) do |event, comp, mod_name, num_judges|
+  step %Q{I fetch and parse event #{event} from comp "#{comp}" with "#{mod_name}"}
   comp = FactoryGirl.create(:competition)
   FactoryGirl.create_list(:adjudicator, num_judges, competition: comp)
   @imported_event = ResultsScrapers::Importer.import_event(@event, comp)

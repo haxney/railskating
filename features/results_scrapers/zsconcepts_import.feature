@@ -6,7 +6,7 @@ Feature: Importing scraped ZSConcepts data
 
   @single
   Scenario: Brown Comp 2013 event 5 (Bronze Amerian Swing)
-    Given I import the event file "features/results_scrapers/event5.html" with "ZSConcepts" using 10 judges
+    Given I fetch and import event 5 from comp "brown2013" with "ZSConcepts" using 10 judges
     Then there should be 4 imported rounds
     And the imported level should be Bronze
     And the imported dance should be:
@@ -92,7 +92,7 @@ Feature: Importing scraped ZSConcepts data
 
   @single
   Scenario: Brown Comp 2013 event 1 (Newcomer American Cha Cha)
-    Given I import the event file "features/results_scrapers/event1.html" with "ZSConcepts" using 10 judges
+    Given I fetch and import event 1 from comp "brown2013" with "ZSConcepts" using 10 judges
     Then there should be 5 imported rounds
     And the imported level should be Newcomer
     And the imported dance should be:
@@ -143,7 +143,7 @@ Feature: Importing scraped ZSConcepts data
 
   @multi
   Scenario: Brown Comp 2013 event 13 (Silver International Waltz/Quickstep)
-    Given I import the event file "features/results_scrapers/event13.html" with "ZSConcepts" using 10 judges
+    Given I fetch and import event 13 from comp "brown2013" with "ZSConcepts" using 10 judges
     Then the imported event should be number 13
     And there should be 3 rounds
     And the imported level should be Silver
@@ -229,11 +229,7 @@ Feature: Importing scraped ZSConcepts data
 
   @comp
   Scenario: Brown Comp 2013 event 13 (Open International Standard 5-dance)
-    Given I import the competition file "features/results_scrapers/comp.html" with "ZSConcepts" and the events:
-      | number | file name                              |
-      |      5 | features/results_scrapers/event5.html  |
-      |     13 | features/results_scrapers/event13.html |
-      |     17 | features/results_scrapers/event17.html |
+    Given I fetch and import the competition "brown2013" with "ZSConcepts"
 
     Then the imported competition should be called "Brown Ballroom Competition"
     And the imported competition should have the following adjudicators:
@@ -250,7 +246,8 @@ Feature: Importing scraped ZSConcepts data
       | J         | Peter      | Walker     |
 
     And the imported competition should have the following events:
-      | number | level  | dances                                           |
-      |      5 | Bronze | Swing                                            |
-      |     13 | Silver | Waltz, Quickstep                                 |
-      |     17 | Open   | Waltz, Quickstep, Foxtrot, Tango, Viennese Waltz |
+      | number | level    | dances                                           |
+      |      1 | Newcomer | Cha Cha                                          |
+      |      5 | Bronze   | Swing                                            |
+      |     13 | Silver   | Waltz, Quickstep                                 |
+      |     17 | Open     | Waltz, Quickstep, Foxtrot, Tango, Viennese Waltz |

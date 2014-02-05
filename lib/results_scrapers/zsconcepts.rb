@@ -20,6 +20,15 @@ module ResultsScrapers::ZSConcepts
     EVENT_FORMAT % [comp, event]
   end
 
+  # Returns a regular expression which matches the competition URLs.
+  def self.comp_url_matcher
+    %r{#{URI_BASE}([^/]+)}
+  end
+
+  def self.event_url_matcher
+    %r{#{URI_BASE}([^/]+)/event(.+)\.html}
+  end
+
   # Scrape a competition, including all of its events, usig ZSConcepts.
   #
   # Competition results pages have the form:
@@ -327,8 +336,10 @@ module ResultsScrapers::ZSConcepts
     comp[:judges] = judge_table.css('tr').map { |row| scrape_judge(row) }
     comp[:events] = []
 
-    doc.css('ol li a').each_with_index do |link, i|
-      comp[:events] << { number: i + 1, file_name: link['href'] }
+    doc.css('ol li a').each do |link|
+      md = /event(\d+)\.html/.match(link['href'])
+      raise ResultsScrapers::ScrapeError, "Unexpected link format: '#{link['href']}'" unless md
+      comp[:events] << { number: md[1].to_i, file_name: link['href'] }
     end
     comp
   end
