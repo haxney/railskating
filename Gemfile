@@ -18,6 +18,9 @@ gem 'font-awesome-rails'
 gem 'unicorn'
 gem 'jquery-datatables-rails'
 gem 'lodash-rails'
+gem 'pry-rails'
+gem 'pry-stack_explorer'
+gem 'pry-byebug'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -30,9 +33,6 @@ group :test, :development do
   gem 'forgery'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
-  gem 'pry-byebug'
-  gem 'pry-rails'
-  gem 'pry-stack_explorer'
   gem 'yard'
   gem 'yard-cucumber'
   gem 'quiet_assets'
