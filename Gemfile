@@ -42,6 +42,9 @@ group :test, :development do
   gem 'capybara'
   gem 'poltergeist'
   gem 'coveralls', require: false
+  gem 'spring'
+  gem 'spring-commands-cucumber'
+  gem 'spring-commands-rspec'
 end
 
 group :production do
