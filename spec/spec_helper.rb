@@ -1,5 +1,7 @@
 require 'coveralls'
+Coveralls::Output.silent = true
 Coveralls.wear_merged!('rails')
+Coveralls::Output.silent = false
 
 require 'rubygems'
 
