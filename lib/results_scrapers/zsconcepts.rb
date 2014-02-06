@@ -10,6 +10,25 @@ module ResultsScrapers::ZSConcepts
   # Format to use for building event URIs.
   EVENT_FORMAT = COMP_FORMAT + 'event%s.html'
 
+  # Returns the competition URL for `comp` on this site.
+  def self.comp_url(comp)
+    COMP_FORMAT % comp
+  end
+
+  # Returns the event URL for `event` in `comp` on this site.
+  def self.event_url(comp, event)
+    EVENT_FORMAT % [comp, event]
+  end
+
+  # Returns a regular expression which matches the competition URLs.
+  def self.comp_url_matcher
+    %r{#{URI_BASE}([^/]+)}
+  end
+
+  def self.event_url_matcher
+    %r{#{URI_BASE}([^/]+)/event(.+)\.html}
+  end
+
   # Scrape a competition, including all of its events, usig ZSConcepts.
   #
   # Competition results pages have the form:
@@ -26,12 +45,12 @@ module ResultsScrapers::ZSConcepts
   #   populated with the contents of the scraped event pages. It is an array of
   #   "event hashes".
   def self.fetch_and_scrape_comp(comp)
-    uri = URI(COMP_FORMAT % comp)
+    uri = URI(comp_url(comp))
     req = Net::HTTP::Get.new(uri)
 
     # Need to set the referer header in order to get the correct page.
     # ZSConcepts will redirect to the index if there is no referer.
-    req['Referer'] = COMP_FORMAT % comp
+    req['Referer'] = comp_url(comp)
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
     comp_data = scrape_comp(Nokogiri::HTML(res.body))
@@ -54,12 +73,12 @@ module ResultsScrapers::ZSConcepts
   # @param [Integer] event The event number.
   # @return [Hash] See the output of {scrape_event}
   def self.fetch_and_scrape_event(comp, event)
-    uri = URI(EVENT_FORMAT % [comp, event])
+    uri = URI(event_url(comp, event))
     req = Net::HTTP::Get.new(uri)
 
     # Need to set the referer header in order to get the correct page.
     # ZSConcepts will redirect to the index if there is no referer.
-    req['Referer'] = COMP_FORMAT % comp
+    req['Referer'] = comp_url(comp)
     res = Net::HTTP.start(uri.hostname, uri.port) { |http| http.request(req) }
 
     scrape_event(Nokogiri::HTML(res.body))
@@ -317,8 +336,10 @@ module ResultsScrapers::ZSConcepts
     comp[:judges] = judge_table.css('tr').map { |row| scrape_judge(row) }
     comp[:events] = []
 
-    doc.css('ol li a').each_with_index do |link, i|
-      comp[:events] << { number: i + 1, file_name: link['href'] }
+    doc.css('ol li a').each do |link|
+      md = /event(\d+)\.html/.match(link['href'])
+      raise ResultsScrapers::ScrapeError, "Unexpected link format: '#{link['href']}'" unless md
+      comp[:events] << { number: md[1].to_i, file_name: link['href'] }
     end
     comp
   end

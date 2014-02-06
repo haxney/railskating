@@ -36,8 +36,8 @@ class SubEvent < ActiveRecord::Base
     finalists = final_sub_round.couples.map do |c|
       c.to_single_finalist(final_sub_round)
     end
-    compute_next = Scrutineering.method(:rules_5_to_8)
-    places = Scrutineering.compute_all_places(finalists, compute_next)
+
+    places = Scrutineering.place_one_dance(finalists)
     places.map do |elt|
       self.sub_placements.create(rank: elt.first, couple_id: elt.second.id)
     end
