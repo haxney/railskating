@@ -38,9 +38,13 @@ class SubEvent < ActiveRecord::Base
     end
 
     places = Scrutineering.place_one_dance(finalists)
-    places.map do |elt|
-      self.sub_placements.create(rank: elt.first, couple_id: elt.second.id)
+    adsf = places.map do |elt|
+      # Potential issues with floating point here, but without converting, there
+      # was an argument error.
+      self.sub_placements.create(rank: elt.first.to_f, couple_id: elt.second.id)
     end
+
+    adsf
   end
 
   # Build an array of the form returned by {#Scrutineering::compute_all_places}.

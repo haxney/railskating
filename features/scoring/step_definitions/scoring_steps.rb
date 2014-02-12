@@ -23,8 +23,8 @@ And(/^(\d+) couples are requested from the preliminary round$/) do |num|
 end
 
 Then(/^the possible cutoffs of the round should be (\d+) marks, (\d+) couples and (\d+) marks, (\d+) couples$/) do |lower_m, lower_c, upper_m, upper_c|
-  expect(@round.possible_cutoffs.map &:num_marks).to eq([lower_m, upper_m])
-  expect(@round.possible_cutoffs.map &:num_couples).to eq([lower_c, upper_c])
+  expect(@round.possible_cutoffs.map(&:num_marks)).to eq([lower_m, upper_m])
+  expect(@round.possible_cutoffs.map(&:num_couples)).to eq([lower_c, upper_c])
 end
 
 # Expect `Couple`s, identified by their number, to be recalled from a `Round`.
@@ -70,8 +70,9 @@ end
 #     |    118 |    5 | R11  |
 #
 # The table must be sorted by the couple number, not the placement.
-Then(/^the placement of the couples should be:$/) do |table|
+Then(/^the (sub-)?placement of the couples should be:$/) do |sub, table|
   @event.compute_placements
+  actual = sub ? @sub_event.sub_placements : @event.placements
 
-  table.diff!(placements_to_table(@event.placements))
+  table.diff!(placements_to_table(actual))
 end

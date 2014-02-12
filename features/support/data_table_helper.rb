@@ -48,9 +48,26 @@ end
 # @return [Array<Array<String>>] 2D array of strings representing a table.
 def placements_to_table(placements)
   sorted = placements.sort_by { |p| p.couple.number }
-  [['couple', 'rank', 'rule']] + sorted.map do |p|
-    [p.couple.number,
-     p.rank.to_s,
-     ((p.rule) ? "R#{p.rule}" : "")]
+  sorted.map do |p|
+    hash = { 'couple' => p.couple.number, 'rank' => rank_to_s(p.rank) }
+    if Placement === p
+      hash['rule'] = ((p.rule) ? "R#{p.rule}" : "")
+    end
+    hash
+  end
+end
+
+# Converts a `rank` to a string, including the decimal point only if `rank` is
+# not an integer.
+#
+# @param [Rational] rank The rank of a couple.
+#
+# @return [String] The rank as a string. Includes a decimal only if `rank` is
+#   not an integer.
+def rank_to_s(rank)
+  if rank.denominator == 1
+    rank.to_i.to_s
+  else
+    rank.to_f.to_s
   end
 end

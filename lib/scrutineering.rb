@@ -3,14 +3,20 @@
 module Scrutineering
   class Finalist
     # The `id` column of the {Couple} which this {Finalist} represents.
+    #
+    # @return [Integer]
     attr_accessor :id
 
     # Array where the value at position i (starting from 1) is the number of
     # judges who marked this couple ith or better
+    #
+    # @return [Array<Integer>]
     attr_accessor :cumulative_marks
 
-    # a list where the value at position i (starting from 1) is the sum of the
+    # A list where the value at position i (starting from 1) is the sum of the
     # couple's places at ith or better
+    #
+    # @return [Array<Integer>]
     attr_accessor :cumulative_sums
 
     def initialize(id, cum_marks, cum_sums)
@@ -25,17 +31,26 @@ module Scrutineering
   class LinkedFinalist < Finalist
     # An Array, ordered by dance, of the place the finalist received for that
     # dance.
+    #
+    # @return [Array<Rational>]
     attr_accessor :places
 
-    # The sum of the finalist's places.
+    # The sum of the finalist's places. This may be a fraction if the couple
+    # received a fractional score.
+    #
+    # @return [Rational]
     attr_accessor :sum
 
     # Another {Finalist} structure treating the marks from all dances as a
     # single dance.
+    #
+    # @return [Finalist]
     attr_accessor :as_single_dance
 
     # Indicates which rule was used to break the tie for this {LinkedFinalist}.
     # It is either `10` or `11`.
+    #
+    # @return [Integer]
     attr_accessor :rule
 
     # Create a new {LinkedFinalist} using the given arguments
@@ -85,7 +100,7 @@ module Scrutineering
 
   # Combines all of the single-dance results into {LinkedFinalist} structures.
   #
-  # @param [Array<Array<Array<Integer, Finalist>>>] single_results array of
+  # @param [Array<Array<Array<Rational, Finalist>>>] single_results array of
   # results returned by {::place_one_dance}
   # @return [Array<LinkedFinalist>] array of {LinkedFinalist}s.
   def self.single_results_to_linked_finalists(single_results)
@@ -113,7 +128,7 @@ module Scrutineering
   # @param [Array<Finalist>] finalists the {Finalist}s to place.
   # @param [Integer] place_to_assign the place to assign.
   #
-  # @return [Array<Array<Integer, Finalist>>] Array of `[placement, finalist]` arrays.
+  # @return [Array<Array<Rational, Finalist>>] Array of `[placement, finalist]` arrays.
   def self.rules_5_to_8(finalists, place_to_assign)
     majority = (finalists.first.cumulative_marks.last / 2).next
     max_place = finalists.first.cumulative_marks.count
@@ -146,7 +161,7 @@ module Scrutineering
           when place < max_place
             inner.call(place + 1, lowest_sum) # still tied: advance to next column
           else # Genuine tie
-            score = place_to_assign + (lowest_sum.length - 1) / 2
+            score = place_to_assign + Rational((lowest_sum.length - 1), 2)
             lowest_sum.map { |c| [score, c] }
           end
         end
@@ -242,8 +257,7 @@ module Scrutineering
       else
         newly_placed = compute_next.call(unplaced, placed.count + 1)
         newly_placed.each { |np| unplaced.reject! { |up| up == np[1] } }
-        inner.call(newly_placed + placed,
-                   unplaced)
+        inner.call(newly_placed + placed, unplaced)
       end
     end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140120191726) do
+ActiveRecord::Schema.define(version: 20140212184016) do
 
   create_table "teams", force: true do |t|
     t.string   "name"
@@ -190,13 +190,17 @@ ActiveRecord::Schema.define(version: 20140120191726) do
   create_table "sub_placements", force: true do |t|
     t.integer  "couple_id"
     t.integer  "sub_event_id"
-    t.integer  "rank"
+    t.decimal  "rank",         precision: 5, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["couple_id"], :name => "fk__sub_placements_couple_id"
     t.index ["couple_id"], :name => "index_sub_placements_on_couple_id"
+    t.index ["couple_id"], :name => "k__sub_placements_couple_id"
+    t.index ["sub_event_id"], :name => "fk__sub_placements_sub_event_id"
     t.index ["sub_event_id"], :name => "index_sub_placements_on_sub_event_id"
-    t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :cascade, :name => "fk_sub_placements_couple_id"
-    t.foreign_key ["sub_event_id"], "sub_events", ["id"], :on_update => :no_action, :on_delete => :cascade, :name => "fk_sub_placements_sub_event_id"
+    t.index ["sub_event_id"], :name => "k__sub_placements_sub_event_id"
+    t.foreign_key ["couple_id"], "couples", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_sub_placements_couple_id"
+    t.foreign_key ["sub_event_id"], "sub_events", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_sub_placements_sub_event_id"
   end
 
 end
