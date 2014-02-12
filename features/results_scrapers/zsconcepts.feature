@@ -203,6 +203,7 @@ Feature: Scraping from dance.zsconcepts.com
       |      5 | event5.html  |
       |     13 | event13.html |
       |     17 | event17.html |
+      |     26 | event26.html |
 
   @multi @event17
   Scenario: Brown Comp 2013 event 17 (Open International 5-dance)
@@ -298,3 +299,46 @@ Feature: Scraping from dance.zsconcepts.com
       |    183 | 7 | 7 | 5 | 5 | 7 | 3 | 7 |
       |    189 | 3 | 3 | 3 | 7 | 3 | 5 | 3 |
       |    346 | 6 | 4 | 6 | 6 | 6 | 4 | 4 |
+
+  @multi @event26
+  Scenario: Brown Comp 2013 event 26 (Open Smooth 4-dance)
+    Given I fetch and parse event 26 from comp "brown2013" with "ZSConcepts"
+    Then the event should be number 26
+    And there should be 1 round
+    And the level should be Open
+    And the section should be American
+    And the dances should be:
+      | Waltz          |
+      | Tango          |
+      | Foxtrot        |
+      | Viennese Waltz |
+
+    And round 1 should have the following judges:
+      | A |
+      | C |
+      | D |
+      | E |
+      | H |
+      | I |
+      | J |
+
+    And round 1 should be final
+    And round 1 should have the following couples:
+      | number | lead name          | lead team         | follow name     | follow team              | no name |
+      |    102 | Matthew Sorrentino | MIT               | Theresa Vallese | MIT                      |         |
+      |    103 | Adam Peacock       | Unaffiliated      | Andrea Raynor   | Unaffiliated             |         |
+      |    106 | Fahmil Shah        | Boston University | Kristie Charoen | Boston University        |         |
+      |    169 | George Cometa      | UConn             | Bella Pindrus   | Boston Dance Options     |         |
+      |    179 |                    |                   |                 |                          | true    |
+      |    212 | Jason Seabury      | UConn             | Nonie Shiverick | Manhattan Ballroom Dance |         |
+      |    225 | Jeff McCollum      | MIT               | Lihua Bai       | MIT                      |         |
+
+    And round 1 should have the following marks in the dance "Tango":
+      | number | A | C | D | E | H | I | J |
+      |    102 | 3 | 4 | 1 | 4 | 6 | 5 | 3 |
+      |    103 | 7 | 5 | 5 | 5 | 5 | 4 | 7 |
+      |    106 | 6 | 7 | 7 | 6 | 7 | 7 | 4 |
+      |    169 | 2 | 1 | 2 | 7 | 2 | 1 | 1 |
+      |    179 | 5 | 6 | 4 | 2 | 4 | 3 | 6 |
+      |    212 | 1 | 2 | 3 | 1 | 1 | 2 | 2 |
+      |    225 | 4 | 3 | 6 | 3 | 3 | 6 | 5 |

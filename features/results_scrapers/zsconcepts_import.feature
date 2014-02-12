@@ -251,3 +251,4 @@ Feature: Importing scraped ZSConcepts data
       |      5 | Bronze   | Swing                                            |
       |     13 | Silver   | Waltz, Quickstep                                 |
       |     17 | Open     | Waltz, Quickstep, Foxtrot, Tango, Viennese Waltz |
+      |     26 | Open     | Waltz, Tango, Foxtrot, Viennese Waltz            |
