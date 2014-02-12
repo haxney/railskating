@@ -91,3 +91,26 @@ Then(/^the table for round #(\d) should be sorted by "(.+)"( descending)?$/) do 
   be_in_order = desc ? be_monotonically_decreasing : be_monotonically_increasing
   expect(all("#{round_id} td#{class_name}").map(&:text)).to be_in_order
 end
+
+Then(/^I should see the following placements for the couples in dance "(.+)":$/) do |dance_name, table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+
+  if dance_name
+    dance = Dance.find_by(name: dance_name)
+  else
+    dance = @dance
+  end
+
+  sub_round = SubRound.joins(:sub_event, :round)
+    .find_by!('sub_events.dance' => dance, 'rounds.final' => true)
+  weight = sub_round.sub_event.weight
+  round_num = sub_round.round.number
+  table_selector = "table#results_sub_round_#{round_num}_#{weight}"
+
+  actual = all("#{table_selector} tbody tr.couple_row").map do |row|
+    { couple: row.find('td.couple_number_col').text.to_i,
+      rank: row.find('td.sub_placement_col').text }
+  end
+
+  table.diff!(actual)
+end

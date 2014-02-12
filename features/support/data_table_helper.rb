@@ -49,25 +49,10 @@ end
 def placements_to_table(placements)
   sorted = placements.sort_by { |p| p.couple.number }
   sorted.map do |p|
-    hash = { 'couple' => p.couple.number, 'rank' => rank_to_s(p.rank) }
+    hash = { 'couple' => p.couple.number, 'rank' => p.rank_to_s }
     if Placement === p
       hash['rule'] = ((p.rule) ? "R#{p.rule}" : "")
     end
     hash
-  end
-end
-
-# Converts a `rank` to a string, including the decimal point only if `rank` is
-# not an integer.
-#
-# @param [Rational] rank The rank of a couple.
-#
-# @return [String] The rank as a string. Includes a decimal only if `rank` is
-#   not an integer.
-def rank_to_s(rank)
-  if rank.denominator == 1
-    rank.to_i.to_s
-  else
-    rank.to_f.to_s
   end
 end
