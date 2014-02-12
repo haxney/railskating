@@ -16,7 +16,7 @@ Feature: Couples in a single-dance final
       |     55 | 5 | 6 | 4 | 3 | 5 |
       |     56 | 6 | 5 | 6 | 6 | 6 |
 
-    Then the placement of the couples should be:
+    Then the sub-placement of the couples should be:
       | couple | rank |
       |     51 |    1 |
       |     52 |    2 |
@@ -36,7 +36,7 @@ Feature: Couples in a single-dance final
       |     65 | 4 | 5 | 6 | 4 | 3 | 6 | 5 |
       |     66 | 5 | 6 | 4 | 6 | 5 | 4 | 6 |
 
-    Then the placement of the couples should be:
+    Then the sub-placement of the couples should be:
       | couple | rank |
       |     61 |    1 |
       |     62 |    2 |
@@ -56,7 +56,7 @@ Feature: Couples in a single-dance final
       |     75 | 4 | 6 | 3 | 3 | 5 | 4 | 6 |
       |     76 | 6 | 3 | 5 | 6 | 4 | 3 | 5 |
 
-    Then the placement of the couples should be:
+    Then the sub-placement of the couples should be:
       | couple | rank |
       |     71 |    1 |
       |     72 |    2 |
@@ -76,7 +76,7 @@ Feature: Couples in a single-dance final
       |     85 | 5 | 5 | 5 | 1 | 3 | 6 | 1 |
       |     86 | 6 | 1 | 2 | 4 | 6 | 5 | 5 |
 
-    Then the placement of the couples should be:
+    Then the sub-placement of the couples should be:
       | couple | rank |
       |     81 |    1 |
       |     82 |    2 |
@@ -84,3 +84,21 @@ Feature: Couples in a single-dance final
       |     84 |    4 |
       |     85 |    5 |
       |     86 |    6 |
+
+  @rule7
+  Scenario: Couples receive a fractional placement
+    Given the following marks in a final round:
+      | couple | A | B | C | D | E |
+      |     81 | 1 | 4 | 1 | 1 | 1 |
+      |     82 | 4 | 2 | 2 | 4 | 2 |
+      |     83 | 3 | 1 | 4 | 3 | 3 |
+      |     84 | 2 | 3 | 3 | 2 | 4 |
+      |     85 | 5 | 5 | 5 | 5 | 5 |
+
+    Then the sub-placement of the couples should be:
+      | couple | rank |
+      |     81 |    1 |
+      |     82 |    2 |
+      |     83 |  3.5 |
+      |     84 |  3.5 |
+      |     85 |    5 |
