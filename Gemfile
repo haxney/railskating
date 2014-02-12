@@ -46,6 +46,7 @@ group :test, :development do
   gem 'spring-commands-cucumber'
   gem 'spring-commands-rspec'
   gem 'webmock'
+  gem 'rubocop'
 end
 
 group :production do
