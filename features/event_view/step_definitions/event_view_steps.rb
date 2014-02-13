@@ -23,7 +23,7 @@ Given(/^the following couple names:$/) do |table|
 
     follow_names = row[:follow_name].split($;, 2)
     couple.follow.update(first_name: follow_names.first,
-                       last_name: follow_names.last)
+                         last_name: follow_names.last)
     couple.follow.team = Team.find_or_create_by(name: row[:follow_team])
     couple.follow.save
   end
@@ -35,8 +35,8 @@ When(/^I visit the event page$/) do
   expect(page.status_code).to eq(200)
 end
 
-# Checks the current page for the specified couples in the given round. Requires
-# the current `Event` be set in the `@event` variable.
+# Checks the current page for the specified couples in the given round.
+# Requires the current `Event` be set in the `@event` variable.
 Then(/^I should see a (preliminary|final) round #(\d+)(?:, dance "(.+)")? with the following couples:$/) do |final, round_num, dance_name, table|
   table.map_headers! { |h| h.parameterize.underscore.to_sym }
   final = final =~ /final/
@@ -49,14 +49,14 @@ Then(/^I should see a (preliminary|final) round #(\d+)(?:, dance "(.+)")? with t
   end
 
   table_selector = if final
-                  sub_round = SubRound.joins(:sub_event)
-                    .find_by!('sub_events.dance' => dance,
-                              :round => round)
-                  weight = sub_round.sub_event.weight
-                  "table#results_sub_round_#{round.number}_#{weight}"
-                else
-                  "table#results_round_#{round.number}"
-                end
+                     sub_round = SubRound.joins(:sub_event)
+                       .find_by!('sub_events.dance' => dance,
+                                 :round => round)
+                     weight = sub_round.sub_event.weight
+                     "table#results_sub_round_#{round.number}_#{weight}"
+                   else
+                     "table#results_round_#{round.number}"
+                   end
   actual = all("#{table_selector} tbody tr.couple_row").map do |row|
     { couple: row.find('td.couple_number_col').text.to_i }
   end

@@ -49,7 +49,7 @@ end
 
 Then(/^there should be (\d+) (imported )?rounds?$/) do |num, imported|
   src = imported ? @imported_event.rounds : @event[:rounds]
-  expect(@event[:rounds].length).to eq(num)
+  expect(src.length).to eq(num)
 end
 
 Then(/^the( imported)? level should be (.+)$/) do |imported, level|
@@ -139,9 +139,9 @@ Then(/^(imported )?round (\d+) should have the following marks in the dance "(.+
     round = @imported_event.rounds[idx]
     judge_hash = Hash[round.adjudicators.map { |j| [j.shorthand, j] }]
     couples = round.couples
-    sub_round = round.sub_rounds.detect { |sr| sr.dance.name == dance }
+    sub_round = round.sub_rounds.find { |sr| sr.dance.name == dance }
     actual = couples.map do |c|
-      res = {"number" => c.number }
+      res = { 'number' => c.number }
       judge_hash.each do |short, judge|
         mark = Mark.find_by(adjudicator: judge,
                             sub_round_id: sub_round.id,
@@ -156,7 +156,7 @@ Then(/^(imported )?round (\d+) should have the following marks in the dance "(.+
   else
     couples = @event[:rounds][idx][:couples]
     actual = couples.map do |c|
-      res = {"number" => c[:number]}
+      res = { 'number' => c[:number] }
       c[:dances][dance].each do |judge, mark|
         res[judge] = case mark
                      when true then 'X'

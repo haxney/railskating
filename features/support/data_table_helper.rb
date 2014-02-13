@@ -3,15 +3,16 @@ module DataTableHelper
 
   # Finds or creates a couple numbered `num` associated with `round`.
   #
-  # Note that this cannot use {Couple::find_or_create_by} since it must be able to
-  # add existing couples to `round`. The block accepted by
+  # Note that this cannot use {Couple::find_or_create_by} since it must be able
+  # to add existing couples to `round`. The block accepted by
   # {Couple::find_or_create_by} is only executed when the {Couple} is
   # newly-created.
   def find_or_create_couple(num, round)
-    if c = Couple.where(number: num, event: round.event).take
+    c = Couple.where(number: num, event: round.event).take
+    if c
       c
     else
-      c = FactoryGirl.create(:couple, number: num, event: round.event)
+      c = create(:couple, number: num, event: round.event)
       round.couples << c
       c
     end
@@ -33,9 +34,9 @@ module DataTableHelper
             else raise ArgumentError, "Expected dance to be one of 'W', 'T', 'F', 'V', 'Q', got #{header}"
             end
     se = SubEvent.where(event: round.event, dance: dance).take ||
-      FactoryGirl.create(:sub_event, event: round.event, dance: dance)
+      create(:sub_event, event: round.event, dance: dance)
     SubRound.where(round: round, sub_event: se).take ||
-      FactoryGirl.create(:sub_round, round: round, sub_event: se)
+      create(:sub_round, round: round, sub_event: se)
     se
   end
 
@@ -53,9 +54,7 @@ module DataTableHelper
     sorted = placements.sort_by { |p| p.couple.number }
     sorted.map do |p|
       hash = { 'couple' => p.couple.number, 'rank' => p.rank.to_st }
-      if Placement === p
-        hash['rule'] = ((p.rule) ? "R#{p.rule}" : "")
-      end
+      hash['rule'] = ((p.rule) ? "R#{p.rule}" : '') if p.instance_of? Placement
       hash
     end
   end
