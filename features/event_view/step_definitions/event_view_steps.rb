@@ -128,7 +128,7 @@ Then(/^I should see the following in the final summary:$/) do |table|
     }
     dances.each do |dance|
       dance_sym = dance.base_name.parameterize.underscore.to_sym
-      dance_class = helper.dance_to_class_name(dance)
+      dance_class = "dance_#{dance.name.parameterize.underscore}"
       res[dance_sym] = row.find("td.#{dance_class}").text
     end
     res
