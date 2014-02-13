@@ -114,3 +114,25 @@ Then(/^I should see the following placements for the couples in dance "(.+)":$/)
 
   table.diff!(actual)
 end
+
+Then(/^I should see the following in the final summary:$/) do |table|
+  table.map_headers! { |h| h.parameterize.underscore.to_sym }
+  dances = @event.sub_events.map(&:dance)
+
+  actual = all('table#final_summary tbody tr.couple_row').map do |row|
+    res = {
+      number: row.find('td.couple_number_col').text.to_i,
+      overall: row.find('td.placement_col').text,
+      total: row.find('td.total_placements_col').text,
+      rule: row.find('td.rule_col').text
+    }
+    dances.each do |dance|
+      dance_sym = dance.base_name.parameterize.underscore.to_sym
+      dance_class = helper.dance_to_class_name(dance)
+      res[dance_sym] = row.find("td.#{dance_class}").text
+    end
+    res
+  end
+
+  table.diff!(actual)
+end
