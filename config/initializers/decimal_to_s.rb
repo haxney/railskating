@@ -12,4 +12,11 @@ module DecimalTruncateToString
       end
     end
   end
+
+  refine Fixnum do
+    # Same as `to_s`, since there is no fractional part to worry about.
+    def to_st
+      to_s
+    end
+  end
 end
