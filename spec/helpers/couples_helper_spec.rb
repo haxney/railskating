@@ -103,19 +103,19 @@ describe CouplesHelper do
   describe '#rule_cell_classes' do
     it "should include classes for a non-rule placement" do
       place = create(:placement, rule: nil)
-      res = helper.rule_cell_classes(place)
+      res = helper.rule_cell_classes(place.couple, place.event)
       expect(res).to eq(%w{rule_col})
     end
 
     it "should include a class when the placement is rule 10" do
       place = create(:placement, rule: 10)
-      res = helper.rule_cell_classes(place)
+      res = helper.rule_cell_classes(place.couple, place.event)
       expect(res).to eq(%w{rule_col rule_col_10})
     end
 
     it "should include a class when the placement is rule 11" do
       place = create(:placement, rule: 11)
-      res = helper.rule_cell_classes(place)
+      res = helper.rule_cell_classes(place.couple, place.event)
       expect(res).to eq(%w{rule_col rule_col_11})
     end
   end
@@ -123,20 +123,20 @@ describe CouplesHelper do
   describe '#format_rule_cell' do
     it "should be empty for a non-rule placement" do
       place = create(:placement, rule: nil)
-      res = helper.format_rule_cell(place)
+      res = helper.format_rule_cell(place.couple, place.event)
       expect(res).to be_empty
     end
 
     it "should be 'R10' when the placement is rule 10" do
       place = create(:placement, rule: 10)
-      res = helper.format_rule_cell(place)
-      expect(res).to eq("R10")
+      res = helper.format_rule_cell(place.couple, place.event)
+      expect(res).to eq('R10')
     end
 
     it "should be 'R11' when the placement is rule 11" do
       place = create(:placement, rule: 11)
-      res = helper.format_rule_cell(place)
-      expect(res).to eq("R11")
+      res = helper.format_rule_cell(place.couple, place.event)
+      expect(res).to eq('R11')
     end
   end
 end

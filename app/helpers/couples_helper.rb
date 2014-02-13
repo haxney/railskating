@@ -1,4 +1,5 @@
 module CouplesHelper
+  using DecimalTruncateToString
 
   # Formats a single cell for the {Couple}, {SubRound}, and {Adjudicator}.
   #
@@ -70,13 +71,31 @@ module CouplesHelper
     (cum_marks == 0) ? "–" : cum_marks
   end
 
+  # Formats a placement cell for a couple in a given {Round} or {SubRound}.
+  #
+  # @param [Couple] couple The couple to format the result for.
+  # @param [Round, SubRound] grouping The {Round} or {SubRound} in which the
+  #   {Couple} placed.
+  #
+  # @return [String] The appropriate placement for the couple.
+  def format_placement_cell(couple, grouping)
+    couple.placement_in(grouping).rank.to_st
+  end
+
   # Formats the "Total" cell for a couple. This is the sum of the placements
   # received by the couple
   def format_total_placements_cell(couple)
-    couple.sub_placements.map(&:rank).reduce(&:+)
+    couple.sub_placements.map(&:rank).reduce(&:+).to_st
   end
 
-  def rule_cell_classes(placement)
+  # Return the CSS classes to use for a couple rule cell.
+  #
+  # @param [Couple] couple The couple.
+  # @param [Event] event The {Event} in which the couple placed.
+  #
+  # @return [Array<String>] An array of CSS class names.
+  def rule_cell_classes(couple, event)
+    placement = couple.placement_in(event)
     cls = ['rule_col']
     rule = placement.rule
     case rule
@@ -87,8 +106,12 @@ module CouplesHelper
 
   # Format the "Rule" cell for a couple.
   #
-  # @param [Integer] rule The placement to format.
-  def format_rule_cell(rule)
+  # @param [Couple] couple The couple.
+  # @param [Event] event The {Event} in which the couple placed.
+  #
+  # @return [String] The contents of the rule cell.
+  def format_rule_cell(couple, event)
+    rule = couple.placement_in(event).rule
     case rule
     when 10, 11 then "R#{rule}"
     else ''
