@@ -12,4 +12,4 @@
   %td.total_placements_col.data_cell= format_total_placements_cell(couple)
   - event.sub_events.each do |se|
     %td{class: placement_cell_classes(se.dance)}= couple.placement_in(se).rank
-  %td{class: rule_cell_classes(placement)}= format_rule_cell(placement)
+  %td{class: rule_cell_classes(placement)}= format_rule_cell(placement.rule)

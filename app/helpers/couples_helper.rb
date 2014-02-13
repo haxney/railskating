@@ -87,12 +87,11 @@ module CouplesHelper
 
   # Format the "Rule" cell for a couple.
   #
-  # @param [Placement] placement The placement to format.
-  def format_rule_cell(placement)
-    rule = placement.rule
+  # @param [Integer] rule The placement to format.
+  def format_rule_cell(rule)
     case rule
     when 10, 11 then "R#{rule}"
-    else ""
+    else ''
     end
   end
 end
