@@ -102,3 +102,24 @@ Feature: Couples in a single-dance final
       |     83 |  3.5 |
       |     84 |  3.5 |
       |     85 |    5 |
+
+  Scenario: Couples receive a fractional placement (Brown 2013 event 26)
+    Given the following marks in a final round:
+      | couple | A | C | D | E | H | I | J |
+      |    102 | 3 | 4 | 1 | 4 | 6 | 5 | 3 |
+      |    103 | 7 | 5 | 5 | 5 | 5 | 4 | 7 |
+      |    106 | 6 | 7 | 7 | 6 | 7 | 7 | 4 |
+      |    169 | 2 | 1 | 2 | 7 | 2 | 1 | 1 |
+      |    179 | 5 | 6 | 4 | 2 | 4 | 3 | 6 |
+      |    212 | 1 | 2 | 3 | 1 | 1 | 2 | 2 |
+      |    225 | 4 | 3 | 6 | 3 | 3 | 6 | 5 |
+
+    Then the sub-placement of the couples should be:
+      | couple | rank |
+      |    102 |    3 |
+      |    103 |    6 |
+      |    106 |    7 |
+      |    169 |    2 |
+      |    179 |  4.5 |
+      |    212 |    1 |
+      |    225 |  4.5 |

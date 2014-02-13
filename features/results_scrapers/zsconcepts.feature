@@ -248,7 +248,7 @@ Feature: Scraping from dance.zsconcepts.com
       |    293 | Paul Freitas       | Unaffiliated             | Kelly Glasheen     | Unaffiliated         |         |
       |    300 | Meredith Stead     | Unaffiliated             | Daphna Locker      | Unaffiliated         |         |
       |    346 | Alan Wong          | UConn                    | Amy Friss          | UConn                |         |
-      |    388 |                    |                          |                    |                      | true        |
+      |    388 |                    |                          |                    |                      | true    |
 
     And round 1 should have the following marks in the dance "Tango":
       | number | A | B | E | F | G | I | J |

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe EventsHelper do
-  let (:event) { create(:event,
+  let(:event) { create(:event,
                         level: Constants::Levels::SILVER,
                         number: 1) }
 
@@ -29,7 +29,7 @@ describe EventsHelper do
   describe '#event_summary_table_id' do
 
     it "should return the table id" do
-      expect(helper.event_summary_table_id).to eq('results_event')
+      expect(helper.event_summary_table_id).to eq('final_summary')
     end
   end
 end

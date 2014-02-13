@@ -1,4 +1,3 @@
-- placement = couple.placement_in(event)
 %tr{class: "couple_row couple_row_#{couple.number}"}
   %td.couple_number_col= couple.number
   %td.couple_leader_col
@@ -8,8 +7,8 @@
     %span.follow_name= couple.follow.name
     %span.follow_team= '(' + couple.follow.team.name + ')'
 
-  %td{class: placement_cell_classes}= placement.rank
+  %td{class: placement_cell_classes}= format_placement_cell(couple, event)
   %td.total_placements_col.data_cell= format_total_placements_cell(couple)
   - event.sub_events.each do |se|
-    %td{class: placement_cell_classes(se.dance)}= couple.placement_in(se).rank
-  %td{class: rule_cell_classes(placement)}= format_rule_cell(placement)
+    %td{class: placement_cell_classes(se.dance)}= format_placement_cell(couple, se)
+  %td{class: rule_cell_classes(couple, event)}= format_rule_cell(couple, event)

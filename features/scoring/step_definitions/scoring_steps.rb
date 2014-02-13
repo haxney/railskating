@@ -13,7 +13,7 @@ Then(/^(\d+) marks should exist for couple (\d+)/) do |num_marks, couple|
       .length).to eq(num_marks)
 end
 
-Then(/^(\d+) couples should be recalled from the preliminary round$/ ) do |count|
+Then(/^(\d+) couples should be recalled from the preliminary round$/) do |count|
   expect(@round.recalled_couples.length).to eq(count)
 end
 
@@ -42,7 +42,7 @@ Then(/^the following couples should be recalled from the preliminary round(?: wi
   @round.update(cutoff: cutoff) if cutoff
 
   couple_numbers = @round.recalled_couples.map(&:number).sort
-  actual = couple_numbers.map { |num| {'couple' => num} }
+  actual = couple_numbers.map { |num| { 'couple' => num } }
   table.diff!(actual)
 end
 
@@ -57,7 +57,8 @@ end
 #     |     54 |    4 |
 #     |     55 |    5 |
 #
-# Or, if there is a multi-dance final decided by rules 10 or 11, then the form is
+# Or, if there is a multi-dance final decided by rules 10 or 11, then the form
+# is
 #
 #     | couple | rank | rule |
 #     |    111 |    4 | R11  |

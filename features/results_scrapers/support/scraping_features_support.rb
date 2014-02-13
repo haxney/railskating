@@ -3,7 +3,7 @@ module ScrapingFeaturesSupport
   # Return the local file path of the competition which would be on the web.
   def comp_file_path(mod_name, comp)
     Rails.root.join('features', 'results_scrapers',
-                    mod_name.downcase, comp, "index.html")
+                    mod_name.downcase, comp, 'index.html')
   end
 
   # Return the local file path of the event which would be on the web.
@@ -26,8 +26,8 @@ module ScrapingFeaturesSupport
   def stub_comp_request(mod_name, comp)
     mod = ResultsScrapers.const_get(mod_name.to_sym)
     comp_url = mod.method(:comp_url).call(comp)
-    stub_request(:get, comp_url).
-      to_return(body: File.new(comp_file_path(mod_name, comp)))
+    stub_request(:get, comp_url)
+      .to_return(body: File.new(comp_file_path(mod_name, comp)))
   end
 
   # Use WebMock to stub the requests for the events of a competition.

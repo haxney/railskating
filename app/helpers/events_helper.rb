@@ -16,6 +16,6 @@ module EventsHelper
 
   # Creates the id for the event summary table.
   def event_summary_table_id
-    'results_event'
+    'final_summary'
   end
 end

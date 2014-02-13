@@ -18,7 +18,7 @@
 # given number or an adjudicator with the given shorthand exists, respectively.
 # This allows for the use of multiple scoring tables for different
 Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))?(?:, dance "(.+)")?:$/) do |prelim, round_num, dance_name, table|
-  @event ||= FactoryGirl.create(:event)
+  @event ||= create(:event)
 
   # Remap the headers so that all the columns (aside from the first, the
   # "couple" column) are instances of the `Adjudicator` model (created by a
@@ -32,17 +32,17 @@ Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))?(?
   end
   table.hashes # Force the application of `map_headers!`
 
-  round_opts = { event: @event, final: prelim == 'final'}
+  round_opts = { event: @event, final: prelim == 'final' }
   round_opts[:number] = round_num if round_num
-  @round = FactoryGirl.create(:round, round_opts)
+  @round = create(:round, round_opts)
 
   @round.adjudicators = table.headers[1..-1]
 
   @dance = Dance.find_by(name: dance_name || 'American Mambo')
   # Might not actually create a sub event, since it is initialized with a call
   # to `find_or_create_by`
-  @sub_event = FactoryGirl.create(:sub_event, event: @event, dance: @dance)
-  @sub_round = FactoryGirl.create(:sub_round, round: @round, sub_event: @sub_event)
+  @sub_event = create(:sub_event, event: @event, dance: @dance)
+  @sub_round = create(:sub_round, round: @round, sub_event: @sub_event)
 
   # Create the couple and assign them marks for the sub round.
   table.hashes.each do |row|
@@ -56,11 +56,11 @@ Given(/^the following marks in (?:a|the) (preliminary|final) round(?: #(\d+))?(?
       place = '0' if place == 'X'
 
       # Only create the mark if the entry in the table is not ' '.
-      FactoryGirl.create(:mark,
-        adjudicator: judge,
-        couple: couple,
-        sub_round: @sub_round,
-        placement: place.to_i) if /\w+/ =~ place
+      create(:mark,
+             adjudicator: judge,
+             couple: couple,
+             sub_round: @sub_round,
+             placement: place.to_i) if /\w+/ =~ place
     end
   end
 end
@@ -80,9 +80,9 @@ end
 # For the purpose of creating dances, this will always assume the standard
 # section when converting single-letter dance names to `Dance` objects.
 Given(/^the couples received the following places in the final summary:$/) do |table|
-  @competition = FactoryGirl.create(:competition)
-  @event = FactoryGirl.create(:event, competition: @competition)
-  @round = FactoryGirl.create(:round, event: @event, final: true)
+  @competition = create(:competition)
+  @event = create(:event, competition: @competition)
+  @round = create(:round, event: @event, final: true)
 
   table.map_headers! do |header|
     if header == 'couple'
@@ -99,10 +99,10 @@ Given(/^the couples received the following places in the final summary:$/) do |t
     row.each do |sub_event, place|
 
       # Only create the mark if the entry in the table is not ' '.
-      FactoryGirl.create(:sub_placement,
-                         couple: couple,
-                         sub_event: sub_event,
-                         rank: place.to_i)
+      create(:sub_placement,
+             couple: couple,
+             sub_event: sub_event,
+             rank: place.to_i)
     end
   end
 end
