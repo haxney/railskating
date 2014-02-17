@@ -22,4 +22,5 @@
     = render partial: 'couples/final_summary',
       collection: event.final_round.couples,
       as: :couple,
+      layout: 'couples/couple_row',
       locals: { event: event }

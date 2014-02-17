@@ -21,4 +21,7 @@
               as: :adjudicator,
               locals: { sub_round: sr }
       %tbody
-        = render round.couples, round: round
+        = render partial: 'couples/couple',
+          collection: round.couples,
+          layout: 'couples/couple_row',
+          locals: { round: round }
