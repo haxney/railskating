@@ -1,13 +1,13 @@
 - cache(round) do
   %div.table-responsive[round, :wrapper]
-    %h3.round_title= "Round #{round.number}"
+    %h3.round_title= t '.title', number: round.number
     %table.table-striped.table-bordered.table-hover{class: round_table_classes(round),
                                                     id: round_table_id(round)}
       %thead
         %tr.header_row_first
-          %th.couple_number_col{rowspan: 2} Number
-          %th.couple_leader_col{rowspan: 2} Leader
-          %th.couple_follower_col{rowspan: 2} Follower
+          %th.couple_number_col{rowspan: 2}= t 'couples.number'
+          %th.couple_leader_col{rowspan: 2}= t 'couples.leader'
+          %th.couple_follower_col{rowspan: 2}= t 'couples.follower'
           - round.sub_rounds.each do |sr|
             %th.colspanning{colspan: round_header_colspan(round),
                 class: dance_to_class_name(sr.sub_event.dance)}<
@@ -21,4 +21,7 @@
               as: :adjudicator,
               locals: { sub_round: sr }
       %tbody
-        = render round.couples, round: round
+        = render partial: 'couples/couple',
+          collection: round.couples,
+          layout: 'couples/couple_row',
+          locals: { round: round }

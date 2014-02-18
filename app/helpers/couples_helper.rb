@@ -17,16 +17,19 @@ module CouplesHelper
                         sub_round_id: sub_round.id,
                         couple: couple)
     if mark
+      # Hidden, so no need to translate
       text = content_tag(:span, 'Mark', class: 'hidden')
       (mark.placement == 0) ? fa_icon('check', text: text) : mark.placement.to_s
     else
+      # Hidden, so no need to translate
       content_tag(:span, 'No mark', class: 'hidden')
     end
   end
 
   # Compute the classes to use for a mark cell.
   #
-  # @return [Array<String>] Array of strings in which the first element is the encoded
+  # @return [Array<String>] Array of strings in which the first element is the
+  #   encoded
   def mark_cell_classes(sub_round, adjudicator)
     ['mark_cell',
      'data_cell',

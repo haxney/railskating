@@ -4,8 +4,10 @@
 en:
   rounds:
     final_round:
-      round_title: "Round %{number} (Final)"
+      title: "Round #%{number} (Final)"
       final_summary: "Final Summary"
+    round:
+      title: "Round #%{number}"
 
   sub_rounds:
     final_sub_round:
@@ -17,10 +19,14 @@ en:
     final_summary:
       dances: "Dances"
       total: "Total"
+      placement: "Placement"
+      rule: "Rule"
+    table_filter:
+      label: "Filter couples"
+      placeholder: "Enter name or number"
+    title: "Event #%{number}: %{level} %{dances}"
 
-
-  results:
-    dances: "Dances"
-    placement: "Placement"
-    total: "Total"
-    rule: "Rule"
+  couples:
+    number: "Number"
+    leader: "Leader"
+    follower: "Follower"

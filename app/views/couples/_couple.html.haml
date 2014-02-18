@@ -1,20 +1,11 @@
-%tr{class: "couple_row couple_row_#{couple.number}"}
-  %td.couple_number_col= couple.number
-  %td.couple_leader_col
-    %span.lead_name= couple.lead.name
-    %span.lead_team= '(' + couple.lead.team.name + ')'
-  %td.couple_follower_col
-    %span.follow_name= couple.follow.name
-    %span.follow_team= '(' + couple.follow.team.name + ')'
+- round.sub_rounds.each do |sr|
+  - round.adjudicators.each do |j|
+    %td{class: mark_cell_classes(sr, j)}= format_cell(couple, sr, j)
 
-  - round.sub_rounds.each do |sr|
-    - round.adjudicators.each do |j|
-      %td{class: mark_cell_classes(sr, j)}= format_cell(couple, sr, j)
-
-  %td{class: result_cell_classes(round)}<
-    - if couple.recalled_from?(round)
-      %i.fa.fa-heart
-        -# Used for DataTables sorting
-        %span.hidden Recalled
-    - else
-      %span.hidden Eliminated
+%td{class: result_cell_classes(round)}<
+  - if couple.recalled_from?(round)
+    %i.fa.fa-heart
+      -# Used for DataTables sorting
+      %span.hidden Recalled
+  - else
+    %span.hidden Eliminated

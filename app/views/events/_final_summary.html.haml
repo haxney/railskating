@@ -2,16 +2,16 @@
                                                 id: event_summary_table_id}
   %thead
     %tr.header_row_first
-      %th.couple_number_col{rowspan: 2} Number
-      %th.couple_leader_col{rowspan: 2} Leader
-      %th.couple_follower_col{rowspan: 2} Follower
+      %th.couple_number_col{rowspan: 2}= t 'couples.number'
+      %th.couple_leader_col{rowspan: 2}= t 'couples.leader'
+      %th.couple_follower_col{rowspan: 2}= t 'couples.follower'
       %th.placement_col{rowspan: 2}
-        %div{data: {title: t('results.placement')}}
+        %div{data: {title: t('.placement')}}
           %i.fa.fa-trophy
-      %th.total_placements_col{rowspan: 2}= t('results.total')
+      %th.total_placements_col{rowspan: 2}= t('.total')
       %th.colspanning.dances_group{colspan: event.sub_events.count}
-        = t('results.dances')
-      %th.rule_col{rowspan: 2}= t('results.rule')
+        = t('.dances')
+      %th.rule_col{rowspan: 2}= t('.rule')
 
     %tr.header_row_dances
       - event.dances.each do |dance|
@@ -22,4 +22,5 @@
     = render partial: 'couples/final_summary',
       collection: event.final_round.couples,
       as: :couple,
+      layout: 'couples/couple_row',
       locals: { event: event }

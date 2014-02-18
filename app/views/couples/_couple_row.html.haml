@@ -1,0 +1,10 @@
+%tr{class: "couple_row couple_row_#{couple.number}"}
+  %td.couple_number_col= couple.number
+  %td.couple_leader_col
+    %span.lead_name= couple.lead.name
+    %span.lead_team= '(' + couple.lead.team.name + ')'
+  %td.couple_follower_col
+    %span.follow_name= couple.follow.name
+    %span.follow_team= '(' + couple.follow.team.name + ')'
+
+  = yield
