@@ -1,11 +1,14 @@
 %h1 Listing competitions
 
-%table
+%table.table
   %tr
     %th Name
     %th Start date
     %th End date
     %th Team
+    %th
+    %th
+    %th
 
   - @competitions.each do |competition|
     %tr
@@ -13,3 +16,10 @@
       %td= competition.start_date
       %td= competition.end_date
       %td= competition.team_id
+      %td= link_to 'Show', competition
+      %td= link_to 'Edit', edit_competition_path(competition)
+      %td= link_to 'Destroy', competition, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Competition', new_competition_path

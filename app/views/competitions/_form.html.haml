@@ -1,0 +1,10 @@
+= semantic_form_for @competition do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :start_date
+    = f.input :end_date
+    = f.input :status
+    = f.input :team
+
+  = f.actions do
+    = f.action :submit, :as => :input
