@@ -1,10 +1,11 @@
 .filter-controls
   %form.form-horizontal
     .form-group
-      %label.col-sm-2.control-label{for: 'event-filter'} Filter couples
+      %label.col-sm-2.control-label{for: 'event-filter'}
+        = t 'events.table_filter.label'
       .col-sm-6
         %input.form-control#event-filter{type: 'text',
-                                         placeholder: 'Enter name or number'}
+                                         placeholder: t('events.table_filter.placeholder')}
 
 %div[event, :result]
   - cache(event) do

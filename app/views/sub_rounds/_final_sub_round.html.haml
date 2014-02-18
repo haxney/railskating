@@ -4,9 +4,9 @@
                                                 id: sub_round_table_id(sub_round)}
   %thead
     %tr.header_row_first
-      %th.couple_number_col{rowspan: 2} Number
-      %th.couple_leader_col{rowspan: 2} Leader
-      %th.couple_follower_col{rowspan: 2} Follower
+      %th.couple_number_col{rowspan: 2}= t 'couples.number'
+      %th.couple_leader_col{rowspan: 2}= t 'couples.leader'
+      %th.couple_follower_col{rowspan: 2}= t 'couples.follower'
       %th.placement_col{rowspan: 2}
         %div{data: {title: t('.placement')}}
           %i.fa.fa-trophy

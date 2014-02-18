@@ -1,7 +1,7 @@
 - round = final_round
 - cache(round) do
   %div.table-responsive[round, :wrapper]
-    %h3.round_title= t '.round_title', number: round.number
+    %h3.round_title= t '.title', number: round.number
     = render partial: 'sub_rounds/final_sub_round',
       collection: round.sub_rounds, as: :sub_round
 
