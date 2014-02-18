@@ -21,6 +21,7 @@ gem 'lodash-rails'
 gem 'pry-rails'
 gem 'pry-stack_explorer'
 gem 'pry-byebug'
+gem 'enumerize'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -47,4 +47,14 @@ describe Competition do
       expect { @mark.reload }.to raise_error
     end
   end
+
+  describe '#status' do
+    it do
+      should enumerize(:status).in(:creating,
+                                   :registering,
+                                   :closed_registration,
+                                   :in_progress,
+                                   :finished).with_default(:creating)
+    end
+  end
 end
