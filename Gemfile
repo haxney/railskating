@@ -22,6 +22,8 @@ gem 'pry-rails'
 gem 'pry-stack_explorer'
 gem 'pry-byebug'
 gem 'enumerize'
+gem 'formtastic', '~> 2.3.0.rc2'
+gem 'formtastic-bootstrap'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
