@@ -1,3 +1,5 @@
+require 'rspec/matchers'
+
 # From https://gist.github.com/bunnymatic/5726011
 
 RSpec::Matchers.define :be_monotonically_increasing do

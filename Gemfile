@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby '2.1.0'
+ruby '2.1.1'
 gem 'rails', '~> 4.0.0'
 gem 'pg'
 gem 'jquery-rails'
@@ -21,6 +21,7 @@ gem 'lodash-rails'
 gem 'pry-rails'
 gem 'pry-stack_explorer'
 gem 'pry-byebug'
+gem 'sprockets', '=2.11.0' # Because of https://stackoverflow.com/questions/22426698
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
