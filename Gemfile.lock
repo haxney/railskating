@@ -225,7 +225,7 @@ GEM
       spring (>= 0.9.1)
     spring-commands-rspec (1.0.2)
       spring (>= 0.9.1)
-    sprockets (2.12.1)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -308,6 +308,7 @@ DEPENDENCIES
   spring
   spring-commands-cucumber
   spring-commands-rspec
+  sprockets (= 2.11.0)
   sqlite3
   therubyracer
   turbolinks

@@ -21,6 +21,7 @@ gem 'lodash-rails'
 gem 'pry-rails'
 gem 'pry-stack_explorer'
 gem 'pry-byebug'
+gem 'sprockets', '=2.11.0' # Because of https://stackoverflow.com/questions/22426698
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
