@@ -4,11 +4,11 @@ describe CompetitionsController, type: :routing do
   describe "routing" do
 
     it "routes to #index" do
-      get('/competitions').should route_to('competitions#index')
+      expect(get('/competitions')).to route_to('competitions#index')
     end
 
     it "routes to #show" do
-      get('/competitions/1').should route_to('competitions#show', id: '1')
+      expect(get('/competitions/1')).to route_to('competitions#show', id: '1')
     end
 
   end

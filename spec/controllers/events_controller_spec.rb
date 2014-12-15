@@ -6,7 +6,7 @@ describe EventsController, type: :controller do
       event = create(:event)
       get :show, competition_id: event.competition.id.to_s,
         number: event.number.to_s
-      assigns(:event).should eq(event)
+      expect(assigns(:event)).to eq(event)
     end
   end
 end

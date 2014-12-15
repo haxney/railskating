@@ -5,7 +5,7 @@ describe CompetitionsController, type: :controller do
     it "assigns all competitions as @competitions" do
       competition = create(:competition)
       get :index
-      assigns(:competitions).should eq([competition])
+      expect(assigns(:competitions)).to eq([competition])
     end
   end
 
@@ -13,7 +13,7 @@ describe CompetitionsController, type: :controller do
     it "assigns the requested competition as @competition" do
       competition = create(:competition)
       get :show, id: competition.id.to_s
-      assigns(:competition).should eq(competition)
+      expect(assigns(:competition)).to eq(competition)
     end
   end
 end
