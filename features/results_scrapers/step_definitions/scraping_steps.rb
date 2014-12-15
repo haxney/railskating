@@ -87,7 +87,7 @@ Then(/^(imported )?round (\d+) should( not)? be final$/) do |imported, round, no
           else
             @event[:rounds][idx][:final]
           end
-  expect(final).to (not_final ? be_false : be_true)
+  expect(final).to be (not_final ? false : true)
 end
 
 # Matches a given round number against a table with couple names. The table
