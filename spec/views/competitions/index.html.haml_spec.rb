@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "competitions/index.html.haml" do
+describe "competitions/index.html.haml", type: :view do
   before(:each) do
     assign(:competitions, [
       stub_model(Competition,

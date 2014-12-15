@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CouplesHelper do
+describe CouplesHelper, type: :helper do
   before(:all) do
     @comp = create(:competition)
     @judge = create(:adjudicator, competition: @comp, shorthand: 'A')

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "events/show.html.haml" do
+describe "events/show.html.haml", type: :view do
   before(:each) do
     @event = assign(:event, stub_model(Event,
       :competition_id => 1,

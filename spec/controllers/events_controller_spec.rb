@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EventsController do
+describe EventsController, type: :controller do
   describe "GET show" do
     it "assigns the requested event as @event" do
       event = create(:event)

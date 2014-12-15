@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RoundsHelper do
+describe RoundsHelper, type: :helper do
   describe '#round_table_classes' do
     it "should create classes for a non-final round" do
       res = helper.round_table_classes(create(:round, final: false))
