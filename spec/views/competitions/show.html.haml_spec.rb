@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "competitions/show.html.haml" do
+describe "competitions/show.html.haml", type: :view do
   before(:each) do
     @competition = assign(:competition, stub_model(Competition,
       :name => "Name",
@@ -11,8 +11,8 @@ describe "competitions/show.html.haml" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Name/)
+    expect(rendered).to match(/Name/)
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/1/)
+    expect(rendered).to match(/1/)
   end
 end

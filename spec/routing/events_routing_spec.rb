@@ -1,11 +1,11 @@
-require "spec_helper"
+require 'rails_helper'
 
-describe EventsController do
+describe EventsController, type: :routing do
   describe "routing" do
     it "routes to #show" do
-      get('/competitions/1/events/2').should route_to('events#show',
-                                                      competition_id: '1',
-                                                      number: '2')
+      expect(get('/competitions/1/events/2')).to route_to('events#show',
+                                                          competition_id: '1',
+                                                          number: '2')
     end
   end
 end

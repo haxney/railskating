@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe AdjudicatorsHelper do
+describe AdjudicatorsHelper, type: :helper do
   describe '#adjudicator_header_classes' do
     it "creates a list of classes" do
       ad = create(:adjudicator, shorthand: 'A')

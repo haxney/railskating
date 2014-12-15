@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :adjudicator do
     user
-    ignore do
+    transient do
       competition
       sequence(:shorthand, 'A')
     end

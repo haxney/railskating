@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Couple do
   let(:couple) { create(:couple) }
@@ -6,7 +6,7 @@ describe Couple do
     before(:each) { @lead = couple.lead }
     it "does not destroy associated lead" do
       couple.destroy
-      expect(@lead.destroyed?).to be_false
+      expect(@lead.destroyed?).to be false
     end
   end
 
@@ -14,7 +14,7 @@ describe Couple do
     before(:each) { @follow = couple.follow }
     it "does not destroy associated follow" do
       couple.destroy
-      expect(@follow.destroyed?).to be_false
+      expect(@follow.destroyed?).to be false
     end
   end
 
