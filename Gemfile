@@ -30,6 +30,7 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
+  gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails'
   gem 'forgery'
   gem 'cucumber-rails', require: false
