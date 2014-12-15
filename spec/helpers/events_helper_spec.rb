@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe EventsHelper, type: :helper do
   let(:event) { create(:event,

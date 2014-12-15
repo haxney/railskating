@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CouplesHelper, type: :helper do
   before(:all) do

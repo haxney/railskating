@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe DancesHelper, type: :helper do
   describe '#dance_to_class_name' do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Couple do
   let(:couple) { create(:couple) }

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe SubRoundsHelper, type: :helper do
   describe "#sub_round_table_classes" do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe AdjudicatorsHelper, type: :helper do
   describe '#adjudicator_header_classes' do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CompetitionsController, type: :controller do
   describe "GET index" do

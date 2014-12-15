@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RoundsHelper, type: :helper do
   describe '#round_table_classes' do

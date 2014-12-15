@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "Competitions", type: :request do
   describe "GET /competitions" do
