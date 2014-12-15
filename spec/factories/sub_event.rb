@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :sub_event do
-    ignore do
+    transient do
       event
       dance { Constants::Dances::AMERICAN_MAMBO }
     end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :competition do
-    ignore { name "Brown Competition" }
+    transient { name "Brown Competition" }
     start_date Date.new(2013,11,17)
     end_date Date.new(2013,11,17)
     team

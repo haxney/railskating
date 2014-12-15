@@ -5,7 +5,7 @@ FactoryGirl.define do
     requested 6
     cutoff nil
 
-    ignore do
+    transient do
       final false
       event
       number nil

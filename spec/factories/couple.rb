@@ -3,7 +3,7 @@ FactoryGirl.define do
     association :lead, factory: :user
     association :follow, factory: :user
 
-    ignore do
+    transient do
       event
       sequence(:number)
     end
