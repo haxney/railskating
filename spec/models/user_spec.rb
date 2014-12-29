@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Competition do
+describe User do
   let(:user) { create(:user) }
   describe '#couples' do
     it "returns associated couples, whether leader or follower" do
