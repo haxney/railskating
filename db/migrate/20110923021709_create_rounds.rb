@@ -1,7 +1,7 @@
 class CreateRounds < ActiveRecord::Migration
   def change
     create_table :rounds do |t|
-      t.references :event, foreign_key: { on_delete: :cascade }
+      t.references :event
       t.integer :number
       t.boolean :final
       t.integer :requested
@@ -9,5 +9,7 @@ class CreateRounds < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_foreign_key :rounds, :events, on_delete: :cascade
   end
 end

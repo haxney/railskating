@@ -3,9 +3,11 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :first_name
       t.string :last_name
-      t.references :team, foreign_key: { on_delete: :restrict }
+      t.references :team
 
       t.timestamps
     end
+
+    add_foreign_key :users, :teams, on_delete: :restrict
   end
 end

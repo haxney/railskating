@@ -1,15 +1,14 @@
 source 'http://rubygems.org'
 ruby '2.2.0'
-gem 'rails', '~> 4.1.0'
+gem 'rails', '~> 4.2.0'
 gem 'pg'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'
 gem 'haml-rails'
-gem 'seed-fu'
+gem 'seed-fu', '~> 2.3.4'
 gem 'coffee-rails'
 gem 'uglifier'
-gem 'schema_plus'
 gem 'nokogiri'
 gem 'therubyracer'
 gem 'sass-rails'
@@ -49,6 +48,7 @@ group :test, :development do
   gem 'spring-commands-rspec'
   gem 'webmock'
   gem 'rubocop'
+  gem 'web-console', '~> 2.0'
 end
 
 group :production do

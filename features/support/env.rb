@@ -46,7 +46,8 @@ DatabaseCleaner.strategy = :transaction
 # Transactions are local to a single thread, so features which are
 # multi-threaded cannot use transactions.
 Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-  DatabaseCleaner.strategy = :truncation
+  # Don't try to delete from `couple_round_tallies`. It is a view.
+  DatabaseCleaner.strategy = :truncation, {:except => %w[couple_round_tallies]}
 end
 
 # Possible values are :truncation and :transaction
