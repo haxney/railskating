@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/haxney/railskating.png?branch=master)](https://travis-ci.org/haxney/railskating)
 [![Code Climate](https://codeclimate.com/github/haxney/railskating.png)](https://codeclimate.com/github/haxney/railskating)
-[![Coverage Status](https://coveralls.io/repos/haxney/railskating/badge.png)](https://coveralls.io/r/haxney/railskating)
+[![Coverage Status](https://img.shields.io/coveralls/haxney/railskating.svg)](https://coveralls.io/r/haxney/railskating?branch=master)
 [![Dependency Status](https://gemnasium.com/haxney/railskating.png)](https://gemnasium.com/haxney/railskating)
 
 # RailSkating
