@@ -5,11 +5,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-require 'coveralls'
-Coveralls::Output.silent = true
-Coveralls.wear_merged!('rails')
-Coveralls::Output.silent = false
-
 SeedFu.seed
 
 # The following line is provided for convenience purposes. It has the downside
