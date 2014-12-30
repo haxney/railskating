@@ -1,7 +1,6 @@
 class CreateCoupleRoundTallies < ActiveRecord::Migration
   def up
-    execute <<-SQL
-      CREATE VIEW couple_round_tallies AS
+    create_view :couple_round_tallies, <<-SQL
       SELECT couples.id AS couple_id,
              count(marks.id) AS num_marks,
              rounds.id AS round_id
@@ -14,6 +13,6 @@ class CreateCoupleRoundTallies < ActiveRecord::Migration
   end
 
   def down
-    execute "DROP VIEW couple_round_tallies"
+    drop_view :couple_round_tallies
   end
 end
