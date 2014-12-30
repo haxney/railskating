@@ -6,7 +6,5 @@ class CreateDances < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key :dances, :sections, on_delete: :restrict
   end
 end

@@ -1,16 +1,12 @@
 class CreateCouples < ActiveRecord::Migration
   def change
     create_table :couples do |t|
-      t.references :lead
-      t.references :follow
-      t.references :event
+      t.references :lead, foreign_key: { on_delete: :restrict, references: :users }
+      t.references :follow, foreign_key: { on_delete: :restrict, references: :users }
+      t.references :event, foreign_key: { on_delete: :cascade }
       t.integer :number
 
       t.timestamps
     end
-
-    add_foreign_key :couples, :users, on_delete: :restrict, column: :lead
-    add_foreign_key :couples, :users, on_delete: :restrict, column: :follow
-    add_foreign_key :couples, :events, on_delete: :cascade
   end
 end

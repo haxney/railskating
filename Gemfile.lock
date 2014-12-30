@@ -257,6 +257,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    schema_plus (1.7.1)
+      activerecord (>= 3.2)
+      valuable
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -305,6 +308,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    valuable (0.9.9)
     web-console (2.0.0)
       activemodel (~> 4.0)
       binding_of_caller (>= 0.7.2)
@@ -357,6 +361,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sass-rails
+  schema_plus
   sdoc
   seed-fu (~> 2.3.4)
   spring
