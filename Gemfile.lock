@@ -257,8 +257,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
-    schema_plus (1.7.1)
-      activerecord (>= 3.2)
+    schema_plus (1.8.0)
+      activerecord (>= 3.2, < 4.3)
       valuable
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
