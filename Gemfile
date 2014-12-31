@@ -22,6 +22,7 @@ gem 'pry-rails'
 gem 'pry-stack_explorer'
 gem 'pry-byebug'
 gem 'sprockets'
+gem 'simple_form'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
