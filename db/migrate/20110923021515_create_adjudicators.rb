@@ -1,14 +1,11 @@
 class CreateAdjudicators < ActiveRecord::Migration
   def change
     create_table :adjudicators do |t|
-      t.references :user
-      t.references :competition
+      t.references :user, foreign_key: { on_delete: :restrict }
+      t.references :competition, foreign_key: { on_delete: :cascade }
       t.string :shorthand
 
       t.timestamps
     end
-
-    add_foreign_key :adjudicators, :users, on_delete: :restrict
-    add_foreign_key :adjudicators, :competitions, on_delete: :cascade
   end
 end
